@@ -28,12 +28,5 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.base.sha }}
       
-      - name: Install packages
-        run: git pull origin master
-        
-      - name: Install packages
-        run: npm install
-          
-      - name: Commit linter
-        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --verbose
+      - uses: wagoid/commitlint-github-action@v5
         
