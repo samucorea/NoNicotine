@@ -13,6 +13,7 @@ in their country, and all over the world, struggle with nicotine addiction.
 - Time without consuming counter (with personal record)
 - Savings counter (with personal record)
 - Health benefits list
+- Diary with a list of physical symptoms and emotions to choose from
 - Chat between therapist and patient
 - Healthy habits to distract from the urge to consume
 
