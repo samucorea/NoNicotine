@@ -8,7 +8,7 @@ import StyleSheet from '../styles/DarkBlueView'
 import { RegularText } from '../components/RegularText1'
 import { ForgotPasswordStyle } from '../styles/ForgotPassword'
 
-export const ForgotPassword = (): JSX.Element => {
+const ForgotPassword = (): JSX.Element => {
   return (
     <SafeAreaView style={StyleSheet.container}>
       <StatusBar translucent={false} backgroundColor="#FFFFFF" />
@@ -23,3 +23,5 @@ export const ForgotPassword = (): JSX.Element => {
     </SafeAreaView>
   )
 }
+
+export default ForgotPassword
