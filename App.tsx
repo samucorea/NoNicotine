@@ -1,14 +1,12 @@
 import { NavigationContainer } from '@react-navigation/native'
-import { NativeBaseProvider, Box } from 'native-base'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { NativeBaseProvider } from 'native-base'
+import { MainNavigator } from './src/routes'
 
-export default function App(): JSX.Element {
+export default function App() {
   return (
     <NativeBaseProvider>
       <NavigationContainer>
-        <SafeAreaView>
-          <Box>Hello world</Box>
-        </SafeAreaView>
+        <MainNavigator />
       </NavigationContainer>
     </NativeBaseProvider>
   )
