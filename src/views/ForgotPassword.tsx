@@ -9,7 +9,7 @@ import { RegularText } from '../components/RegularText1'
 import { ForgotPasswordStyle } from '../styles/ForgotPassword'
 import { WhiteX } from '../components/WhiteX'
 
-export const ForgotPassword = (): JSX.Element => {
+const ForgotPassword = (): JSX.Element => {
   return (
     <SafeAreaView style={StyleSheet.container}>
       <WhiteX />
@@ -27,3 +27,5 @@ export const ForgotPassword = (): JSX.Element => {
     </SafeAreaView>
   )
 }
+
+export default ForgotPassword
