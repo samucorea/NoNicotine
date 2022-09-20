@@ -13,9 +13,9 @@ import { SendButton } from '../components/SendButton'
 import { PasswordInputField } from '../components/PasswordInputField'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
-type Props = NativeStackScreenProps<RootStackScreens, 'RegisterPatient'>
+type Props = NativeStackScreenProps<RootStackScreens, 'RegisterTherapist'>
 
-const RegisterPatient: React.FC<Props> = () => {
+const RegisterTherapist: React.FC<Props> = () => {
   return (
     <Box
       display="flex"
@@ -45,10 +45,11 @@ const RegisterPatient: React.FC<Props> = () => {
         <BirthDateInput />
         <SexSelection />
         <PasswordInputField PlaceholderContent="Contraseña" />
+        <PlaceholderInputField PlaceholderContent="Cédula de identidad" />
         <SendButton buttonContent="Crear cuenta" />
       </Container>
     </Box>
   )
 }
 
-export default RegisterPatient
+export default RegisterTherapist
