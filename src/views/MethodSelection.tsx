@@ -1,21 +1,18 @@
 import React from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackScreens } from '../routes/MainNavigator'
-import { Container, Box, useColorModeValue, Pressable } from 'native-base'
+import { Box, useColorModeValue, Pressable } from 'native-base'
 import { SectionHeader } from '../components/SectionHeader'
 import theme from '../AppTheme'
 import { Dimensions } from 'react-native'
 import { RegularText } from '../components/RegularText'
-import { PlaceholderInputField } from '../components/PlaceholderInputField'
-import { BirthDateInput } from '../components/BirthDateInput'
-import { SexSelection } from '../components/SexSelection'
 import { SendButton } from '../components/SendButton'
-import { PasswordInputField } from '../components/PasswordInputField'
 import Ionicons from '@expo/vector-icons/Ionicons'
+import { SelectionIcon } from '../components/SelectionIcon'
 
-type Props = NativeStackScreenProps<RootStackScreens, 'RegisterTherapist'>
+type Props = NativeStackScreenProps<RootStackScreens, 'MethodSelection'>
 
-const RegisterTherapist: React.FC<Props> = () => {
+const MethodSelection: React.FC<Props> = () => {
   return (
     <Box
       display="flex"
@@ -35,24 +32,24 @@ const RegisterTherapist: React.FC<Props> = () => {
           )}
         ></Ionicons>
       </Pressable>
-      <Container>
+      <Box paddingX="24px">
         <Box alignSelf="center" display="flex" marginY="32px">
           <SectionHeader
-            sectionHeaderContent="¡Bienvenido/a!"
-            sectionHeaderFontSize={28}
+            sectionHeaderContent="Selecciona tus métodos de consumo"
+            sectionHeaderFontSize={24}
           />
-          <RegularText RegularTextContent="Estás muy cerca de mejorar tu vida..." />
+          <RegularText RegularTextContent="Ayúdanos a conocer un poco más sobre tí..." />
         </Box>
-        <PlaceholderInputField PlaceholderContent="Nombre completo" />
-        <PlaceholderInputField PlaceholderContent="Correo electrónico" />
-        <BirthDateInput />
-        <SexSelection />
-        <PasswordInputField PlaceholderContent="Contraseña" />
-        <PlaceholderInputField PlaceholderContent="Cédula de identidad" />
-        <SendButton buttonContent="Crear cuenta" />
-      </Container>
+        <Box alignSelf="center" display="flex">
+          <SelectionIcon SelectionIconContent="../../assets/cigarette.png" />
+          <SelectionIcon SelectionIconContent="../../assets/vape.png" />
+          <SelectionIcon SelectionIconContent="../../assets/cigar.png" />
+          <SelectionIcon SelectionIconContent="../../assets/hookah.png" />
+        </Box>
+        <SendButton buttonContent="Continuar" />
+      </Box>
     </Box>
   )
 }
 
-export default RegisterTherapist
+export default MethodSelection
