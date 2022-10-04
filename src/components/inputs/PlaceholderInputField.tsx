@@ -1,6 +1,6 @@
 import React from 'react'
 import { Input, useColorModeValue } from 'native-base'
-import theme from '../AppTheme'
+import theme from '../../AppTheme'
 
 interface PlaceholderInputFieldInterface {
   PlaceholderContent: string

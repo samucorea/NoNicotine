@@ -1,6 +1,5 @@
 import React from 'react'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { RootStackScreens } from '../routes/MainNavigator'
+import { RootScreenProps } from '../routes/MainNavigator'
 import { Box, useColorModeValue, Pressable } from 'native-base'
 import { SectionHeader } from '../components/SectionHeader'
 import theme from '../AppTheme'
@@ -15,9 +14,7 @@ const Vape: ImageSourcePropType = require('../../assets/vape.png')
 const Cigar: ImageSourcePropType = require('../../assets/cigar.png')
 const Hookah: ImageSourcePropType = require('../../assets/hookah.png')
 
-type Props = NativeStackScreenProps<RootStackScreens, 'MethodSelection'>
-
-const MethodSelection: React.FC<Props> = () => {
+const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = () => {
   return (
     <Box
       display="flex"

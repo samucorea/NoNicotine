@@ -1,7 +1,7 @@
 import React from 'react'
 import { Input, Pressable, useColorModeValue } from 'native-base'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import theme from '../AppTheme'
+import theme from '../../AppTheme'
 
 interface PasswordInputFieldInterface {
   PlaceholderContent: string

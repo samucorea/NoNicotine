@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, TextInput } from 'react-native'
-import StyleSheet from '../styles/LongInputField'
+import StyleSheet from '../../styles/LongInputField'
 
 interface LongInputFieldInterface {
   LongInputFieldTitle: string

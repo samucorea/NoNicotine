@@ -1,6 +1,5 @@
 import React from 'react'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { RootStackScreens } from '../routes/MainNavigator'
+import { RootScreenProps } from '../routes/MainNavigator'
 import { Container, Box, useColorModeValue, Pressable } from 'native-base'
 import { SectionHeader } from '../components/SectionHeader'
 import theme from '../AppTheme'
@@ -13,9 +12,7 @@ import { SendButton } from '../components/SendButton'
 import { PasswordInputField } from '../components/inputs/PasswordInputField'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
-type Props = NativeStackScreenProps<RootStackScreens, 'RegisterPatient'>
-
-const RegisterPatient: React.FC<Props> = () => {
+const RegisterPatient: React.FC<RootScreenProps<'RegisterPatient'>> = () => {
   return (
     <Box
       display="flex"
