@@ -12,7 +12,9 @@ import { SendButton } from '../components/SendButton'
 import { PasswordInputField } from '../components/inputs/PasswordInputField'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
-const RegisterPatient: React.FC<RootScreenProps<'RegisterPatient'>> = () => {
+const RegisterPatient: React.FC<RootScreenProps<'RegisterPatient'>> = ({
+  navigation,
+}) => {
   return (
     <Box
       display="flex"
@@ -42,7 +44,12 @@ const RegisterPatient: React.FC<RootScreenProps<'RegisterPatient'>> = () => {
         <BirthDateInput />
         <SexSelection />
         <PasswordInputField PlaceholderContent="Contraseña" />
-        <SendButton buttonContent="Crear cuenta" />
+        <SendButton
+          buttonContent="Crear cuenta"
+          onPress={() => {
+            navigation.navigate('Menu')
+          }}
+        />
       </Container>
     </Box>
   )

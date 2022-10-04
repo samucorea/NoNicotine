@@ -4,6 +4,7 @@ import theme from '../AppTheme'
 
 interface buttonInterface {
   buttonContent: string
+  onPress?: () => void
 }
 
 export const SendButton = (props: buttonInterface): JSX.Element => {
@@ -14,6 +15,7 @@ export const SendButton = (props: buttonInterface): JSX.Element => {
 
   return (
     <Pressable
+      onPress={props.onPress}
       alignSelf="center"
       justifyContent="center"
       backgroundColor={colors}

@@ -1,6 +1,6 @@
 import { Box, HStack, Text, VStack } from 'native-base'
 import React, { FC } from 'react'
-import { RootScreenProps } from '../../routes/MainNavigator'
+import { MenuScreenProps } from '../../routes/MenuNavigator'
 import AbstinenceRecord from './Components/AbstinenceRecord'
 import InfoSection, { InfoSectionProps } from './Components/InfoSection'
 
@@ -9,7 +9,7 @@ const DollarSign = require('../../../assets/dollar-sign.png')
 const Information = require('../../../assets/information.png')
 const Inhale = require('../../../assets/inhale.png')
 
-const PatientDashboard: FC<RootScreenProps<'PatientDashboard'>> = () => {
+const PatientDashboard: FC<MenuScreenProps<'PatientDashboard'>> = () => {
   const infoItems: InfoSectionProps[] = [
     {
       sectionTitle: 'Ahorro econónmico',
