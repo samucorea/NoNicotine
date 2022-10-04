@@ -7,7 +7,7 @@ import { Dimensions, ImageSourcePropType } from 'react-native'
 import { RegularText } from '../components/RegularText'
 import { SendButton } from '../components/SendButton'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { SelectionIcon } from '../components/SelectionIcon'
+import { CustomIconButton } from '../components/SelectionIcon'
 
 const Cigarette: ImageSourcePropType = require('../../assets/cigarette.png')
 const Vape: ImageSourcePropType = require('../../assets/vape.png')
@@ -43,10 +43,10 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = () => {
           <RegularText RegularTextContent="Ayúdanos a conocer un poco más sobre tí..." />
         </Box>
         <Box alignSelf="center" display="flex">
-          <SelectionIcon SelectionIconContent={Cigarette} />
-          <SelectionIcon SelectionIconContent={Vape} />
-          <SelectionIcon SelectionIconContent={Cigar} />
-          <SelectionIcon SelectionIconContent={Hookah} />
+          <CustomIconButton icon={Cigarette} />
+          <CustomIconButton icon={Vape} />
+          <CustomIconButton icon={Cigar} />
+          <CustomIconButton icon={Hookah} />
         </Box>
         <SendButton buttonContent="Continuar" />
       </Box>

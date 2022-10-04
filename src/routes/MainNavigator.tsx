@@ -11,6 +11,11 @@ import {
   PatientDashboard,
 } from '../views'
 
+import { CustomIconButton } from '../components'
+import { ImageSourcePropType } from 'react-native'
+
+const Profile: ImageSourcePropType = require('../../assets/profile.png')
+
 export type RootStackScreens = {
   MethodSelection: undefined
   RegisterTherapist: undefined
@@ -23,8 +28,19 @@ const Stack = createNativeStackNavigator<RootStackScreens>()
 
 const MainNavigator = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="PatientDashboard" component={PatientDashboard} />
+    <Stack.Navigator
+      screenOptions={{
+        headerShadowVisible: false,
+        headerTitle: '',
+      }}
+    >
+      <Stack.Screen
+        name="PatientDashboard"
+        component={PatientDashboard}
+        options={{
+          headerRight: () => <CustomIconButton icon={Profile} />,
+        }}
+      />
       <Stack.Screen name="MethodSelection" component={MethodSelection} />
       <Stack.Screen name="RegisterTherapist" component={RegisterTherapist} />
       <Stack.Screen name="RegisterPatient" component={RegisterPatient} />
