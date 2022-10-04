@@ -9,6 +9,13 @@ const theme = extendTheme({
     },
     danger: '#ef756d',
   },
+  components: {
+    Box: {
+      baseStyle: {
+        bg: '#FFFFFF',
+      },
+    },
+  },
 })
 
 export default theme

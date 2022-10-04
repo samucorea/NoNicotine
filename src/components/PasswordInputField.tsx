@@ -21,7 +21,7 @@ export const PasswordInputField = (
             <Ionicons name={Show ? 'eye' : 'eye-off'} size={32}></Ionicons>
           </Pressable>
         }
-        marginY="22px"
+        marginTop="22px"
         borderRadius="10"
         borderColor={useColorModeValue(
           theme.colors.primary.default,
