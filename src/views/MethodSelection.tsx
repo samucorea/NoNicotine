@@ -4,11 +4,16 @@ import { RootStackScreens } from '../routes/MainNavigator'
 import { Box, useColorModeValue, Pressable } from 'native-base'
 import { SectionHeader } from '../components/SectionHeader'
 import theme from '../AppTheme'
-import { Dimensions } from 'react-native'
+import { Dimensions, ImageSourcePropType } from 'react-native'
 import { RegularText } from '../components/RegularText'
 import { SendButton } from '../components/SendButton'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { SelectionIcon } from '../components/SelectionIcon'
+
+const Cigarette: ImageSourcePropType = require('../../assets/cigarette.png')
+const Vape: ImageSourcePropType = require('../../assets/vape.png')
+const Cigar: ImageSourcePropType = require('../../assets/cigar.png')
+const Hookah: ImageSourcePropType = require('../../assets/hookah.png')
 
 type Props = NativeStackScreenProps<RootStackScreens, 'MethodSelection'>
 
@@ -41,10 +46,10 @@ const MethodSelection: React.FC<Props> = () => {
           <RegularText RegularTextContent="Ayúdanos a conocer un poco más sobre tí..." />
         </Box>
         <Box alignSelf="center" display="flex">
-          <SelectionIcon SelectionIconContent="../../assets/cigarette.png" />
-          <SelectionIcon SelectionIconContent="../../assets/vape.png" />
-          <SelectionIcon SelectionIconContent="../../assets/cigar.png" />
-          <SelectionIcon SelectionIconContent="../../assets/hookah.png" />
+          <SelectionIcon SelectionIconContent={Cigarette} />
+          <SelectionIcon SelectionIconContent={Vape} />
+          <SelectionIcon SelectionIconContent={Cigar} />
+          <SelectionIcon SelectionIconContent={Hookah} />
         </Box>
         <SendButton buttonContent="Continuar" />
       </Box>

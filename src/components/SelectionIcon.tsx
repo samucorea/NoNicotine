@@ -1,9 +1,9 @@
 import React from 'react'
 import { Pressable, Image } from 'native-base'
-import { Dimensions } from 'react-native'
+import { Dimensions, ImageSourcePropType } from 'react-native'
 
 interface SelectionIconInterface {
-  SelectionIconContent: string
+  SelectionIconContent: ImageSourcePropType
 }
 
 export const SelectionIcon = (props: SelectionIconInterface): JSX.Element => {
@@ -12,7 +12,8 @@ export const SelectionIcon = (props: SelectionIconInterface): JSX.Element => {
   return (
     <Pressable>
       <Image
-        source={require(props.SelectionIconContent)}
+        alt="selectionIcon"
+        source={props.SelectionIconContent}
         width={windowHeight / 5.12}
         height={windowHeight / 5.12}
       />
