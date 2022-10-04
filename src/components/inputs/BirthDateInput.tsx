@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Text, Input, useColorModeValue } from 'native-base'
 import { Dimensions } from 'react-native'
-import theme from '../AppTheme'
+import theme from '../../AppTheme'
 
 export const BirthDateInput = (): JSX.Element => {
   const colors = useColorModeValue(

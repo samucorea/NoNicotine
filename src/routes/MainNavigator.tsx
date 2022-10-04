@@ -1,15 +1,19 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { SelectRole } from '../views'
-import RegisterPatient from '../views/RegisterPatient'
-import RegisterTherapist from '../views/RegisterTherapist'
-import MethodSelection from '../views/MethodSelection'
+import {
+  SelectRole,
+  RegisterPatient,
+  RegisterTherapist,
+  MethodSelection,
+  PatientDashboard,
+} from '../views'
 
 export type RootStackScreens = {
   MethodSelection: undefined
   RegisterTherapist: undefined
   RegisterPatient: undefined
   SelectRole: undefined
+  PatientDashboard: undefined
 }
 
 const Stack = createNativeStackNavigator<RootStackScreens>()
@@ -17,6 +21,7 @@ const Stack = createNativeStackNavigator<RootStackScreens>()
 const MainNavigator = () => {
   return (
     <Stack.Navigator>
+      <Stack.Screen name="PatientDashboard" component={PatientDashboard} />
       <Stack.Screen name="MethodSelection" component={MethodSelection} />
       <Stack.Screen name="RegisterTherapist" component={RegisterTherapist} />
       <Stack.Screen name="RegisterPatient" component={RegisterPatient} />

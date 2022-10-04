@@ -2,15 +2,17 @@ import React from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackScreens } from '../routes/MainNavigator'
 import { Container, Box, useColorModeValue, Pressable } from 'native-base'
-import { SectionHeader } from '../components/SectionHeader'
 import theme from '../AppTheme'
 import { Dimensions } from 'react-native'
-import { RegularText } from '../components/RegularText'
-import { PlaceholderInputField } from '../components/PlaceholderInputField'
-import { BirthDateInput } from '../components/BirthDateInput'
-import { SexSelection } from '../components/SexSelection'
-import { SendButton } from '../components/SendButton'
-import { PasswordInputField } from '../components/PasswordInputField'
+import {
+  PlaceholderInputField,
+  SectionHeader,
+  RegularText,
+  BirthDateInput,
+  SexSelection,
+  SendButton,
+  PasswordInputField,
+} from '../components'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
 type Props = NativeStackScreenProps<RootStackScreens, 'RegisterTherapist'>

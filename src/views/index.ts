@@ -1,2 +1,6 @@
 export { default as ForgotPassword } from './ForgotPassword'
+export { default as MethodSelection } from './MethodSelection'
+export { default as PatientDashboard } from './PatientDashboard/PatientDashboard'
+export { default as RegisterPatient } from './RegisterPatient'
+export { default as RegisterTherapist } from './RegisterTherapist'
 export { default as SelectRole } from './SelectRole'

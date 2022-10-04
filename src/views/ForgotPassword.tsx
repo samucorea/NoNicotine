@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { View, SafeAreaView } from 'react-native'
-import { LongInputField } from '../components/LongInputField'
+import { LongInputField } from '../components/inputs/LongInputField'
 import { SectionHeader } from '../components/SectionHeader'
 import { SendButton } from '../components/SendButton'
 import StyleSheet from '../styles/DarkBlueView'

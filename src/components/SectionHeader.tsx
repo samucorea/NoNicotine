@@ -4,7 +4,7 @@ import theme from '../AppTheme'
 
 interface sectionHeaderInterface {
   sectionHeaderContent: string
-  sectionHeaderFontSize: number
+  sectionHeaderFontSize?: number
 }
 
 export const SectionHeader = (props: sectionHeaderInterface): JSX.Element => {
