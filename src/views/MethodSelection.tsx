@@ -14,7 +14,9 @@ const Vape: ImageSourcePropType = require('../../assets/vape.png')
 const Cigar: ImageSourcePropType = require('../../assets/cigar.png')
 const Hookah: ImageSourcePropType = require('../../assets/hookah.png')
 
-const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = () => {
+const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
+  navigation,
+}) => {
   return (
     <Box
       display="flex"
@@ -24,7 +26,12 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = () => {
       width={Dimensions.get('window').width}
       height={Dimensions.get('window').height}
     >
-      <Pressable alignSelf="flex-start" marginTop="22px" marginLeft="22px">
+      <Pressable
+        alignSelf="flex-start"
+        marginTop="22px"
+        marginLeft="22px"
+        onPress={navigation.goBack}
+      >
         <Ionicons
           name="arrow-back"
           size={32}
@@ -48,7 +55,12 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = () => {
           <CustomIconButton icon={Cigar} />
           <CustomIconButton icon={Hookah} />
         </Box>
-        <SendButton buttonContent="Continuar" />
+        <SendButton
+          onPress={() => {
+            navigation.navigate('Menu')
+          }}
+          buttonContent="Continuar"
+        />
       </Box>
     </Box>
   )

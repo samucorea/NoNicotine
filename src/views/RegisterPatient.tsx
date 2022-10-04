@@ -47,7 +47,7 @@ const RegisterPatient: React.FC<RootScreenProps<'RegisterPatient'>> = ({
         <SendButton
           buttonContent="Crear cuenta"
           onPress={() => {
-            navigation.navigate('Menu')
+            navigation.navigate('MethodSelection')
           }}
         />
       </Container>
