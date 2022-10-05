@@ -2,6 +2,7 @@ import {
   createBottomTabNavigator,
   BottomTabScreenProps,
 } from '@react-navigation/bottom-tabs'
+import { Box } from 'native-base'
 import { ImageSourcePropType } from 'react-native'
 import { CustomIconButton } from '../components'
 import { Diary, Habits, PatientDashboard, Therapy } from '../views'
@@ -19,7 +20,14 @@ const Tab = createBottomTabNavigator<MenuNavigatorScreens>()
 
 const MenuNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={{ headerTitle: '' }}>
+    <Tab.Navigator
+      screenOptions={{
+        headerTitle: '',
+        tabBarIcon: (props) => (
+          <Box bg="#000" height={'3'} width={'3'} rounded="full"></Box>
+        ),
+      }}
+    >
       <Tab.Screen
         name="PatientDashboard"
         component={PatientDashboard}

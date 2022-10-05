@@ -39,7 +39,11 @@ const MainNavigator = () => {
           headerShown: false,
         }}
       />
-      <Stack.Screen name="MethodSelection" component={MethodSelection} />
+      <Stack.Screen
+        name="MethodSelection"
+        component={MethodSelection}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="RegisterTherapist" component={RegisterTherapist} />
     </Stack.Navigator>
   )
