@@ -18,7 +18,9 @@ const InfoSection: FC<InfoSectionProps> = ({ sectionTitle, sectionItems }) => {
 
   return (
     <Box mb={'3'}>
-      <Text>{sectionTitle}</Text>
+      <Text bold pl={'4'} pb={'1'} color={'primary.default'}>
+        {sectionTitle}
+      </Text>
       {sectionItems.map((item, index) => (
         <HStack
           shadow={index + 1 === sectionItems.length ? '8' : undefined}
