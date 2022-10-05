@@ -1,26 +1,24 @@
 import React from 'react'
 import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack'
-import {
-  SelectRole,
-  RegisterPatient,
-  RegisterTherapist,
-  MethodSelection,
-} from '../views'
+  CardStyleInterpolators,
+  createStackNavigator,
+  StackScreenProps,
+} from '@react-navigation/stack'
+import { SelectRole, MethodSelection, Register } from '../views'
+import Ionicons from '@expo/vector-icons/Ionicons'
 
 import MenuNavigator from './MenuNavigator'
+import { Icon, useColorModeValue } from 'native-base'
+import theme from '../AppTheme'
 
 export type RootStackScreens = {
   MethodSelection: undefined
-  RegisterTherapist: undefined
-  RegisterPatient: undefined
+  Register: { role: 'therapist' | 'patient' }
   SelectRole: undefined
   Menu: undefined
 }
 
-const Stack = createNativeStackNavigator<RootStackScreens>()
+const Stack = createStackNavigator<RootStackScreens>()
 
 const MainNavigator = () => {
   return (
@@ -28,10 +26,30 @@ const MainNavigator = () => {
       screenOptions={{
         headerShadowVisible: false,
         headerTitle: '',
+        headerBackImage: () => (
+          <Icon
+            as={Ionicons}
+            name="arrow-back"
+            size={'2xl'}
+            color={useColorModeValue(
+              theme.colors.primary.default,
+              theme.colors.primary.light
+            )}
+          />
+        ),
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
     >
-      <Stack.Screen name="RegisterPatient" component={RegisterPatient} />
-      <Stack.Screen name="SelectRole" component={SelectRole} />
+      <Stack.Screen
+        name="SelectRole"
+        component={SelectRole}
+        options={{
+          headerStyle: {
+            backgroundColor: theme.colors.primary.default,
+          },
+        }}
+      />
+      <Stack.Screen name="Register" component={Register} />
       <Stack.Screen
         name="Menu"
         component={MenuNavigator}
@@ -39,17 +57,12 @@ const MainNavigator = () => {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="MethodSelection"
-        component={MethodSelection}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen name="RegisterTherapist" component={RegisterTherapist} />
+      <Stack.Screen name="MethodSelection" component={MethodSelection} />
     </Stack.Navigator>
   )
 }
 
 export type RootScreenProps<T extends keyof RootStackScreens> =
-  NativeStackScreenProps<RootStackScreens, T>
+  StackScreenProps<RootStackScreens, T>
 
 export default MainNavigator

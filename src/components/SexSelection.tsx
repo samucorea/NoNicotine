@@ -12,13 +12,7 @@ export const SexSelection = (): JSX.Element => {
 
   return (
     <>
-      <Text
-        alignSelf="baseline"
-        color={colors}
-        fontSize="16px"
-        marginLeft="12px"
-        marginBottom="8px"
-      >
+      <Text alignSelf="baseline" color={colors} fontSize="16px">
         Sexo
       </Text>
       <Radio.Group

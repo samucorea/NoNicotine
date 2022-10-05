@@ -22,7 +22,6 @@ export const SendButton = (props: buttonInterface): JSX.Element => {
       borderRadius="30px"
       width="160px"
       height="50px"
-      marginTop="25px"
     >
       <Text alignSelf="center" fontSize="16px" fontWeight="600" color="#FFFFFF">
         {props.buttonContent}

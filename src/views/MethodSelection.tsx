@@ -1,7 +1,7 @@
 import React from 'react'
 import { RootScreenProps } from '../routes/MainNavigator'
 import { Box, useColorModeValue, Pressable } from 'native-base'
-import { SectionHeader } from '../components/SectionHeader'
+import { ScreenHeader } from '../components/ScreenHeader'
 import theme from '../AppTheme'
 import { Dimensions, ImageSourcePropType } from 'react-native'
 import { RegularText } from '../components/RegularText'
@@ -43,11 +43,11 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
       </Pressable>
       <Box paddingX="24px">
         <Box alignSelf="center" display="flex" marginY="32px">
-          <SectionHeader
-            sectionHeaderContent="Selecciona tus métodos de consumo"
-            sectionHeaderFontSize={24}
+          <ScreenHeader
+            title="Selecciona tus métodos de consumo"
+            fontSize={24}
           />
-          <RegularText RegularTextContent="Ayúdanos a conocer un poco más sobre tí..." />
+          <RegularText>Ayúdanos a conocer un poco más sobre tí...</RegularText>
         </Box>
         <Box alignSelf="center" display="flex">
           <CustomIconButton icon={Cigarette} />

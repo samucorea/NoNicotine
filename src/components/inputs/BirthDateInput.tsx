@@ -1,5 +1,12 @@
 import React from 'react'
-import { Box, Text, Input, useColorModeValue } from 'native-base'
+import {
+  Box,
+  Text,
+  Input,
+  useColorModeValue,
+  VStack,
+  HStack,
+} from 'native-base'
 import { Dimensions } from 'react-native'
 import theme from '../../AppTheme'
 
@@ -11,22 +18,10 @@ export const BirthDateInput = (): JSX.Element => {
 
   return (
     <>
-      <Text
-        alignSelf="baseline"
-        color={colors}
-        fontSize="16px"
-        marginLeft="12px"
-        marginTop="16px"
-        marginBottom="8px"
-      >
+      <Text alignSelf="baseline" color={colors} fontSize="16px">
         Fecha de nacimiento
       </Text>
-      <Box
-        alignSelf="flex-start"
-        display="flex"
-        flexDirection="row"
-        marginBottom="12px"
-      >
+      <HStack space={2}>
         <Input
           borderColor={colors}
           borderRadius="10px"
@@ -35,7 +30,6 @@ export const BirthDateInput = (): JSX.Element => {
           placeholderTextColor={colors}
           fontSize="18px"
           textAlign="center"
-          marginRight="10px"
           width={Dimensions.get('window').width * 0.1667}
         ></Input>
         <Input
@@ -46,7 +40,6 @@ export const BirthDateInput = (): JSX.Element => {
           placeholderTextColor={colors}
           fontSize="18px"
           textAlign="center"
-          marginRight="10px"
           width={Dimensions.get('window').width * 0.1667}
         ></Input>
         <Input
@@ -59,7 +52,7 @@ export const BirthDateInput = (): JSX.Element => {
           textAlign="center"
           width={Dimensions.get('window').width * 0.2083}
         ></Input>
-      </Box>
+      </HStack>
     </>
   )
 }
