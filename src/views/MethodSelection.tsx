@@ -1,18 +1,22 @@
 import React from 'react'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { RootStackScreens } from '../routes/MainNavigator'
+import { RootScreenProps } from '../routes/MainNavigator'
 import { Box, useColorModeValue, Pressable } from 'native-base'
-import { SectionHeader } from '../components/SectionHeader'
+import { ScreenHeader } from '../components/ScreenHeader'
 import theme from '../AppTheme'
-import { Dimensions } from 'react-native'
+import { Dimensions, ImageSourcePropType } from 'react-native'
 import { RegularText } from '../components/RegularText'
 import { SendButton } from '../components/SendButton'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { SelectionIcon } from '../components/SelectionIcon'
+import { CustomIconButton } from '../components/SelectionIcon'
 
-type Props = NativeStackScreenProps<RootStackScreens, 'MethodSelection'>
+const Cigarette: ImageSourcePropType = require('../../assets/cigarette.png')
+const Vape: ImageSourcePropType = require('../../assets/vape.png')
+const Cigar: ImageSourcePropType = require('../../assets/cigar.png')
+const Hookah: ImageSourcePropType = require('../../assets/hookah.png')
 
-const MethodSelection: React.FC<Props> = () => {
+const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
+  navigation,
+}) => {
   return (
     <Box
       display="flex"
@@ -22,7 +26,12 @@ const MethodSelection: React.FC<Props> = () => {
       width={Dimensions.get('window').width}
       height={Dimensions.get('window').height}
     >
-      <Pressable alignSelf="flex-start" marginTop="22px" marginLeft="22px">
+      <Pressable
+        alignSelf="flex-start"
+        marginTop="22px"
+        marginLeft="22px"
+        onPress={navigation.goBack}
+      >
         <Ionicons
           name="arrow-back"
           size={32}
@@ -34,19 +43,24 @@ const MethodSelection: React.FC<Props> = () => {
       </Pressable>
       <Box paddingX="24px">
         <Box alignSelf="center" display="flex" marginY="32px">
-          <SectionHeader
-            sectionHeaderContent="Selecciona tus métodos de consumo"
-            sectionHeaderFontSize={24}
+          <ScreenHeader
+            title="Selecciona tus métodos de consumo"
+            fontSize={24}
           />
-          <RegularText RegularTextContent="Ayúdanos a conocer un poco más sobre tí..." />
+          <RegularText>Ayúdanos a conocer un poco más sobre tí...</RegularText>
         </Box>
         <Box alignSelf="center" display="flex">
-          <SelectionIcon SelectionIconContent="../../assets/cigarette.png" />
-          <SelectionIcon SelectionIconContent="../../assets/vape.png" />
-          <SelectionIcon SelectionIconContent="../../assets/cigar.png" />
-          <SelectionIcon SelectionIconContent="../../assets/hookah.png" />
+          <CustomIconButton icon={Cigarette} />
+          <CustomIconButton icon={Vape} />
+          <CustomIconButton icon={Cigar} />
+          <CustomIconButton icon={Hookah} />
         </Box>
-        <SendButton buttonContent="Continuar" />
+        <SendButton
+          onPress={() => {
+            navigation.navigate('Menu')
+          }}
+          buttonContent="Continuar"
+        />
       </Box>
     </Box>
   )

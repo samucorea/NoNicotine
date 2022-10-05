@@ -15,6 +15,11 @@ const theme = extendTheme({
         bg: '#FFFFFF',
       },
     },
+    Text: {
+      baseStyle: {
+        fontFamily: 'Lato-Regular',
+      },
+    },
   },
 })
 
