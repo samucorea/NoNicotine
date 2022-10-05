@@ -59,7 +59,7 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
           onPress={() => {
             navigation.navigate('Menu')
           }}
-          buttonContent="Continuar"
+          text="Continuar"
         />
       </Box>
     </Box>

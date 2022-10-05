@@ -1,13 +1,18 @@
 import React from 'react'
 import { Pressable, Text, useColorModeValue } from 'native-base'
 import theme from '../AppTheme'
+import { InterfacePressableProps } from 'native-base/lib/typescript/components/primitives/Pressable/types'
 
-interface buttonInterface {
-  buttonContent: string
+interface Props {
+  text: string
   onPress?: () => void
 }
 
-export const SendButton = (props: buttonInterface): JSX.Element => {
+export const SendButton = ({
+  text,
+  onPress,
+  ...props
+}: Props & InterfacePressableProps): JSX.Element => {
   const colors = useColorModeValue(
     theme.colors.primary.default,
     theme.colors.primary.light
@@ -15,16 +20,17 @@ export const SendButton = (props: buttonInterface): JSX.Element => {
 
   return (
     <Pressable
-      onPress={props.onPress}
+      onPress={onPress}
       alignSelf="center"
       justifyContent="center"
       backgroundColor={colors}
-      borderRadius="30px"
+      rounded="30px"
       width="160px"
       height="50px"
+      {...props}
     >
       <Text alignSelf="center" fontSize="16px" fontWeight="600" color="#FFFFFF">
-        {props.buttonContent}
+        {text}
       </Text>
     </Pressable>
   )

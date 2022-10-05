@@ -1,6 +1,7 @@
 export { default as Diary } from './Diary/Diary'
 export { default as ForgotPassword } from './ForgotPassword'
 export { default as Habits } from './Habits/Habits'
+export { default as Login } from './Login/Login'
 export { default as MethodSelection } from './MethodSelection'
 export { default as AbstinenceRecord } from './PatientDashboard/Components/AbstinenceRecord'
 export { default as InfoSection } from './PatientDashboard/Components/InfoSection'

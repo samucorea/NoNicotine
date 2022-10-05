@@ -24,7 +24,7 @@ const ForgotPassword = (): JSX.Element => {
         </View>
         <View style={ForgotPasswordStyle.inputContainer}>
           <LongInputField LongInputFieldTitle="Correo electrónico" />
-          <SendButton buttonContent="Enviar" />
+          <SendButton text="Enviar" />
         </View>
       </View>
     </SafeAreaView>
