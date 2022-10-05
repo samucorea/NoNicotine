@@ -4,7 +4,7 @@ import {
   createStackNavigator,
   StackScreenProps,
 } from '@react-navigation/stack'
-import { SelectRole, MethodSelection, Register } from '../views'
+import { SelectRole, MethodSelection, Register, Login } from '../views'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
 import MenuNavigator from './MenuNavigator'
@@ -16,6 +16,7 @@ export type RootStackScreens = {
   Register: { role: 'therapist' | 'patient' }
   SelectRole: undefined
   Menu: undefined
+  Login: undefined
 }
 
 const Stack = createStackNavigator<RootStackScreens>()
@@ -41,12 +42,25 @@ const MainNavigator = () => {
       }}
     >
       <Stack.Screen
-        name="SelectRole"
-        component={SelectRole}
+        name="Login"
+        component={Login}
         options={{
           headerStyle: {
             backgroundColor: theme.colors.primary.default,
           },
+        }}
+      />
+      <Stack.Screen
+        name="SelectRole"
+        component={SelectRole}
+        options={{
+          headerBackImage: () => (
+            <Icon as={Ionicons} name="close" size={'2xl'} color={'#fff'} />
+          ),
+          headerStyle: {
+            backgroundColor: theme.colors.primary.default,
+          },
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
         }}
       />
       <Stack.Screen name="Register" component={Register} />
