@@ -11,6 +11,8 @@ import React, { FC } from 'react'
 import moment from 'moment'
 import { DiaryEntry } from '../../../models/DiaryEntry'
 import { useNavigation } from '@react-navigation/native'
+import { DiaryStackScreens } from '../../../routes/Diary/DiaryNavigator'
+import { StackNavigationProp } from '@react-navigation/stack'
 
 const InformationIcon = require('../../../../assets/information.png')
 
@@ -19,10 +21,15 @@ interface Props {
 }
 
 const Entry: FC<Props> = ({ entry }) => {
-  const navigation = useNavigation()
+  const navigation =
+    useNavigation<StackNavigationProp<DiaryStackScreens, 'Diary', undefined>>()
 
   return (
-    <Pressable>
+    <Pressable
+      onPress={() =>
+        navigation.navigate('EntryDetailed', { entryId: entry.id })
+      }
+    >
       <HStack justifyContent={'space-between'} p={4} alignItems={'center'}>
         <VStack w="87%" space={1}>
           <Text

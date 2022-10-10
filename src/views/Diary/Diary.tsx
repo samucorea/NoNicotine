@@ -1,9 +1,18 @@
-import { Box, Divider, ScrollView, Text, VStack } from 'native-base'
-import React from 'react'
+import { AddIcon, Divider, Fab, ScrollView, VStack } from 'native-base'
+import React, { FC, useState, useEffect } from 'react'
+import theme from '../../AppTheme'
 import { DiaryEntry } from '../../models/DiaryEntry'
+import { DiaryScreenProps } from '../../routes/Diary/DiaryNavigator'
 import Entry from './Components/Entry'
 
-const Diary = () => {
+const Diary: FC<DiaryScreenProps<'Diary'>> = ({ navigation }) => {
+  const [isFocused, setIsFocused] = useState(false)
+
+  useEffect(() => {
+    navigation.addListener('focus', () => setIsFocused(true))
+    navigation.addListener('blur', () => setIsFocused(false))
+  }, [])
+
   const entries: DiaryEntry[] = [
     {
       id: 1,
@@ -45,6 +54,16 @@ const Diary = () => {
           <Entry key={index} entry={entry} />
         ))}
       </VStack>
+      {isFocused && (
+        <Fab
+          onPress={() =>
+            navigation.navigate('EntryDetailed', { entryId: undefined })
+          }
+          bg={theme.colors.primary.default}
+          icon={<AddIcon size="5" bg={theme.colors.primary.default} />}
+          bottom={90}
+        />
+      )}
     </ScrollView>
   )
 }

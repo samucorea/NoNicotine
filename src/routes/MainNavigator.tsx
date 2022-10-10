@@ -11,7 +11,7 @@ import MenuNavigator from './MenuNavigator'
 import { Icon, useColorModeValue } from 'native-base'
 import theme from '../AppTheme'
 
-export type RootStackScreens = {
+type RootStackScreens = {
   MethodSelection: undefined
   Register: { role: 'therapist' | 'patient' }
   SelectRole: undefined

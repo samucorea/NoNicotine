@@ -7,6 +7,7 @@ import { ImageSourcePropType } from 'react-native'
 import { CustomIconButton } from '../components'
 import { Diary, Habits, PatientDashboard, Therapy } from '../views'
 import theme from '../AppTheme'
+import DiaryNavigator from './Diary/DiaryNavigator'
 
 const HomeIcon = require('../../assets/home.png')
 const DiaryIcon = require('../../assets/diary.png')
@@ -15,9 +16,9 @@ const HabitsIcon = require('../../assets/sync.png')
 
 const Profile: ImageSourcePropType = require('../../assets/profile.png')
 
-export type MenuNavigatorScreens = {
+type MenuNavigatorScreens = {
   PatientDashboard: undefined
-  Diary: undefined
+  DiaryStack: undefined
   Therapy: undefined
   Habits: undefined
 }
@@ -27,10 +28,9 @@ const Tab = createBottomTabNavigator<MenuNavigatorScreens>()
 const MenuNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Diary"
+      initialRouteName="DiaryStack"
       screenOptions={{
         headerTitle: '',
-        headerTitleStyle: { color: theme.colors.primary.default },
         headerStyle: { borderWidth: 0 },
         headerShadowVisible: false,
         tabBarStyle: {
@@ -63,8 +63,8 @@ const MenuNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Diary"
-        component={Diary}
+        name="DiaryStack"
+        component={DiaryNavigator}
         options={{
           tabBarIcon: ({ focused }) => (
             <Image
@@ -73,11 +73,8 @@ const MenuNavigator = () => {
               alt="diary_icon"
             />
           ),
-          headerShown: true,
-          headerTitle: 'Entradas',
-          headerTitleStyle: { fontSize: 28 },
+          headerShown: false,
           tabBarLabel: 'Diario',
-          headerStyle: { height: 120 },
         }}
       />
       <Tab.Screen

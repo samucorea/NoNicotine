@@ -1,4 +1,6 @@
+export { default as Entry } from './Diary/Components/Entry'
 export { default as Diary } from './Diary/Diary'
+export { default as EntryDetailed } from './Diary/EntryDetailed'
 export { default as ForgotPassword } from './ForgotPassword'
 export { default as Habits } from './Habits/Habits'
 export { default as Login } from './Login/Login'
