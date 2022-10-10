@@ -42,6 +42,13 @@ const MainNavigator = () => {
       }}
     >
       <Stack.Screen
+        name="Menu"
+        component={MenuNavigator}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="Login"
         component={Login}
         options={{
@@ -64,13 +71,7 @@ const MainNavigator = () => {
         }}
       />
       <Stack.Screen name="Register" component={Register} />
-      <Stack.Screen
-        name="Menu"
-        component={MenuNavigator}
-        options={{
-          headerShown: false,
-        }}
-      />
+
       <Stack.Screen name="MethodSelection" component={MethodSelection} />
     </Stack.Navigator>
   )

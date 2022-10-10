@@ -1,10 +1,11 @@
 import React from 'react'
-import { Box, Container, HStack, VStack } from 'native-base'
+import { Box, Container } from 'native-base'
 import { RootScreenProps } from '../routes/MainNavigator'
 import { ScreenHeader, SquaredIconButton } from '../components'
 import theme from '../AppTheme'
 
 const PatientIcon = require('../../assets/patient.png')
+const TherapistIcon = require('../../assets/therapist-role.png')
 
 const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
   navigation,
@@ -38,11 +39,11 @@ const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
             onPress={() => navigation.navigate('Register', { role: 'patient' })}
           />
           <SquaredIconButton
-            label="Paciente"
+            label="Terapeuta"
             height={'43%'}
             width={'43%'}
             labelStyle={{ color: '#fff' }}
-            icon={PatientIcon}
+            icon={TherapistIcon}
             bg={theme.colors.primary.default}
             onPress={() =>
               navigation.navigate('Register', { role: 'therapist' })

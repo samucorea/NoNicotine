@@ -6,6 +6,9 @@ import { MainNavigator } from './src/routes'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
+import moment from 'moment'
+import 'moment/locale/es'
+moment.locale('es')
 
 SplashScreen.preventAutoHideAsync()
 

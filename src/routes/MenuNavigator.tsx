@@ -27,9 +27,11 @@ const Tab = createBottomTabNavigator<MenuNavigatorScreens>()
 const MenuNavigator = () => {
   return (
     <Tab.Navigator
+      initialRouteName="Diary"
       screenOptions={{
         headerTitle: '',
-        headerStyle: { borderColor: '#fff', borderWidth: 0 },
+        headerTitleStyle: { color: theme.colors.primary.default },
+        headerStyle: { borderWidth: 0 },
         headerShadowVisible: false,
         tabBarStyle: {
           backgroundColor: theme.colors.primary.default,
@@ -71,7 +73,11 @@ const MenuNavigator = () => {
               alt="diary_icon"
             />
           ),
+          headerShown: true,
+          headerTitle: 'Entradas',
+          headerTitleStyle: { fontSize: 28 },
           tabBarLabel: 'Diario',
+          headerStyle: { height: 120 },
         }}
       />
       <Tab.Screen
