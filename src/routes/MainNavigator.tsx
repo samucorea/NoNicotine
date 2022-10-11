@@ -24,6 +24,7 @@ const Stack = createStackNavigator<RootStackScreens>()
 const MainNavigator = () => {
   return (
     <Stack.Navigator
+      initialRouteName="Menu"
       screenOptions={{
         headerShadowVisible: false,
         headerTitle: '',
@@ -42,13 +43,6 @@ const MainNavigator = () => {
       }}
     >
       <Stack.Screen
-        name="Menu"
-        component={MenuNavigator}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
         name="Login"
         component={Login}
         options={{
@@ -57,6 +51,14 @@ const MainNavigator = () => {
           },
         }}
       />
+      <Stack.Screen
+        name="Menu"
+        component={MenuNavigator}
+        options={{
+          headerShown: false,
+        }}
+      />
+
       <Stack.Screen
         name="SelectRole"
         component={SelectRole}

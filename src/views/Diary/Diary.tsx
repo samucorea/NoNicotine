@@ -1,6 +1,7 @@
-import { AddIcon, Divider, Fab, ScrollView, VStack } from 'native-base'
+import { AddIcon, Fab } from 'native-base'
 import React, { FC, useState, useEffect } from 'react'
 import theme from '../../AppTheme'
+import { VStackContainer } from '../../components'
 import { DiaryEntry } from '../../models/DiaryEntry'
 import { DiaryScreenProps } from '../../routes/Diary/DiaryNavigator'
 import Entry from './Components/Entry'
@@ -34,26 +35,14 @@ const Diary: FC<DiaryScreenProps<'Diary'>> = ({ navigation }) => {
     },
   ]
 
-  const dividerThickness = '1.5'
-
   return (
-    <ScrollView>
-      <VStack
-        borderColor="#949494"
-        borderTopWidth={dividerThickness}
-        borderBottomWidth={dividerThickness}
-        divider={
-          <Divider
-            orientation="vertical"
-            bg="#949494"
-            thickness={dividerThickness}
-          />
-        }
-      >
+    <>
+      <VStackContainer>
         {entries.map((entry, index) => (
           <Entry key={index} entry={entry} />
         ))}
-      </VStack>
+      </VStackContainer>
+
       {isFocused && (
         <Fab
           onPress={() =>
@@ -64,7 +53,7 @@ const Diary: FC<DiaryScreenProps<'Diary'>> = ({ navigation }) => {
           bottom={90}
         />
       )}
-    </ScrollView>
+    </>
   )
 }
 
