@@ -1,5 +1,5 @@
 import { Box, Fab, Image, Text, VStack } from 'native-base'
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import theme from '../../AppTheme'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
 import AbstinenceRecord from './Components/AbstinenceRecord'
@@ -11,7 +11,16 @@ const Information = require('../../../assets/information.png')
 const Inhale = require('../../../assets/inhale.png')
 const Pencil = require('../../../assets/pencil.png')
 
-const PatientDashboard: FC<MenuScreenProps<'PatientDashboard'>> = () => {
+const PatientDashboard: FC<MenuScreenProps<'PatientDashboard'>> = ({
+  navigation,
+}) => {
+  const [isFocused, setIsFocused] = useState(false)
+
+  useEffect(() => {
+    navigation.addListener('focus', () => setIsFocused(true))
+    navigation.addListener('blur', () => setIsFocused(false))
+  }, [])
+
   const infoItems: InfoSectionProps[] = [
     {
       sectionTitle: 'Ahorro econónmico',
@@ -61,18 +70,20 @@ const PatientDashboard: FC<MenuScreenProps<'PatientDashboard'>> = () => {
           <InfoSection key={index} {...item} />
         ))}
       </VStack>
-      <Fab
-        bg={theme.colors.primary.default}
-        icon={
-          <Image
-            bg={theme.colors.primary.default}
-            size="5"
-            source={Pencil}
-            alt="edit"
-          />
-        }
-        bottom={90}
-      />
+      {isFocused && (
+        <Fab
+          bg={theme.colors.primary.default}
+          icon={
+            <Image
+              bg={theme.colors.primary.default}
+              size="5"
+              source={Pencil}
+              alt="edit"
+            />
+          }
+          bottom={90}
+        />
+      )}
     </Box>
   )
 }

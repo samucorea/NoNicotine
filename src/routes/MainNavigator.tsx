@@ -11,7 +11,7 @@ import MenuNavigator from './MenuNavigator'
 import { Icon, useColorModeValue } from 'native-base'
 import theme from '../AppTheme'
 
-export type RootStackScreens = {
+type RootStackScreens = {
   MethodSelection: undefined
   Register: { role: 'therapist' | 'patient' }
   SelectRole: undefined
@@ -24,6 +24,7 @@ const Stack = createStackNavigator<RootStackScreens>()
 const MainNavigator = () => {
   return (
     <Stack.Navigator
+      initialRouteName="Menu"
       screenOptions={{
         headerShadowVisible: false,
         headerTitle: '',
@@ -51,6 +52,14 @@ const MainNavigator = () => {
         }}
       />
       <Stack.Screen
+        name="Menu"
+        component={MenuNavigator}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
         name="SelectRole"
         component={SelectRole}
         options={{
@@ -64,13 +73,7 @@ const MainNavigator = () => {
         }}
       />
       <Stack.Screen name="Register" component={Register} />
-      <Stack.Screen
-        name="Menu"
-        component={MenuNavigator}
-        options={{
-          headerShown: false,
-        }}
-      />
+
       <Stack.Screen name="MethodSelection" component={MethodSelection} />
     </Stack.Navigator>
   )
