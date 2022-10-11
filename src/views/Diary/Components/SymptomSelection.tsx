@@ -7,7 +7,7 @@ interface Props {
   title: string
   symptoms: string[]
   selectedSymptoms: string[]
-  read?: boolean
+  create?: boolean
   setSelectedSymptoms: (values: string[]) => void
 }
 
@@ -21,7 +21,7 @@ const SymptomSelection: FC<Props> = ({
   symptoms,
   setSelectedSymptoms,
   selectedSymptoms,
-  read = false,
+  create = false,
 }) => {
   const OnSymptomPressed = (
     index: number,
@@ -62,8 +62,10 @@ const SymptomSelection: FC<Props> = ({
           return (
             <SymptomButton
               isSelected={selectionVerify.isSelected}
-              onPress={() =>
-                read ? undefined : OnSymptomPressed(index, selectionVerify)
+              onPress={
+                create
+                  ? () => OnSymptomPressed(index, selectionVerify)
+                  : undefined
               }
               key={index}
               symptom={symptom}

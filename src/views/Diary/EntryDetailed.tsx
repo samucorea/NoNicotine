@@ -35,14 +35,14 @@ const EntryDetailed: FC<DiaryScreenProps<'EntryDetailed'>> = ({
     <HideKeyboardOnForms>
       <VStackContainer scroll={false}>
         <SymptomSelection
-          read={create}
+          create={create}
           title={currentTitles.symptoms}
           symptoms={create ? symptoms : selectedSymptoms}
           selectedSymptoms={selectedSymptoms}
           setSelectedSymptoms={setSelectedSymptoms}
         />
         <SymptomSelection
-          read={create}
+          create={create}
           title={currentTitles.feelings}
           symptoms={create ? feelings : selectedFeelings}
           selectedSymptoms={selectedFeelings}

@@ -4,7 +4,7 @@ import React, { FC } from 'react'
 interface Props {
   symptom: string
   isSelected: boolean
-  onPress: () => void
+  onPress: undefined | (() => void)
 }
 
 const SymptomButton: FC<Props> = ({ symptom, onPress, isSelected }) => {
@@ -15,6 +15,7 @@ const SymptomButton: FC<Props> = ({ symptom, onPress, isSelected }) => {
     <Pressable
       p={1}
       px={2}
+      mb={2}
       bg={'#f8f8f8'}
       shadow={isSelected ? undefined : 9}
       borderWidth={1}
