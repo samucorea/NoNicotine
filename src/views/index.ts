@@ -1,4 +1,6 @@
 export { default as Entry } from './Diary/Components/Entry'
+export { default as SymptomButton } from './Diary/Components/SymptomButton'
+export { default as SymptomSelection } from './Diary/Components/SymptomSelection'
 export { default as Diary } from './Diary/Diary'
 export { default as EntryDetailed } from './Diary/EntryDetailed'
 export { default as ForgotPassword } from './ForgotPassword'
@@ -9,5 +11,5 @@ export { default as AbstinenceRecord } from './PatientDashboard/Components/Absti
 export { default as InfoSection } from './PatientDashboard/Components/InfoSection'
 export { default as PatientDashboard } from './PatientDashboard/PatientDashboard'
 export { default as Register } from './Register/Register'
-export { default as SelectRole } from './SelectRole'
+export { default as SelectRole } from './SelectRole/SelectRole'
 export { default as Therapy } from './Therapy/Therapy'

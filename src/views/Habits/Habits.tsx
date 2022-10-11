@@ -1,11 +1,12 @@
-import { Box, Text } from 'native-base'
+import { Text } from 'native-base'
 import React from 'react'
+import { ScreenContainer } from '../../components'
 
 const Habits = () => {
   return (
-    <Box>
+    <ScreenContainer>
       <Text>Habits</Text>
-    </Box>
+    </ScreenContainer>
   )
 }
 

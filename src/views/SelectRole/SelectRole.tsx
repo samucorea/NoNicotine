@@ -1,11 +1,11 @@
 import React from 'react'
 import { Box, Container } from 'native-base'
-import { RootScreenProps } from '../routes/MainNavigator'
-import { ScreenHeader, SquaredIconButton } from '../components'
-import theme from '../AppTheme'
+import { RootScreenProps } from '../../routes/MainNavigator'
+import { ScreenHeader, SquaredIconButton } from '../../components'
+import theme from '../../AppTheme'
 
-const PatientIcon = require('../../assets/patient.png')
-const TherapistIcon = require('../../assets/therapist-role.png')
+const PatientIcon = require('../../../assets/patient.png')
+const TherapistIcon = require('../../../assets/therapist-role.png')
 
 const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
   navigation,

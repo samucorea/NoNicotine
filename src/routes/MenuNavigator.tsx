@@ -31,8 +31,6 @@ const MenuNavigator = () => {
       initialRouteName="DiaryStack"
       screenOptions={{
         headerTitle: '',
-        headerStyle: { borderWidth: 0 },
-        headerShadowVisible: false,
         tabBarStyle: {
           backgroundColor: theme.colors.primary.default,
           height: 80,
@@ -103,6 +101,16 @@ const MenuNavigator = () => {
             />
           ),
           tabBarLabel: 'Hábitos',
+          headerTitle: 'Hábitos saludables',
+          headerStyle: {
+            height: 120,
+            borderBottomWidth: 1,
+            borderBottomColor: '#949494',
+          },
+          headerTitleStyle: {
+            color: theme.colors.primary.default,
+            fontSize: 28,
+          },
         }}
       />
     </Tab.Navigator>
