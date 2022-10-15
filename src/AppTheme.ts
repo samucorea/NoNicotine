@@ -20,6 +20,15 @@ const theme = extendTheme({
         fontFamily: 'Lato-Regular',
       },
     },
+    Input: {
+      variants: {
+        date: {
+          rounded: 10,
+          textAlign: 'center',
+          borderWidth: 1,
+        },
+      },
+    },
   },
 })
 

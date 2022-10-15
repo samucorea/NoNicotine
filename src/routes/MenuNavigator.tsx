@@ -2,10 +2,10 @@ import {
   createBottomTabNavigator,
   BottomTabScreenProps,
 } from '@react-navigation/bottom-tabs'
-import { Box, Image } from 'native-base'
+import { Image } from 'native-base'
 import { ImageSourcePropType } from 'react-native'
 import { CustomIconButton } from '../components'
-import { Diary, Habits, PatientDashboard, Therapy } from '../views'
+import { Habits, PatientDashboard, Therapy } from '../views'
 import theme from '../AppTheme'
 import DiaryNavigator from './Diary/DiaryNavigator'
 
@@ -21,6 +21,7 @@ type MenuNavigatorScreens = {
   DiaryStack: undefined
   Therapy: undefined
   Habits: undefined
+  Profile: undefined
 }
 
 const Tab = createBottomTabNavigator<MenuNavigatorScreens>()
@@ -28,7 +29,7 @@ const Tab = createBottomTabNavigator<MenuNavigatorScreens>()
 const MenuNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName="DiaryStack"
+      initialRouteName="PatientDashboard"
       screenOptions={{
         headerTitle: '',
         tabBarStyle: {
@@ -44,11 +45,13 @@ const MenuNavigator = () => {
       <Tab.Screen
         name="PatientDashboard"
         component={PatientDashboard}
-        options={{
+        options={({ navigation }) => ({
           headerRight: () => (
-            <Box>
-              <CustomIconButton icon={Profile} pr={'5'} />
-            </Box>
+            <CustomIconButton
+              icon={Profile}
+              pr={'5'}
+              onPress={() => navigation.navigate('Profile')}
+            />
           ),
           tabBarIcon: ({ focused }) => (
             <Image
@@ -58,7 +61,7 @@ const MenuNavigator = () => {
             />
           ),
           tabBarLabel: 'Inicio',
-        }}
+        })}
       />
       <Tab.Screen
         name="DiaryStack"

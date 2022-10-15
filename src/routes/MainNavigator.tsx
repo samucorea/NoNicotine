@@ -4,7 +4,7 @@ import {
   createStackNavigator,
   StackScreenProps,
 } from '@react-navigation/stack'
-import { SelectRole, MethodSelection, Register, Login } from '../views'
+import { SelectRole, MethodSelection, Register, Login, Profile } from '../views'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
 import MenuNavigator from './MenuNavigator'
@@ -17,6 +17,7 @@ type RootStackScreens = {
   SelectRole: undefined
   Menu: undefined
   Login: undefined
+  Profile: undefined
 }
 
 const Stack = createStackNavigator<RootStackScreens>()
@@ -24,7 +25,7 @@ const Stack = createStackNavigator<RootStackScreens>()
 const MainNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Menu"
+      initialRouteName="Login"
       screenOptions={{
         headerShadowVisible: false,
         headerTitle: '',
@@ -75,6 +76,21 @@ const MainNavigator = () => {
       <Stack.Screen name="Register" component={Register} />
 
       <Stack.Screen name="MethodSelection" component={MethodSelection} />
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        // options={{
+        //   tabBarIcon: ({ focused }) => (
+        //     <Image
+        //       tintColor={focused ? '#fff' : '#aebacb'}
+        //       source={TherapyIcon}
+        //       alt="therapy_icon"
+        //     />
+        //   ),
+        //   tabBarLabel: 'Pefil',
+        //   tabBarvisibi
+        // }}
+      />
     </Stack.Navigator>
   )
 }

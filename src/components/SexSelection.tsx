@@ -25,13 +25,17 @@ export const SexSelection = (): JSX.Element => {
         display="flex"
         flexDirection="row"
       >
-        <Radio value="M" my="1">
+        <Radio value="M" my="1" borderColor={theme.colors.primary.default}>
           <Text color={colors} fontSize="16px" marginRight="22px">
             M
           </Text>
         </Radio>
         <Radio value="F" my="1">
-          <Text color={colors} fontSize="16px">
+          <Text
+            color={colors}
+            fontSize="16px"
+            borderColor={theme.colors.primary.default}
+          >
             F
           </Text>
         </Radio>

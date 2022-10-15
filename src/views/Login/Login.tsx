@@ -8,12 +8,17 @@ import {
   ScreenContainer,
   SendButton,
 } from '../../components'
+import { useUserContext } from '../../contexts/UserContext'
 import { RootScreenProps } from '../../routes/MainNavigator'
 
 const DarkLogo = require('../../../assets/dark-logo.png')
 
 const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
+  const userContext = useUserContext()
+
   const handleSubmit = async () => {
+    userContext?.setStoredUser({ id: 1 })
+
     navigation.navigate('Menu')
   }
   return (

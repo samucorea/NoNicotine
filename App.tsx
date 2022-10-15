@@ -8,6 +8,7 @@ import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 import moment from 'moment'
 import 'moment/locale/es'
+import UserContextProvider from './src/contexts/UserContext'
 moment.locale('es')
 
 SplashScreen.preventAutoHideAsync()
@@ -29,7 +30,9 @@ export default function App() {
   return (
     <NativeBaseProvider theme={theme}>
       <NavigationContainer>
-        <MainNavigator />
+        <UserContextProvider>
+          <MainNavigator />
+        </UserContextProvider>
       </NavigationContainer>
     </NativeBaseProvider>
   )

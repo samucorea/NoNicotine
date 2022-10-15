@@ -11,47 +11,38 @@ import { Dimensions } from 'react-native'
 import theme from '../../AppTheme'
 
 export const BirthDateInput = (): JSX.Element => {
-  const colors = useColorModeValue(
-    theme.colors.primary.default,
-    theme.colors.primary.light
-  )
+  const colors = useColorModeValue('#94a4ba', theme.colors.primary.light)
 
   return (
     <>
-      <Text alignSelf="baseline" color={colors} fontSize="16px">
+      <Text pl={3} pb={1} color={theme.colors.primary.default} fontSize="16px">
         Fecha de nacimiento
       </Text>
       <HStack space={2}>
         <Input
+          w="20%"
+          fontSize={15}
+          variant="date"
           borderColor={colors}
-          borderRadius="10px"
-          padding="12px"
+          placeholderTextColor={colors}
           placeholder="dd"
-          placeholderTextColor={colors}
-          fontSize="18px"
-          textAlign="center"
-          width={Dimensions.get('window').width * 0.1667}
-        ></Input>
+        />
         <Input
+          w="20%"
+          fontSize={15}
+          variant="date"
           borderColor={colors}
-          borderRadius="10px"
-          padding="12px"
+          placeholderTextColor={colors}
           placeholder="mm"
-          placeholderTextColor={colors}
-          fontSize="18px"
-          textAlign="center"
-          width={Dimensions.get('window').width * 0.1667}
-        ></Input>
+        />
         <Input
+          w="25%"
+          fontSize={15}
+          variant="date"
           borderColor={colors}
-          borderRadius="10px"
-          padding="12px"
-          placeholder="aaaa"
           placeholderTextColor={colors}
-          fontSize="18px"
-          textAlign="center"
-          width={Dimensions.get('window').width * 0.2083}
-        ></Input>
+          placeholder="aaaa"
+        />
       </HStack>
     </>
   )
