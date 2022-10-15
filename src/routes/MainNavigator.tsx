@@ -24,7 +24,7 @@ const Stack = createStackNavigator<RootStackScreens>()
 const MainNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Menu"
+      initialRouteName="MethodSelection"
       screenOptions={{
         headerShadowVisible: false,
         headerTitle: '',

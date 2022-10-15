@@ -24,9 +24,9 @@ const SquaredIconButton: FC<Props & InterfacePressableProps & Partial<{}>> = ({
     <Pressable
       alignContent={'center'}
       alignItems="center"
-      height={'130px'}
-      width={'130px'}
-      borderColor="#fff"
+      height={'150px'}
+      width={'150px'}
+      borderColor={'#fff'}
       borderWidth={'3'}
       {...props}
       position="relative"

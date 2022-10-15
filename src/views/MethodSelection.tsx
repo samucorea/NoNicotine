@@ -7,8 +7,7 @@ import { Dimensions, ImageSourcePropType } from 'react-native'
 import { RegularText } from '../components/RegularText'
 import { SendButton } from '../components/SendButton'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { CustomIconButton } from '../components/SelectionIcon'
-
+import { SquaredIconButton } from '../components'
 const Cigarette: ImageSourcePropType = require('../../assets/cigarette.png')
 const Vape: ImageSourcePropType = require('../../assets/vape.png')
 const Cigar: ImageSourcePropType = require('../../assets/cigar.png')
@@ -49,11 +48,50 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
           />
           <RegularText>Ayúdanos a conocer un poco más sobre tí...</RegularText>
         </Box>
-        <Box alignSelf="center" display="flex">
-          <CustomIconButton icon={Cigarette} />
+        <Box
+          alignSelf="center"
+          alignItems="flex-start"
+          justifyContent="center"
+          display="flex"
+          flexDirection="row"
+          flexWrap="wrap"
+        >
+          <SquaredIconButton
+            borderColor={theme.colors.primary.default}
+            borderWidth={'3'}
+            margin="5px"
+            label="Cigarrillo"
+            labelStyle={{ color: theme.colors.primary.default }}
+            icon={Cigarette}
+          />
+          <SquaredIconButton
+            borderColor={theme.colors.primary.default}
+            borderWidth={'3'}
+            margin="5px"
+            label="Vape"
+            labelStyle={{ color: theme.colors.primary.default }}
+            icon={Vape}
+          />
+          <SquaredIconButton
+            borderColor={theme.colors.primary.default}
+            borderWidth={'3'}
+            margin="5px"
+            label="Cigarro"
+            labelStyle={{ color: theme.colors.primary.default }}
+            icon={Cigar}
+          />
+          <SquaredIconButton
+            borderColor={theme.colors.primary.default}
+            borderWidth={'3'}
+            margin="5px"
+            label="Hookah"
+            labelStyle={{ color: theme.colors.primary.default }}
+            icon={Hookah}
+          />
+          {/* <CustomIconButton icon={Cigarette} />
           <CustomIconButton icon={Vape} />
           <CustomIconButton icon={Cigar} />
-          <CustomIconButton icon={Hookah} />
+          <CustomIconButton icon={Hookah} /> */}
         </Box>
         <SendButton
           onPress={() => {

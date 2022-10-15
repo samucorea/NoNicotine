@@ -27,6 +27,7 @@ export const SendButton = ({
       rounded="30px"
       width="160px"
       height="50px"
+      marginTop="8px"
       {...props}
     >
       <Text alignSelf="center" fontSize="16px" fontWeight="600" color="#FFFFFF">
