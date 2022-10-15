@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { RootScreenProps } from '../../routes/MainNavigator'
 import { Box, VStack } from 'native-base'
 import {
@@ -11,6 +11,8 @@ import {
   PasswordInputField,
   ScreenContainer,
 } from '../../components'
+import { RegisterUser } from '../../models/User'
+import patientService from '../../services/patientService'
 
 const Register: React.FC<RootScreenProps<'Register'>> = ({
   navigation,
@@ -18,14 +20,26 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
     params: { role },
   },
 }) => {
+  const [user, setUser] = useState<RegisterUser>({
+    first_name: '',
+    id: 0,
+    last_name: '',
+    password: '',
+  })
+
   const subHeaderText =
     role === 'therapist'
       ? 'Completa este formulario con tu información'
       : 'Estás muy cerca de mejorar tu vida...'
 
   const handleSubmit = () => {
+    if (role === 'patient') {
+      patientService.create(user)
+    }
+
     navigation.navigate('MethodSelection')
   }
+
   return (
     <ScreenContainer>
       <VStack space={5}>
@@ -34,7 +48,7 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
           <RegularText>{subHeaderText}</RegularText>
         </Box>
 
-        <InputField placeholder="Nombre completo" />
+        <InputField placeholder="Nombre completo" value={user.first_name} />
         <InputField placeholder="Correo electrónico" />
         <BirthDateInput />
         <SexSelection />

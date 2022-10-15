@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { createContext, FC, ReactNode, useContext } from 'react'
-import User from '../models/user'
+import User from '../models/User'
 
 interface Props {
   children: ReactNode

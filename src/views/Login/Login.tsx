@@ -17,7 +17,7 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
   const userContext = useUserContext()
 
   const handleSubmit = async () => {
-    userContext?.setStoredUser({ id: 1 })
+    // userContext?.setStoredUser({ id: 1 })
 
     navigation.navigate('Menu')
   }
