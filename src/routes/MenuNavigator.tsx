@@ -5,7 +5,7 @@ import {
 import { Box, Image } from 'native-base'
 import { ImageSourcePropType } from 'react-native'
 import { CustomIconButton } from '../components'
-import { Diary, Habits, PatientDashboard, Therapy } from '../views'
+import { Habits, PatientDashboard, Therapy } from '../views'
 import theme from '../AppTheme'
 import DiaryNavigator from './Diary/DiaryNavigator'
 

@@ -95,7 +95,7 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
         </Box>
         <SendButton
           onPress={() => {
-            navigation.navigate('Menu')
+            navigation.navigate('VapeQuestionnaire')
           }}
           text="Continuar"
         />

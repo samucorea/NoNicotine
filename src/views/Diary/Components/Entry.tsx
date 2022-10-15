@@ -1,12 +1,4 @@
-import {
-  Box,
-  Divider,
-  HStack,
-  Image,
-  Pressable,
-  Text,
-  VStack,
-} from 'native-base'
+import { HStack, Image, Pressable, Text, VStack } from 'native-base'
 import React, { FC } from 'react'
 import moment from 'moment'
 import { DiaryEntry } from '../../../models/DiaryEntry'

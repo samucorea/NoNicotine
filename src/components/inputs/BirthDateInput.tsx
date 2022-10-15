@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  Box,
-  Text,
-  Input,
-  useColorModeValue,
-  VStack,
-  HStack,
-} from 'native-base'
+import { Text, Input, useColorModeValue, HStack } from 'native-base'
 import { Dimensions } from 'react-native'
 import theme from '../../AppTheme'
 

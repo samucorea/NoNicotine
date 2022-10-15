@@ -1,4 +1,4 @@
-import { Box, Center, Image, Pressable, Text } from 'native-base'
+import { Box, Image, Pressable, Text } from 'native-base'
 import { InterfacePressableProps } from 'native-base/lib/typescript/components/primitives/Pressable/types'
 import { InterfaceTextProps } from 'native-base/lib/typescript/components/primitives/Text/types'
 import React, { FC, ReactNode } from 'react'

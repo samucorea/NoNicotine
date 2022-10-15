@@ -10,8 +10,16 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import MenuNavigator from './MenuNavigator'
 import { Icon, useColorModeValue } from 'native-base'
 import theme from '../AppTheme'
+import CigaretteQuestionnaire from '../views/Register/CigaretteQuestionnaire'
+import CigarQuestionnaire from '../views/Register/CigarQuestionnaire'
+import HookahQuestionnaire from '../views/Register/HookahQuestionnaire'
+import VapeQuestionnaire from '../views/Register/VapeQuestionnaire'
 
 type RootStackScreens = {
+  VapeQuestionnaire: undefined
+  HookahQuestionnaire: undefined
+  CigarQuestionnaire: undefined
+  CigaretteQuestionnaire: undefined
   MethodSelection: undefined
   Register: { role: 'therapist' | 'patient' }
   SelectRole: undefined
@@ -75,6 +83,16 @@ const MainNavigator = () => {
       <Stack.Screen name="Register" component={Register} />
 
       <Stack.Screen name="MethodSelection" component={MethodSelection} />
+      <Stack.Screen
+        name="CigaretteQuestionnaire"
+        component={CigaretteQuestionnaire}
+      />
+      <Stack.Screen name="CigarQuestionnaire" component={CigarQuestionnaire} />
+      <Stack.Screen
+        name="HookahQuestionnaire"
+        component={HookahQuestionnaire}
+      />
+      <Stack.Screen name="VapeQuestionnaire" component={VapeQuestionnaire} />
     </Stack.Navigator>
   )
 }

@@ -1,4 +1,4 @@
-import { Box, Checkbox, Pressable, Text, TextArea } from 'native-base'
+import { Box, Checkbox, Text, TextArea } from 'native-base'
 import React, { FC, useState } from 'react'
 import theme from '../../AppTheme'
 import {
