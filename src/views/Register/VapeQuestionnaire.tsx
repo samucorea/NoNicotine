@@ -14,7 +14,7 @@ const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
   navigation,
 }) => {
   const handleSubmit = () => {
-    navigation.navigate('MethodSelection')
+    navigation.navigate('Menu')
   }
 
   return (

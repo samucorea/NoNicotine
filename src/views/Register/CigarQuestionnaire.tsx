@@ -14,7 +14,7 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
   navigation,
 }) => {
   const handleSubmit = () => {
-    navigation.navigate('MethodSelection')
+    navigation.navigate('Menu')
   }
 
   return (

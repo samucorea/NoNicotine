@@ -14,7 +14,7 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
   navigation,
 }) => {
   const handleSubmit = () => {
-    navigation.navigate('MethodSelection')
+    navigation.navigate('Menu')
   }
 
   return (

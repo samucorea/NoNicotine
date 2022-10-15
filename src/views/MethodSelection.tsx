@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { RootScreenProps } from '../routes/MainNavigator'
 import { Box, useColorModeValue, Pressable } from 'native-base'
 import { ScreenHeader } from '../components/ScreenHeader'
@@ -16,6 +16,7 @@ const Hookah: ImageSourcePropType = require('../../assets/hookah.png')
 const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
   navigation,
 }) => {
+  const [Method, setMethod] = useState('CigaretteQuestionnaire')
   return (
     <Box
       display="flex"
@@ -63,6 +64,9 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
             label="Cigarrillo"
             labelStyle={{ color: theme.colors.primary.default }}
             icon={Cigarette}
+            onPress={() => {
+              setMethod('CigaretteQuestionnaire')
+            }}
           />
           <SquaredIconButton
             borderColor={theme.colors.primary.default}
@@ -71,6 +75,9 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
             label="Vape"
             labelStyle={{ color: theme.colors.primary.default }}
             icon={Vape}
+            onPress={() => {
+              setMethod('VapeQuestionnaire')
+            }}
           />
           <SquaredIconButton
             borderColor={theme.colors.primary.default}
@@ -79,6 +86,9 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
             label="Cigarro"
             labelStyle={{ color: theme.colors.primary.default }}
             icon={Cigar}
+            onPress={() => {
+              setMethod('CigarQuestionnaire')
+            }}
           />
           <SquaredIconButton
             borderColor={theme.colors.primary.default}
@@ -87,6 +97,9 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
             label="Hookah"
             labelStyle={{ color: theme.colors.primary.default }}
             icon={Hookah}
+            onPress={() => {
+              setMethod('HookahQuestionnaire')
+            }}
           />
           {/* <CustomIconButton icon={Cigarette} />
           <CustomIconButton icon={Vape} />
@@ -95,7 +108,18 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
         </Box>
         <SendButton
           onPress={() => {
-            navigation.navigate('VapeQuestionnaire')
+            if (Method === 'CigaretteQuestionnaire') {
+              navigation.navigate('CigaretteQuestionnaire')
+            }
+            if (Method === 'CigarQuestionnaire') {
+              navigation.navigate('CigarQuestionnaire')
+            }
+            if (Method === 'VapeQuestionnaire') {
+              navigation.navigate('VapeQuestionnaire')
+            }
+            if (Method === 'HookahQuestionnaire') {
+              navigation.navigate('HookahQuestionnaire')
+            }
           }}
           text="Continuar"
         />

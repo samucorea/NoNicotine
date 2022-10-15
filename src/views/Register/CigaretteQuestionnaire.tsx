@@ -15,7 +15,7 @@ const CigaretteQuestionnaire: React.FC<
   RootScreenProps<'CigaretteQuestionnaire'>
 > = ({ navigation }) => {
   const handleSubmit = () => {
-    navigation.navigate('MethodSelection')
+    navigation.navigate('Menu')
   }
 
   const [Size, setSize] = useState('')
