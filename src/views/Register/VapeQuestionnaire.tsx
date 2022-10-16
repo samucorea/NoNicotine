@@ -9,6 +9,7 @@ import {
   SendButton,
   ScreenContainer,
 } from '../../components'
+import { Formik } from 'formik'
 
 const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
   navigation,
@@ -26,23 +27,39 @@ const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
             {'Por favor, completa la siguiente información'}
           </RegularText>
         </Box>
-        <RegularText>
-          {'¿Cuántos días, en promedio, te dura un pod/vape desechable?'}
-        </RegularText>
-        <InputField placeholder="Número" />
-        <RegularText>
-          {
-            '¿Cuántos pods suelen traer las cajas que compras? Si compras vapes desechables, coloca un 1'
-          }
-        </RegularText>
-        <InputField placeholder="Unidad(es)" />
-        <RegularText>
-          {
-            '¿Cuánto te cuesta usualmente comprar una caja de pods o un vape desechable?'
-          }
-        </RegularText>
-        <InputField placeholder="RD$ 0.00" />
-        <SendButton text="Continuar" onPress={handleSubmit} />
+
+        <Formik
+          initialValues={{
+            daysPerPod: '',
+            daysPerWeek: '',
+            boxSize: '',
+            boxPrice: '',
+            podsPerBox: '',
+          }}
+          onSubmit={() => {}}
+        >
+          {({ handleSubmit }) => (
+            <>
+              <RegularText>
+                {'¿Cuántos días, en promedio, te dura un pod/vape desechable?'}
+              </RegularText>
+              <InputField name="daysPerPod" placeholder="Número" />
+              <RegularText>
+                {
+                  '¿Cuántos pods suelen traer las cajas que compras? Si compras vapes desechables, coloca un 1'
+                }
+              </RegularText>
+              <InputField name="podsPerBox" placeholder="Unidad(es)" />
+              <RegularText>
+                {
+                  '¿Cuánto te cuesta usualmente comprar una caja de pods o un vape desechable?'
+                }
+              </RegularText>
+              <InputField name="boxPrice" placeholder="RD$ 0.00" />
+              <SendButton text="Continuar" onPress={() => handleSubmit()} />
+            </>
+          )}
+        </Formik>
       </VStack>
     </ScreenContainer>
   )

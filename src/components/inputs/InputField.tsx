@@ -37,7 +37,7 @@ export const InputField = ({
     >
       {label !== undefined && (
         <FormControl.Label color={'#fff'} bg={'transparent'} {...labelStyle}>
-          <Text color={labelStyle?.color}>{label}</Text>
+          {label}
         </FormControl.Label>
       )}
 

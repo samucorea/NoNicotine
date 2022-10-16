@@ -7,6 +7,9 @@ const theme = extendTheme({
       default: '#3c5a82',
       light: '#8faadc',
     },
+    subText: {
+      primary: '#889ab3',
+    },
     danger: '#ef756d',
   },
   components: {

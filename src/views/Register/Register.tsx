@@ -6,7 +6,7 @@ import {
   RegularText,
   InputField,
   BirthDateInput,
-  SexSelection,
+  RadioInput,
   SendButton,
   ScreenContainer,
   SelectInputField,
@@ -21,6 +21,10 @@ import { RegisterPatient } from '../../models/Patient'
 import { Identification, Sex } from '../../sharedTypes'
 import { AxiosError } from 'axios'
 import { useLoadingContext } from '../../contexts/LoadingContext'
+import Login from '../Login/Login'
+import login from '../../services/loginService'
+import { useUserContext } from '../../contexts/UserContext'
+import BaseCrudService from '../../services/baseCrudService'
 
 const Register: React.FC<RootScreenProps<'Register'>> = ({
   navigation,
@@ -29,6 +33,7 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
   },
 }) => {
   const loadingContext = useLoadingContext()
+  const userContext = useUserContext()
 
   const subHeaderText =
     role === 'therapist'
@@ -67,6 +72,23 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
 
                 try {
                   await patientService.create(registerValues as RegisterPatient)
+                  const response = await login({
+                    email: values.email,
+                    password: values.password,
+                  })
+
+                  const userResponse = await patientService.getCurrentPatient(
+                    response.data.token
+                  )
+                  console.log(
+                    '🚀 ~ file: Register.tsx ~ line 83 ~ onSubmit={ ~ userResponse',
+                    userResponse
+                  )
+
+                  await userContext?.setStoredUser(userResponse.data)
+                  await userContext?.setStoredToken(response.data.token)
+
+                  BaseCrudService.UpdateConfig()
                 } catch (error: any) {
                   switch (error.response.data.message) {
                     case 'Email already taken':
@@ -87,14 +109,10 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
           >
             {({ handleSubmit, values }) => (
               <VStack space={formSpacing} flex={1} w="100%">
-                <InputField
-                  name={'name'}
-                  placeholder="Nombre completo"
-                  // value={user.first_name}
-                />
+                <InputField name={'name'} placeholder="Nombre completo" />
                 <InputField name={'email'} placeholder="Correo electrónico" />
                 <BirthDateInput name={'birthDate'} />
-                <SexSelection name={'sex'} />
+                <RadioInput name={'sex'} label={'Sexo'} options={['M', 'F']} />
                 <InputField
                   name={'password'}
                   password

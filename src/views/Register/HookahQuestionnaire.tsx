@@ -9,6 +9,7 @@ import {
   SendButton,
   ScreenContainer,
 } from '../../components'
+import { Formik } from 'formik'
 
 const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
   navigation,
@@ -26,15 +27,28 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
             {'Por favor, completa la siguiente información'}
           </RegularText>
         </Box>
-        <RegularText>
-          {'¿Por lo general, cuántos días fumas hookah en una semana?'}
-        </RegularText>
-        <InputField placeholder="Número" />
-        <RegularText>
-          {'¿Cuánto te cuesta usualmente preparar una hookah?'}
-        </RegularText>
-        <InputField placeholder="RD$ 0.00" />
-        <SendButton text="Continuar" onPress={handleSubmit} />
+        <Formik
+          initialValues={{
+            daysPerWeek: '',
+            boxSize: '',
+            boxPrice: '',
+          }}
+          onSubmit={() => {}}
+        >
+          {({ handleSubmit }) => (
+            <>
+              <RegularText>
+                {'¿Por lo general, cuántos días fumas hookah en una semana?'}
+              </RegularText>
+              <InputField name="daysPerWeek" placeholder="Número" />
+              <RegularText>
+                {'¿Cuánto te cuesta usualmente preparar una hookah?'}
+              </RegularText>
+              <InputField name="boxPrice" placeholder="RD$ 0.00" />
+              <SendButton text="Continuar" onPress={() => handleSubmit()} />
+            </>
+          )}
+        </Formik>
       </VStack>
     </ScreenContainer>
   )

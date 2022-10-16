@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
+import moment, { Moment } from 'moment'
 import React, {
   createContext,
   FC,
@@ -8,7 +9,9 @@ import React, {
   useState,
   useEffect,
 } from 'react'
+import usePrevious from '../hooks/usePreviousState'
 import User from '../models/User'
+import { refreshToken } from '../services/loginService'
 
 interface Props {
   children: ReactNode
@@ -34,6 +37,9 @@ export const useUserContext = () => {
 const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
   const [user, setUser] = useState<User>()
   const [token, setToken] = useState<string | undefined>(initialToken)
+  const [lastTokenSet, setLastTokenSet] = useState<Moment>()
+
+  const previousToken = usePrevious(token)
 
   const navigation = useNavigation<any>()
 
@@ -41,7 +47,7 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
   const tokenKey = 'token'
 
   useEffect(() => {
-    if (!token) {
+    if (!token && previousToken !== undefined) {
       navigation.reset({
         routes: [{ name: 'Login' }],
       })
@@ -52,14 +58,31 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
     }
   }, [token])
 
+  // useEffect(() => {
+  //   if (lastTokenSet) {
+  //     const tokenAboutToExpire =
+  //       Math.abs(lastTokenSet.minutes() - moment().minutes()) > 5
+
+  //     if (tokenAboutToExpire) {
+  //       refreshToken(token!)
+  //         .then((response) => {
+  //           setStoredToken(response.data.token)
+  //         })
+  //         .catch((reason) => {
+  //           console.log(reason.response.data)
+  //         })
+  //     }
+  //   }
+  // })
+
   const getStoredUser = async (): Promise<User | undefined> => {
     const storedUser = await AsyncStorage.getItem(userKey)
     return storedUser ? (JSON.parse(storedUser) as User) : undefined
   }
 
   const setStoredUser = async (userTMP: User) => {
-    await AsyncStorage.setItem(userKey, JSON.stringify(userTMP))
     setUser(userTMP)
+    await AsyncStorage.setItem(userKey, JSON.stringify(userTMP))
   }
 
   const getStoredToken = async () => {
@@ -70,6 +93,7 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
     await AsyncStorage.setItem(tokenKey, tokenTMP)
 
     setToken(tokenTMP)
+    setLastTokenSet(moment())
   }
 
   const logOut = async () => {

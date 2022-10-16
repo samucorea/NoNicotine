@@ -1,9 +1,12 @@
-import { DiaryEntry } from '../models'
+import { CreateDiaryEntry, DiaryEntry } from '../models'
 import BaseCrudService from './baseCrudService'
 
-export class DiaryEntryService extends BaseCrudService<DiaryEntry> {
+export class DiaryEntryService extends BaseCrudService<
+  DiaryEntry,
+  CreateDiaryEntry
+> {
   constructor() {
-    super('diaryEntry')
+    super('entries')
   }
 }
 

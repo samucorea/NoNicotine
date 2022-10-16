@@ -7,7 +7,7 @@ import {
   InputField,
   ScreenContainer,
   SendButton,
-  SexSelection,
+  RadioInput,
 } from '../../components'
 import { useUserContext } from '../../contexts/UserContext'
 import { RootScreenProps } from '../../routes/MainNavigator'
@@ -66,7 +66,7 @@ const Profile: React.FC<RootScreenProps<'Profile'>> = ({
                 placeholder="Correo electrónico"
               />
               <BirthDateInput name="birthDate" />
-              <SexSelection name="sex" />
+              <RadioInput name="sex" options={['M', 'F']} />
               <SendButton
                 text="Guardar"
                 bottom={5}

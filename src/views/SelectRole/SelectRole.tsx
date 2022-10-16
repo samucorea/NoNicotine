@@ -31,8 +31,6 @@ const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
         >
           <SquaredIconButton
             label="Paciente"
-            height={'43%'}
-            width={'43%'}
             labelStyle={{ color: '#fff' }}
             icon={PatientIcon}
             bg={theme.colors.primary.default}
@@ -40,8 +38,6 @@ const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
           />
           <SquaredIconButton
             label="Terapeuta"
-            height={'43%'}
-            width={'43%'}
             labelStyle={{ color: '#fff' }}
             icon={TherapistIcon}
             bg={theme.colors.primary.default}

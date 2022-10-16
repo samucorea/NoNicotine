@@ -9,10 +9,16 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 
 import { Icon, useColorModeValue } from 'native-base'
 import theme from '../../AppTheme'
+import { DiaryEntry } from '../../models'
 
 export type DiaryStackScreens = {
   Diary: undefined
-  EntryDetailed: { entryId?: number }
+  EntryDetailed: {
+    entry?: DiaryEntry
+    // selectedFeelingsData?: string[]
+    // selectedSymptomsData?: string[]
+    // descriptionData?: string
+  }
 }
 
 const Stack = createStackNavigator<DiaryStackScreens>()

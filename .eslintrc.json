@@ -17,6 +17,7 @@
     "eqeqeq": 0,
     "multiline-ternary": 0,
     "react/react-in-jsx-scope": 0,
+    "@typescript-eslint/no-non-null-assertion": 0,
     "@typescript-eslint/space-before-function-paren": 0,
     "@typescript-eslint/consistent-type-definitions": 0,
     "@typescript-eslint/explicit-function-return-type": 0,

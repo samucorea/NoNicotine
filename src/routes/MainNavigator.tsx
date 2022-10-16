@@ -8,20 +8,23 @@ import { SelectRole, MethodSelection, Register, Login, Profile } from '../views'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
 import MenuNavigator from './MenuNavigator'
-import { Icon, useColorModeValue } from 'native-base'
+import { Icon, Text, useColorModeValue, VStack } from 'native-base'
 import theme from '../AppTheme'
 import { useUserContext } from '../contexts/UserContext'
 import CigaretteQuestionnaire from '../views/Register/CigaretteQuestionnaire'
 import CigarQuestionnaire from '../views/Register/CigarQuestionnaire'
 import HookahQuestionnaire from '../views/Register/HookahQuestionnaire'
 import VapeQuestionnaire from '../views/Register/VapeQuestionnaire'
+import { CustomIconButton } from '../components'
+
+const SettingsIcon = require('../../assets/settings.png')
 
 type RootStackScreens = {
   VapeQuestionnaire: undefined
   HookahQuestionnaire: undefined
   CigarQuestionnaire: undefined
   CigaretteQuestionnaire: undefined
-  MethodSelection: undefined
+  MethodSelection: { firstTime: boolean }
   Register: { role: 'therapist' | 'patient' }
   SelectRole: undefined
   Menu: undefined
@@ -90,12 +93,14 @@ const MainNavigator = () => {
             }}
           />
           <Stack.Screen name="Register" component={Register} />
-
-          <Stack.Screen name="MethodSelection" component={MethodSelection} />
         </>
       )}
+      <Stack.Screen
+        name="MethodSelection"
+        initialParams={{ firstTime: true }}
+        component={MethodSelection}
+      />
 
-      <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen
         name="CigaretteQuestionnaire"
         component={CigaretteQuestionnaire}
@@ -106,6 +111,21 @@ const MainNavigator = () => {
         component={HookahQuestionnaire}
       />
       <Stack.Screen name="VapeQuestionnaire" component={VapeQuestionnaire} />
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={({ navigation }) => ({
+          headerRight: () => (
+            <VStack alignItems={'center'} pr={'5'}>
+              <CustomIconButton
+                icon={SettingsIcon}
+                onPress={() => navigation.navigate('MethodSelection')}
+              />
+              <Text color={theme.colors.primary.default}>Consumo</Text>
+            </VStack>
+          ),
+        })}
+      />
     </Stack.Navigator>
   )
 }

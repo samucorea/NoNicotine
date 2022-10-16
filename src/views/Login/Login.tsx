@@ -12,7 +12,9 @@ import {
 import { useLoadingContext } from '../../contexts/LoadingContext'
 import { useUserContext } from '../../contexts/UserContext'
 import { RootScreenProps } from '../../routes/MainNavigator'
+import BaseCrudService from '../../services/baseCrudService'
 import login from '../../services/loginService'
+import patientService from '../../services/patientService'
 
 const DarkLogo = require('../../../assets/dark-logo.png')
 
@@ -45,12 +47,21 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
               try {
                 const response = await login(values)
 
-                userContext?.setStoredToken(response.data.token)
+                const userResponse = await patientService.getCurrentPatient(
+                  response.data.token
+                )
+
+                await userContext?.setStoredUser(userResponse.data)
+                await userContext?.setStoredToken(response.data.token)
+
+                BaseCrudService.UpdateConfig()
               } catch (error: any) {
+                loadingContext?.setLoading(false)
+
                 const errorMessage: string = error.response.data.message
                 console.log(
                   '🚀 ~ file: Login.tsx ~ line 51 ~ onSubmit={ ~ errorMessage',
-                  errorMessage
+                  error.response
                 )
 
                 switch (errorMessage) {
@@ -71,7 +82,7 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
                     onFocus={removeErrorMessage}
                     name="email"
                     label="Correo electrónico"
-                    labelStyle={{ color: '#fff' }}
+                    labelStyle={{ _text: { color: '#fff' } }}
                     mb={5}
                     height={60}
                   />
@@ -80,7 +91,7 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
                     name={'password'}
                     password
                     label="Contraseña"
-                    labelStyle={{ color: '#fff' }}
+                    labelStyle={{ _text: { color: '#fff' } }}
                     height={60}
                     mb={2.5}
                   />

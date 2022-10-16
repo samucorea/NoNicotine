@@ -98,6 +98,16 @@ const MenuNavigator = () => {
             />
           ),
           tabBarLabel: 'Terapia',
+          headerTitle: 'Terapeutas',
+          headerStyle: {
+            height: 120,
+            borderBottomWidth: 1,
+            borderBottomColor: '#949494',
+          },
+          headerTitleStyle: {
+            color: theme.colors.primary.default,
+            fontSize: 28,
+          },
         }}
       />
       <Tab.Screen

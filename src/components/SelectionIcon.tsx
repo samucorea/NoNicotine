@@ -12,8 +12,8 @@ export const CustomIconButton = (
   const { icon, ...pressableProps } = props
 
   return (
-    <Pressable {...pressableProps} width="50%" alignItems="center">
-      <Image alt="selectionIcon" source={props.icon} margin="8px" />
+    <Pressable {...pressableProps} alignItems="center">
+      <Image alt="selectionIcon" source={props.icon} />
     </Pressable>
   )
 }
