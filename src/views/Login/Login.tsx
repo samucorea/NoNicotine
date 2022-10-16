@@ -4,7 +4,6 @@ import theme from '../../AppTheme'
 import {
   HideKeyboardOnForms,
   InputField,
-  PasswordInputField,
   ScreenContainer,
   SendButton,
 } from '../../components'
@@ -29,18 +28,19 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
             <Image source={DarkLogo} alt="app_logo" />
           </Box>
           <VStack bg="transparent" flex={2} pt={20}>
-            <InputField
+            {/* <InputField
               label="Correo electrónico"
               labelStyle={{ color: '#fff' }}
               mb={5}
               height={60}
             />
-            <PasswordInputField
+            <InputField
+              password
               label="Contraseña"
               labelStyle={{ color: '#fff' }}
               height={60}
               mb={2.5}
-            />
+            /> */}
             <Pressable>
               <Text underline color={'#d8dee6'} textAlign="center">
                 ¿Olvidaste tu contraseña?

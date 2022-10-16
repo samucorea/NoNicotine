@@ -1,9 +1,10 @@
 import { Patient } from '../models'
+import { RegisterPatient } from '../models/Patient'
 import BaseCrudService from './baseCrudService'
 
-export class PatientService extends BaseCrudService<Patient> {
+export class PatientService extends BaseCrudService<Patient, RegisterPatient> {
   constructor() {
-    super('patient')
+    super('patients')
   }
 }
 

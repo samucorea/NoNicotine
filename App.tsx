@@ -9,6 +9,10 @@ import { useEffect } from 'react'
 import moment from 'moment'
 import 'moment/locale/es'
 import UserContextProvider from './src/contexts/UserContext'
+import { setLocale } from 'yup'
+import LoadingContextProvider, {
+  LoadingContext,
+} from './src/contexts/LoadingContext'
 moment.locale('es')
 
 SplashScreen.preventAutoHideAsync()
@@ -27,11 +31,24 @@ export default function App() {
   if (!fontsLoaded) {
     return null
   }
+
+  setLocale({
+    mixed: {
+      default: 'El valor introducido no es válido',
+      required: 'Este campo es obligatorio',
+    },
+    string: {
+      email: 'Este correo no es válido',
+    },
+  })
+
   return (
     <NativeBaseProvider theme={theme}>
       <NavigationContainer>
         <UserContextProvider>
-          <MainNavigator />
+          <LoadingContextProvider>
+            <MainNavigator />
+          </LoadingContextProvider>
         </UserContextProvider>
       </NavigationContainer>
     </NativeBaseProvider>

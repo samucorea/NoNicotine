@@ -2,32 +2,28 @@ import React from 'react'
 import {
   FormControl,
   IFormControlLabelProps,
-  Input,
-  Pressable,
+  ISelectProps,
+  Select,
   Text,
   useColorModeValue,
 } from 'native-base'
 import theme from '../../AppTheme'
-import { useField, useFormikContext } from 'formik'
-import { IInputProps } from 'native-base/lib/typescript/components/primitives/Input/types'
-import Ionicons from '@expo/vector-icons/Ionicons'
+import { useField } from 'formik'
 
-export interface InputFieldProps {
+export interface SelectInputFieldProps {
   label?: string
   labelStyle?: IFormControlLabelProps
-  password?: boolean
   name: string
+  options: string[]
 }
 
-export const InputField = ({
+export const SelectInputField = ({
   name,
   label,
   labelStyle,
-  password = false,
+  options,
   ...props
-}: InputFieldProps & IInputProps): JSX.Element => {
-  const [Show, setShow] = React.useState(false)
-
+}: SelectInputFieldProps & ISelectProps): JSX.Element => {
   const [field, meta, helpers] = useField(name)
 
   return (
@@ -38,9 +34,7 @@ export const InputField = ({
         </FormControl.Label>
       )}
 
-      <Input
-        onBlur={() => helpers.setTouched(true)}
-        w="100%"
+      <Select
         borderRadius="10"
         borderColor={useColorModeValue(
           theme.colors.primary.default,
@@ -52,23 +46,15 @@ export const InputField = ({
         )}
         padding="12px"
         fontSize="16px"
-        _focus={{ bg: props.bg }}
-        type={password ? (Show ? 'text' : 'password') : 'text'}
-        InputRightElement={
-          password ? (
-            <Pressable onPress={() => setShow(!Show)} marginRight="5px">
-              <Ionicons
-                color={theme.colors.primary.light}
-                name={Show ? 'eye-off' : 'eye'}
-                size={32}
-              ></Ionicons>
-            </Pressable>
-          ) : undefined
-        }
-        value={field?.value}
-        onChangeText={field?.onChange(name)}
+        selectedValue={field?.value}
+        onClose={() => helpers.setTouched(true)}
+        onValueChange={field.onChange(name)}
         {...props}
-      />
+      >
+        {options.map((option, index) => (
+          <Select.Item key={index} label={option} value={option} />
+        ))}
+      </Select>
 
       <FormControl.ErrorMessage>{meta?.error}</FormControl.ErrorMessage>
     </FormControl>

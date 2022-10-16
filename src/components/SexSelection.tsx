@@ -1,26 +1,34 @@
-import React from 'react'
-import { Text, Radio, useColorModeValue } from 'native-base'
+import React, { FC } from 'react'
+import { Text, Radio, useColorModeValue, FormControl } from 'native-base'
 import theme from '../AppTheme'
+import { useField } from 'formik'
+import { Sex } from '../sharedTypes'
 
-export const SexSelection = (): JSX.Element => {
+interface Props {
+  value?: Sex | ''
+  name: string
+}
+
+export const SexSelection: FC<Props> = ({ value, name }) => {
   const colors = useColorModeValue(
     theme.colors.primary.default,
     theme.colors.primary.light
   )
 
-  const [Sex, setSex] = React.useState('')
+  const [field, meta, helpers] = useField(name)
 
   return (
-    <>
-      <Text alignSelf="baseline" color={colors} fontSize="16px">
-        Sexo
-      </Text>
+    <FormControl isInvalid={meta.error !== undefined}>
+      <FormControl.Label>
+        <Text alignSelf="baseline" color={colors} fontSize="16px">
+          Sexo
+        </Text>
+      </FormControl.Label>
+
       <Radio.Group
+        value={field.value}
+        onChange={field.onChange(name)}
         name="SexSelectionGroup"
-        value={Sex}
-        onChange={(nextValue) => {
-          setSex(nextValue)
-        }}
         alignSelf="flex-start"
         display="flex"
         flexDirection="row"
@@ -30,16 +38,13 @@ export const SexSelection = (): JSX.Element => {
             M
           </Text>
         </Radio>
-        <Radio value="F" my="1">
-          <Text
-            color={colors}
-            fontSize="16px"
-            borderColor={theme.colors.primary.default}
-          >
+        <Radio value="F" my="1" borderColor={theme.colors.primary.default}>
+          <Text color={colors} fontSize="16px">
             F
           </Text>
         </Radio>
       </Radio.Group>
-    </>
+      <FormControl.ErrorMessage>{meta.error}</FormControl.ErrorMessage>
+    </FormControl>
   )
 }
