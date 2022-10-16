@@ -1,6 +1,5 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import {
-  Box,
   Text,
   Input,
   useColorModeValue,
@@ -9,7 +8,6 @@ import {
   FormControl,
   Pressable,
 } from 'native-base'
-import { Dimensions } from 'react-native'
 import theme from '../../AppTheme'
 import { useField } from 'formik'
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'

@@ -1,4 +1,4 @@
-import { Box, Center, Image, Pressable, Text } from 'native-base'
+import { Box, Image, Pressable, Text } from 'native-base'
 import { InterfacePressableProps } from 'native-base/lib/typescript/components/primitives/Pressable/types'
 import { InterfaceTextProps } from 'native-base/lib/typescript/components/primitives/Text/types'
 import React, { FC, ReactNode } from 'react'
@@ -24,9 +24,9 @@ const SquaredIconButton: FC<Props & InterfacePressableProps & Partial<{}>> = ({
     <Pressable
       alignContent={'center'}
       alignItems="center"
-      height={'130px'}
-      width={'130px'}
-      borderColor="#fff"
+      height={'150px'}
+      width={'150px'}
+      borderColor={'#fff'}
       borderWidth={'3'}
       {...props}
       position="relative"

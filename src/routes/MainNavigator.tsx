@@ -11,8 +11,16 @@ import MenuNavigator from './MenuNavigator'
 import { Icon, useColorModeValue } from 'native-base'
 import theme from '../AppTheme'
 import { useUserContext } from '../contexts/UserContext'
+import CigaretteQuestionnaire from '../views/Register/CigaretteQuestionnaire'
+import CigarQuestionnaire from '../views/Register/CigarQuestionnaire'
+import HookahQuestionnaire from '../views/Register/HookahQuestionnaire'
+import VapeQuestionnaire from '../views/Register/VapeQuestionnaire'
 
 type RootStackScreens = {
+  VapeQuestionnaire: undefined
+  HookahQuestionnaire: undefined
+  CigarQuestionnaire: undefined
+  CigaretteQuestionnaire: undefined
   MethodSelection: undefined
   Register: { role: 'therapist' | 'patient' }
   SelectRole: undefined
@@ -88,6 +96,16 @@ const MainNavigator = () => {
       )}
 
       <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen
+        name="CigaretteQuestionnaire"
+        component={CigaretteQuestionnaire}
+      />
+      <Stack.Screen name="CigarQuestionnaire" component={CigarQuestionnaire} />
+      <Stack.Screen
+        name="HookahQuestionnaire"
+        component={HookahQuestionnaire}
+      />
+      <Stack.Screen name="VapeQuestionnaire" component={VapeQuestionnaire} />
     </Stack.Navigator>
   )
 }

@@ -9,7 +9,7 @@ interface Props {
 
 export const ScreenHeader = ({
   title,
-  fontSize = '28px',
+  fontSize = '26px',
   ...textProps
 }: Props & InterfaceTextProps): JSX.Element => {
   return (
