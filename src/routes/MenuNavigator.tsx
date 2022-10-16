@@ -8,6 +8,8 @@ import { CustomIconButton } from '../components'
 import { Habits, PatientDashboard, Therapy } from '../views'
 import theme from '../AppTheme'
 import DiaryNavigator from './Diary/DiaryNavigator'
+import { useLoadingContext } from '../contexts/LoadingContext'
+import { useEffect } from 'react'
 
 const HomeIcon = require('../../assets/home.png')
 const DiaryIcon = require('../../assets/diary.png')
@@ -27,6 +29,12 @@ type MenuNavigatorScreens = {
 const Tab = createBottomTabNavigator<MenuNavigatorScreens>()
 
 const MenuNavigator = () => {
+  const loadingContext = useLoadingContext()
+
+  useEffect(() => {
+    loadingContext?.setLoading(false)
+  }, [])
+
   return (
     <Tab.Navigator
       initialRouteName="PatientDashboard"

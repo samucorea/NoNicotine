@@ -1,3 +1,4 @@
+import { Formik } from 'formik'
 import { Box, HStack, IconButton, Image, Text, VStack } from 'native-base'
 import React from 'react'
 import theme from '../../AppTheme'
@@ -8,11 +9,20 @@ import {
   SendButton,
   SexSelection,
 } from '../../components'
+import { useUserContext } from '../../contexts/UserContext'
+import { RootScreenProps } from '../../routes/MainNavigator'
 
 const ProfileIcon = require('../../../assets/profile-big.png')
 const EditIcon = require('../../../assets/pencil.png')
 
-const Profile = () => {
+const Profile: React.FC<RootScreenProps<'Profile'>> = ({
+  route,
+  navigation,
+}) => {
+  console.log(navigation.getState())
+
+  const userContext = useUserContext()
+
   return (
     <ScreenContainer>
       <VStack alignItems={'center'} w="100%" mb={5}>
@@ -44,10 +54,34 @@ const Profile = () => {
         </HStack>
       </VStack>
       <VStack space={5} flexGrow={1} position="relative">
-        <InputField isDisabled placeholder="Correo electrónico" />
-        <BirthDateInput />
-        <SexSelection />
-        <SendButton text="Guardar" bottom={5} position={'absolute'} />
+        <Formik
+          initialValues={{ email: 'jlbello24@gmail.com' }}
+          onSubmit={() => {}}
+        >
+          {({ handleSubmit }) => (
+            <>
+              <InputField
+                name="email"
+                isDisabled
+                placeholder="Correo electrónico"
+              />
+              <BirthDateInput name="birthDate" />
+              <SexSelection name="sex" />
+              <SendButton
+                text="Guardar"
+                bottom={5}
+                position={'absolute'}
+                onPress={() => handleSubmit()}
+              />
+              <SendButton
+                text="Cerrar sesión"
+                bottom={5}
+                position={'absolute'}
+                onPress={userContext?.logOut}
+              />
+            </>
+          )}
+        </Formik>
       </VStack>
       <SendButton text="Tuve una recaída" bg="#ef756d" mb={10} />
     </ScreenContainer>

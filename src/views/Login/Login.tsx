@@ -62,7 +62,6 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
                     break
                 }
               }
-              loadingContext?.setLoading(false)
             }}
           >
             {({ handleSubmit }) => (

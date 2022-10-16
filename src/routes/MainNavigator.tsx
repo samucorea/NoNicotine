@@ -64,6 +64,7 @@ const MainNavigator = () => {
               headerStyle: {
                 backgroundColor: theme.colors.primary.default,
               },
+              cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
             }}
           />
 
@@ -86,21 +87,7 @@ const MainNavigator = () => {
         </>
       )}
 
-      <Stack.Screen
-        name="Profile"
-        component={Profile}
-        // options={{
-        //   tabBarIcon: ({ focused }) => (
-        //     <Image
-        //       tintColor={focused ? '#fff' : '#aebacb'}
-        //       source={TherapyIcon}
-        //       alt="therapy_icon"
-        //     />
-        //   ),
-        //   tabBarLabel: 'Pefil',
-        //   tabBarvisibi
-        // }}
-      />
+      <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   )
 }

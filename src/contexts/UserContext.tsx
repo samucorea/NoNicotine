@@ -1,10 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useNavigation } from '@react-navigation/native'
 import React, {
   createContext,
   FC,
   ReactNode,
   useContext,
   useState,
+  useEffect,
 } from 'react'
 import User from '../models/User'
 
@@ -31,10 +33,24 @@ export const useUserContext = () => {
 
 const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
   const [user, setUser] = useState<User>()
-  const [token, setToken] = useState<string>(initialToken)
+  const [token, setToken] = useState<string | undefined>(initialToken)
+
+  const navigation = useNavigation<any>()
 
   const userKey = 'user'
   const tokenKey = 'token'
+
+  useEffect(() => {
+    if (!token) {
+      navigation.reset({
+        routes: [{ name: 'Login' }],
+      })
+    } else {
+      navigation.reset({
+        routes: [{ name: 'Menu' }],
+      })
+    }
+  }, [token])
 
   const getStoredUser = async (): Promise<User | undefined> => {
     const storedUser = await AsyncStorage.getItem(userKey)
