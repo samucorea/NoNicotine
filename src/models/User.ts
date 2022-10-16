@@ -6,7 +6,7 @@ export default interface User extends BaseEntity {
   sex: Sex
   birthDate: Date
   identification: string
-  identificationType: Identification
+  identificationPatientType: Identification
   active?: boolean
   identityUserId?: string
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   CardStyleInterpolators,
   createStackNavigator,
@@ -10,6 +10,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import MenuNavigator from './MenuNavigator'
 import { Icon, useColorModeValue } from 'native-base'
 import theme from '../AppTheme'
+import { useUserContext } from '../contexts/UserContext'
 
 type RootStackScreens = {
   MethodSelection: undefined
@@ -23,9 +24,11 @@ type RootStackScreens = {
 const Stack = createStackNavigator<RootStackScreens>()
 
 const MainNavigator = () => {
+  const userContext = useUserContext()
+
   return (
     <Stack.Navigator
-      initialRouteName="Login"
+      initialRouteName={userContext?.token !== undefined ? 'Menu' : 'Login'}
       screenOptions={{
         headerShadowVisible: false,
         headerTitle: '',
@@ -43,39 +46,46 @@ const MainNavigator = () => {
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
     >
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{
-          headerStyle: {
-            backgroundColor: theme.colors.primary.default,
-          },
-        }}
-      />
-      <Stack.Screen
-        name="Menu"
-        component={MenuNavigator}
-        options={{
-          headerShown: false,
-        }}
-      />
+      {userContext?.token !== undefined ? (
+        <Stack.Screen
+          name="Menu"
+          component={MenuNavigator}
+          options={{
+            headerShown: false,
+            cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
+          }}
+        />
+      ) : (
+        <>
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{
+              headerStyle: {
+                backgroundColor: theme.colors.primary.default,
+              },
+            }}
+          />
 
-      <Stack.Screen
-        name="SelectRole"
-        component={SelectRole}
-        options={{
-          headerBackImage: () => (
-            <Icon as={Ionicons} name="close" size={'2xl'} color={'#fff'} />
-          ),
-          headerStyle: {
-            backgroundColor: theme.colors.primary.default,
-          },
-          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-        }}
-      />
-      <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen
+            name="SelectRole"
+            component={SelectRole}
+            options={{
+              headerBackImage: () => (
+                <Icon as={Ionicons} name="close" size={'2xl'} color={'#fff'} />
+              ),
+              headerStyle: {
+                backgroundColor: theme.colors.primary.default,
+              },
+              cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+            }}
+          />
+          <Stack.Screen name="Register" component={Register} />
 
-      <Stack.Screen name="MethodSelection" component={MethodSelection} />
+          <Stack.Screen name="MethodSelection" component={MethodSelection} />
+        </>
+      )}
+
       <Stack.Screen
         name="Profile"
         component={Profile}

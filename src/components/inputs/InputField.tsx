@@ -31,7 +31,10 @@ export const InputField = ({
   const [field, meta, helpers] = useField(name)
 
   return (
-    <FormControl isInvalid={meta?.touched && meta?.error !== undefined}>
+    <FormControl
+      bg="transparent"
+      isInvalid={meta?.touched && meta?.error !== undefined}
+    >
       {label !== undefined && (
         <FormControl.Label color={'#fff'} bg={'transparent'} {...labelStyle}>
           <Text color={labelStyle?.color}>{label}</Text>
@@ -69,8 +72,15 @@ export const InputField = ({
         onChangeText={field?.onChange(name)}
         {...props}
       />
-
-      <FormControl.ErrorMessage>{meta?.error}</FormControl.ErrorMessage>
+      <FormControl.ErrorMessage
+        _stack={{ bg: 'transparent' }}
+        bg="transparent"
+        mt={0}
+        mb={2}
+        _text={{ fontSize: 'md' }}
+      >
+        {meta?.error}
+      </FormControl.ErrorMessage>
     </FormControl>
   )
 }

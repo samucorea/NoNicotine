@@ -1,15 +1,15 @@
 import axios, { AxiosError } from 'axios'
 import { Patient } from '../models'
 import { BaseEntity } from '../models/BaseEntity'
+import apiRoute from '../utils/apiRoute'
 
 export default class BaseCrudService<T extends BaseEntity, RegisterT = T> {
   apiController: string
   fullRoute: string
-  apiRoute = `${process.env.SERVER_HOST}/api/`
 
   constructor(apiController: string) {
     this.apiController = apiController
-    this.fullRoute = this.apiRoute + this.apiController
+    this.fullRoute = apiRoute + this.apiController
   }
 
   async getAll() {
