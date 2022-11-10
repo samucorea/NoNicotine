@@ -59,10 +59,6 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
                 loadingContext?.setLoading(false)
 
                 const errorMessage: string = error.response.data.message
-                console.log(
-                  '🚀 ~ file: Login.tsx ~ line 51 ~ onSubmit={ ~ errorMessage',
-                  error.response
-                )
 
                 switch (errorMessage) {
                   case 'Wrong email and/or password':
