@@ -15,6 +15,20 @@ export class PatientService extends BaseCrudService<Patient, RegisterPatient> {
       },
     })
   }
+
+  async getConsumptionExpenses(patientConsumptionMethodsId: string) {
+    return await axios.get<Patient>(
+      `${this.fullRoute}/consumptionExpenses/${patientConsumptionMethodsId}`,
+      BaseCrudService.config
+    )
+  }
+
+  async getConsumptionMethods(patientConsumptionMethodsId: string) {
+    return await axios.get<Patient>(
+      `${this.fullRoute}/consumptionExpenses/${patientConsumptionMethodsId}`,
+      BaseCrudService.config
+    )
+  }
 }
 
 const patientService = new PatientService()
