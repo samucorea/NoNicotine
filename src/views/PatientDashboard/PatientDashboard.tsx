@@ -1,7 +1,9 @@
 import { Box, Fab, Image, Text, VStack } from 'native-base'
 import React, { FC, useEffect, useState } from 'react'
 import theme from '../../AppTheme'
+import { useUserContext } from '../../contexts/UserContext'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
+import patientService from '../../services/patientService'
 import AbstinenceRecord from './Components/AbstinenceRecord'
 import InfoSection, { InfoSectionProps } from './Components/InfoSection'
 

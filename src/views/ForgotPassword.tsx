@@ -1,32 +1,35 @@
 import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { View, SafeAreaView } from 'react-native'
-import { LongInputField } from '../components/inputs/LongInputField'
-import { ScreenHeader } from '../components/ScreenHeader'
-import { SendButton } from '../components/SendButton'
+import {
+  LongInputField,
+  ScreenHeader,
+  SendButton,
+  RegularText,
+  WhiteX,
+} from '../components'
 import StyleSheet from '../styles/DarkBlueView'
-import { RegularText } from '../components/RegularText'
 import { ForgotPasswordStyle } from '../styles/ForgotPassword'
-import { WhiteX } from '../components/WhiteX'
+import { Box } from 'native-base'
 
 const ForgotPassword = (): JSX.Element => {
   return (
     <SafeAreaView style={StyleSheet.container}>
       <WhiteX />
-      <View style={ForgotPasswordStyle.mainContainer}>
+      <Box py={'15%'} px={'10%'}>
         <StatusBar translucent={false} backgroundColor="#FFFFFF" />
         <ScreenHeader title="¿Olvidaste tu contraseña?" />
-        <View style={ForgotPasswordStyle.regularTextContainer}>
+        <Box style={ForgotPasswordStyle.regularTextContainer}>
           <RegularText>
             Ingresa la dirección de correo electrónico asociada con tu cuenta
             para recuperarla.
           </RegularText>
-        </View>
-        <View style={ForgotPasswordStyle.inputContainer}>
+        </Box>
+        <Box style={ForgotPasswordStyle.inputContainer}>
           <LongInputField LongInputFieldTitle="Correo electrónico" />
           <SendButton text="Enviar" />
-        </View>
-      </View>
+        </Box>
+      </Box>
     </SafeAreaView>
   )
 }

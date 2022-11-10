@@ -1,11 +1,11 @@
 import React from 'react'
 import { Box, Container } from 'native-base'
-import { RootScreenProps } from '../routes/MainNavigator'
-import { ScreenHeader, SquaredIconButton } from '../components'
-import theme from '../AppTheme'
+import { RootScreenProps } from '../../routes/MainNavigator'
+import { ScreenHeader, SquaredIconButton } from '../../components'
+import theme from '../../AppTheme'
 
-const PatientIcon = require('../../assets/patient.png')
-const TherapistIcon = require('../../assets/therapist-role.png')
+const PatientIcon = require('../../../assets/patient.png')
+const TherapistIcon = require('../../../assets/therapist-role.png')
 
 const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
   navigation,
@@ -31,8 +31,6 @@ const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
         >
           <SquaredIconButton
             label="Paciente"
-            height={'43%'}
-            width={'43%'}
             labelStyle={{ color: '#fff' }}
             icon={PatientIcon}
             bg={theme.colors.primary.default}
@@ -40,8 +38,6 @@ const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
           />
           <SquaredIconButton
             label="Terapeuta"
-            height={'43%'}
-            width={'43%'}
             labelStyle={{ color: '#fff' }}
             icon={TherapistIcon}
             bg={theme.colors.primary.default}

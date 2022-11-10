@@ -1,7 +1,17 @@
 import { BaseEntity } from './BaseEntity'
 
 export interface DiaryEntry extends BaseEntity {
-  date: Date
-  description: string
+  patientId: string
+  therapistAllowed: boolean
+  message: string
+  createdAt: Date
+  symptoms: string
+  feelings: string
+}
+
+export interface CreateDiaryEntry {
+  therapistAllowed: boolean
+  message: string
   symptoms: string[]
+  feelings: string[]
 }

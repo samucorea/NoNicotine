@@ -2,12 +2,14 @@ import {
   createBottomTabNavigator,
   BottomTabScreenProps,
 } from '@react-navigation/bottom-tabs'
-import { Box, Image } from 'native-base'
+import { Image } from 'native-base'
 import { ImageSourcePropType } from 'react-native'
 import { CustomIconButton } from '../components'
-import { Diary, Habits, PatientDashboard, Therapy } from '../views'
+import { Habits, PatientDashboard, Therapy } from '../views'
 import theme from '../AppTheme'
 import DiaryNavigator from './Diary/DiaryNavigator'
+import { useLoadingContext } from '../contexts/LoadingContext'
+import { useEffect } from 'react'
 
 const HomeIcon = require('../../assets/home.png')
 const DiaryIcon = require('../../assets/diary.png')
@@ -21,18 +23,23 @@ type MenuNavigatorScreens = {
   DiaryStack: undefined
   Therapy: undefined
   Habits: undefined
+  Profile: undefined
 }
 
 const Tab = createBottomTabNavigator<MenuNavigatorScreens>()
 
 const MenuNavigator = () => {
+  const loadingContext = useLoadingContext()
+
+  useEffect(() => {
+    loadingContext?.setLoading(false)
+  }, [])
+
   return (
     <Tab.Navigator
-      initialRouteName="DiaryStack"
+      initialRouteName="PatientDashboard"
       screenOptions={{
         headerTitle: '',
-        headerStyle: { borderWidth: 0 },
-        headerShadowVisible: false,
         tabBarStyle: {
           backgroundColor: theme.colors.primary.default,
           height: 80,
@@ -46,11 +53,13 @@ const MenuNavigator = () => {
       <Tab.Screen
         name="PatientDashboard"
         component={PatientDashboard}
-        options={{
+        options={({ navigation }) => ({
           headerRight: () => (
-            <Box>
-              <CustomIconButton icon={Profile} pr={'5'} />
-            </Box>
+            <CustomIconButton
+              icon={Profile}
+              pr={'5'}
+              onPress={() => navigation.navigate('Profile')}
+            />
           ),
           tabBarIcon: ({ focused }) => (
             <Image
@@ -60,7 +69,7 @@ const MenuNavigator = () => {
             />
           ),
           tabBarLabel: 'Inicio',
-        }}
+        })}
       />
       <Tab.Screen
         name="DiaryStack"
@@ -89,6 +98,16 @@ const MenuNavigator = () => {
             />
           ),
           tabBarLabel: 'Terapia',
+          headerTitle: 'Terapeutas',
+          headerStyle: {
+            height: 120,
+            borderBottomWidth: 1,
+            borderBottomColor: '#949494',
+          },
+          headerTitleStyle: {
+            color: theme.colors.primary.default,
+            fontSize: 28,
+          },
         }}
       />
       <Tab.Screen
@@ -103,6 +122,16 @@ const MenuNavigator = () => {
             />
           ),
           tabBarLabel: 'Hábitos',
+          headerTitle: 'Hábitos saludables',
+          headerStyle: {
+            height: 120,
+            borderBottomWidth: 1,
+            borderBottomColor: '#949494',
+          },
+          headerTitleStyle: {
+            color: theme.colors.primary.default,
+            fontSize: 28,
+          },
         }}
       />
     </Tab.Navigator>

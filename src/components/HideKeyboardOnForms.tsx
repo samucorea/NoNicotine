@@ -1,6 +1,5 @@
 import { Keyboard } from 'react-native'
 import React, { ReactNode, FC } from 'react'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { Pressable } from 'native-base'
 
 interface Props {

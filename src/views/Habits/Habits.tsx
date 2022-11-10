@@ -1,12 +1,9 @@
-import { Box, Text } from 'native-base'
+import { Text } from 'native-base'
 import React from 'react'
+import { ScreenContainer } from '../../components'
 
 const Habits = () => {
-  return (
-    <Box>
-      <Text>Habits</Text>
-    </Box>
-  )
+  return <ScreenContainer></ScreenContainer>
 }
 
 export default Habits

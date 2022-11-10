@@ -1,4 +1,4 @@
-import { Box, Checkbox, Pressable, Text, TextArea } from 'native-base'
+import { Box, Checkbox, Text, TextArea } from 'native-base'
 import React, { FC, useState } from 'react'
 import theme from '../../AppTheme'
 import {
@@ -6,28 +6,55 @@ import {
   SendButton,
   VStackContainer,
 } from '../../components'
+import { useUserContext } from '../../contexts/UserContext'
+import { CreateDiaryEntry, DiaryEntry } from '../../models'
 import { DiaryScreenProps } from '../../routes/Diary/DiaryNavigator'
+import diaryEntryService from '../../services/diaryEntryService'
 import SymptomSelection from './Components/SymptomSelection'
 
 const EntryDetailed: FC<DiaryScreenProps<'EntryDetailed'>> = ({
   navigation,
   route: {
-    params: { entryId },
+    params: {
+      entry,
+      // selectedFeelingsData,
+      // selectedSymptomsData,
+      // descriptionData,
+    },
   },
 }) => {
-  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([])
-  const [selectedFeelings, setSelectedFeelings] = useState<string[]>([])
-  const [description, setDescription] = useState<string>('')
-  const [checked, setChecked] = useState(true)
+  console.log(entry)
 
-  const symptoms = ['nausea', 'vomito']
-  const feelings = ['vacaneria', 'chuleria']
+  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>(
+    entry ? entry.symptoms.split(',') : []
+  )
+  const [selectedFeelings, setSelectedFeelings] = useState<string[]>(
+    entry ? entry.feelings.split(',') : []
+  )
+  const [description, setDescription] = useState<string>(
+    entry ? entry.message : ''
+  )
+  const [checked, setChecked] = useState(true)
+  const userContext = useUserContext()
+
+  const symptoms = ['tired', 'headache']
+  const feelings = ['happy', 'sad']
 
   const handleSubmit = async () => {
-    navigation.goBack()
-  }
+    if (userContext?.user) {
+      const entryTMP: CreateDiaryEntry = {
+        feelings: selectedFeelings,
+        symptoms: selectedSymptoms,
+        message: description,
+        therapistAllowed: checked,
+      }
 
-  const create = entryId === undefined
+      diaryEntryService.create(entryTMP)
+
+      navigation.goBack()
+    }
+  }
+  const create = entry === undefined
 
   const currentTitles = titles[create ? 'create' : 'read']
 
@@ -55,6 +82,7 @@ const EntryDetailed: FC<DiaryScreenProps<'EntryDetailed'>> = ({
           <TextArea
             placeholder="Siéntete libre de escribir lo que quieras..."
             autoCompleteType={false}
+            isDisabled={!create}
             px={0}
             borderWidth={0}
             color={theme.colors.primary.default}

@@ -1,12 +1,4 @@
-import {
-  Box,
-  Divider,
-  HStack,
-  Image,
-  Pressable,
-  Text,
-  VStack,
-} from 'native-base'
+import { HStack, Image, Pressable, Text, VStack } from 'native-base'
 import React, { FC } from 'react'
 import moment from 'moment'
 import { DiaryEntry } from '../../../models/DiaryEntry'
@@ -18,6 +10,7 @@ const InformationIcon = require('../../../../assets/information.png')
 
 interface Props {
   entry: DiaryEntry
+  // data: any
 }
 
 const Entry: FC<Props> = ({ entry }) => {
@@ -27,7 +20,9 @@ const Entry: FC<Props> = ({ entry }) => {
   return (
     <Pressable
       onPress={() =>
-        navigation.navigate('EntryDetailed', { entryId: entry.id })
+        navigation.navigate('EntryDetailed', {
+          entry,
+        })
       }
     >
       <HStack justifyContent={'space-between'} p={4} alignItems={'center'}>
@@ -38,10 +33,12 @@ const Entry: FC<Props> = ({ entry }) => {
             letterSpacing={0.5}
             fontSize="md"
           >
-            {moment(entry.date).format('ddd, DD [de] MMMM [de] yyyy h:mm A')}
+            {moment(entry.createdAt).format(
+              'ddd, DD [de] MMMM [de] yyyy h:mm A'
+            )}
           </Text>
           <Text color={'#8f8f8f'} numberOfLines={1}>
-            {entry.description}
+            {entry.message}
           </Text>
         </VStack>
         <Image source={InformationIcon} alt="information_icon" />

@@ -12,7 +12,7 @@ export const CustomIconButton = (
   const { icon, ...pressableProps } = props
 
   return (
-    <Pressable {...pressableProps}>
+    <Pressable {...pressableProps} alignItems="center">
       <Image alt="selectionIcon" source={props.icon} />
     </Pressable>
   )

@@ -1,4 +1,5 @@
-import { Box, Center, Image, Pressable, Text } from 'native-base'
+import { Box, Image, Pressable, Text } from 'native-base'
+import { InterfaceBoxProps } from 'native-base/lib/typescript/components/primitives/Box'
 import { InterfacePressableProps } from 'native-base/lib/typescript/components/primitives/Pressable/types'
 import { InterfaceTextProps } from 'native-base/lib/typescript/components/primitives/Text/types'
 import React, { FC, ReactNode } from 'react'
@@ -10,38 +11,47 @@ interface Props {
   labelStyle?: InterfaceTextProps
   subLabel?: ReactNode
   topRigthButton?: ReactNode
+  onPress?: () => void
 }
 
-const SquaredIconButton: FC<Props & InterfacePressableProps & Partial<{}>> = ({
+const SquaredIconButton: FC<Props & InterfaceBoxProps & Partial<{}>> = ({
   icon,
   label,
   subLabel,
   topRigthButton,
   labelStyle,
+  onPress,
   ...props
 }) => {
   return (
-    <Pressable
-      alignContent={'center'}
-      alignItems="center"
-      height={'130px'}
-      width={'130px'}
-      borderColor="#fff"
-      borderWidth={'3'}
-      {...props}
-      position="relative"
+    <Box
+      shadow={9}
       rounded="10px"
-      justifyContent={'space-evenly'}
+      position="relative"
+      borderColor={'#fff'}
+      height={'150px'}
+      width={'150px'}
+      justifyContent="center"
+      {...props}
     >
-      {topRigthButton !== undefined && (
-        <Box position="absolute">{topRigthButton}</Box>
-      )}
-      <Image source={icon} alt="icon" />
-      <Text fontSize={'lg'} {...labelStyle}>
-        {label}
-      </Text>
-      {subLabel !== undefined && subLabel}
-    </Pressable>
+      <Pressable
+        borderColor={'transparent'}
+        onPress={onPress}
+        alignContent={'center'}
+        alignItems="center"
+        borderWidth={'3'}
+        justifyContent={'space-evenly'}
+      >
+        {topRigthButton !== undefined && (
+          <Box position="absolute">{topRigthButton}</Box>
+        )}
+        <Image source={icon} alt="icon" />
+        <Text fontSize={'lg'} {...labelStyle}>
+          {label}
+        </Text>
+        {subLabel !== undefined && subLabel}
+      </Pressable>
+    </Box>
   )
 }
 

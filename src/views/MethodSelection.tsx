@@ -1,14 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { RootScreenProps } from '../routes/MainNavigator'
-import { Box, useColorModeValue, Pressable } from 'native-base'
+import { Box, useColorModeValue, Pressable, VStack } from 'native-base'
 import { ScreenHeader } from '../components/ScreenHeader'
 import theme from '../AppTheme'
 import { Dimensions, ImageSourcePropType } from 'react-native'
 import { RegularText } from '../components/RegularText'
 import { SendButton } from '../components/SendButton'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { CustomIconButton } from '../components/SelectionIcon'
-
+import { ScreenContainer, SquaredIconButton } from '../components'
 const Cigarette: ImageSourcePropType = require('../../assets/cigarette.png')
 const Vape: ImageSourcePropType = require('../../assets/vape.png')
 const Cigar: ImageSourcePropType = require('../../assets/cigar.png')
@@ -18,52 +17,61 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
   navigation,
 }) => {
   return (
-    <Box
-      display="flex"
-      alignSelf="center"
-      alignItems="center"
-      flexDirection="column"
-      width={Dimensions.get('window').width}
-      height={Dimensions.get('window').height}
-    >
-      <Pressable
-        alignSelf="flex-start"
-        marginTop="22px"
-        marginLeft="22px"
-        onPress={navigation.goBack}
-      >
-        <Ionicons
-          name="arrow-back"
-          size={32}
-          color={useColorModeValue(
-            theme.colors.primary.default,
-            theme.colors.primary.light
-          )}
-        ></Ionicons>
-      </Pressable>
-      <Box paddingX="24px">
-        <Box alignSelf="center" display="flex" marginY="32px">
+    <ScreenContainer>
+      <VStack space={10}>
+        <Box>
           <ScreenHeader
             title="Selecciona tus métodos de consumo"
             fontSize={24}
           />
           <RegularText>Ayúdanos a conocer un poco más sobre tí...</RegularText>
         </Box>
-        <Box alignSelf="center" display="flex">
-          <CustomIconButton icon={Cigarette} />
-          <CustomIconButton icon={Vape} />
-          <CustomIconButton icon={Cigar} />
-          <CustomIconButton icon={Hookah} />
+        <Box
+          flexDirection="row"
+          flexWrap="wrap"
+          justifyContent={'space-between'}
+        >
+          {methods.map((method, index) => (
+            <SquaredIconButton
+              key={index}
+              mb={3}
+              borderColor={theme.colors.primary.default}
+              label={method.label}
+              labelStyle={{ color: theme.colors.primary.default }}
+              icon={method.icon}
+              onPress={() => {
+                setMethod('CigaretteQuestionnaire')
+              }}
+            />
+          ))}
         </Box>
-        <SendButton
+        {/* <SendButton
           onPress={() => {
-            navigation.navigate('Menu')
+            if (Method === 'CigaretteQuestionnaire') {
+              navigation.navigate('CigaretteQuestionnaire')
+            }
+            if (Method === 'CigarQuestionnaire') {
+              navigation.navigate('CigarQuestionnaire')
+            }
+            if (Method === 'VapeQuestionnaire') {
+              navigation.navigate('VapeQuestionnaire')
+            }
+            if (Method === 'HookahQuestionnaire') {
+              navigation.navigate('HookahQuestionnaire')
+            }
           }}
           text="Continuar"
-        />
-      </Box>
-    </Box>
+        /> */}
+      </VStack>
+    </ScreenContainer>
   )
 }
+
+const methods = [
+  { label: 'Cigarrillo', icon: Cigarette, navigateTo: '' },
+  { label: 'Cigarrillo electrónico', icon: Vape, navigateTo: '' },
+  { label: 'Cigarro', icon: Cigar, navigateTo: '' },
+  { label: 'Hookah', icon: Hookah, navigateTo: '' },
+]
 
 export default MethodSelection
