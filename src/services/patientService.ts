@@ -9,11 +9,25 @@ export class PatientService extends BaseCrudService<Patient, RegisterPatient> {
   }
 
   async getCurrentPatient(bearer: string) {
-    return await axios.get<Patient>(`${this.fullRoute}/getPatient`, {
+    return await axios.get<Patient>(`${this.fullRoute}`, {
       headers: {
         Authorization: `Bearer ${bearer} `,
       },
     })
+  }
+
+  async getConsumptionExpenses(patientConsumptionMethodsId: string) {
+    return await axios.get<Patient>(
+      `${this.fullRoute}/consumptionExpenses/${patientConsumptionMethodsId}`,
+      BaseCrudService.config
+    )
+  }
+
+  async getConsumptionMethods(patientConsumptionMethodsId: string) {
+    return await axios.get<Patient>(
+      `${this.fullRoute}/consumptionExpenses/${patientConsumptionMethodsId}`,
+      BaseCrudService.config
+    )
   }
 }
 

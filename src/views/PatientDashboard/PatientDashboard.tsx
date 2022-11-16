@@ -1,7 +1,9 @@
+import moment from 'moment'
 import { Box, Fab, Image, Text, VStack } from 'native-base'
 import React, { FC, useEffect, useState } from 'react'
 import theme from '../../AppTheme'
 import { useUserContext } from '../../contexts/UserContext'
+import { Patient } from '../../models'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
 import patientService from '../../services/patientService'
 import AbstinenceRecord from './Components/AbstinenceRecord'
@@ -17,10 +19,37 @@ const PatientDashboard: FC<MenuScreenProps<'PatientDashboard'>> = ({
   navigation,
 }) => {
   const [isFocused, setIsFocused] = useState(false)
+  const { user } = useUserContext() ?? {}
+
+  const patient = user as Patient
+
+  const abstinenceDays = moment(patient?.startTime).diff(moment(), 'days')
 
   useEffect(() => {
     navigation.addListener('focus', () => setIsFocused(true))
     navigation.addListener('blur', () => setIsFocused(false))
+
+    const getConsumptionMethods = async () => {
+      // const response = await patientService.getConsumptionMethods(
+      //   patient.patientConsumptionMethodsId!
+
+      // )
+      const response = await patientService.getConsumptionMethods(
+        patient.patientConsumptionMethodsId!
+      )
+      console.log(
+        '🚀 ~ file: PatientDashboard.tsx ~ line 40 ~ getConsumptionMethods ~ response',
+        response.data
+      )
+
+      // .then((response) => {
+      //   console.log('data', response.data)
+      // })
+      // .catch((reason) => {
+      //   console.log(reason.)
+      // })
+    }
+    getConsumptionMethods()
   }, [])
 
   const infoItems: InfoSectionProps[] = [
@@ -65,7 +94,7 @@ const PatientDashboard: FC<MenuScreenProps<'PatientDashboard'>> = ({
   return (
     <Box flex={1} p={'8'} pt={'0'}>
       <Box flex={4} alignSelf="center">
-        <AbstinenceRecord abstinenceDays={2} />
+        <AbstinenceRecord abstinenceDays={abstinenceDays} />
       </Box>
       <VStack flex={5}>
         {infoItems.map((item, index) => (

@@ -2,15 +2,16 @@ import axios from 'axios'
 import Login from '../models/Login'
 import apiRoute from '../utils/apiRoute'
 
-const login = async (credentials: Login) => {
-  return await axios.post<{ token: string }>(apiRoute + 'login', credentials)
+interface LoginResponse {
+  token: string
+  refreshToken: string
 }
 
-export const refreshToken = async (token: string) => {
-  console.log(
-    '🚀 ~ file: loginService.ts ~ line 10 ~ refreshToken ~ token',
-    token
-  )
+const login = async (credentials: Login) => {
+  return await axios.post<LoginResponse>(apiRoute + 'login', credentials)
+}
+
+export const refreshCurrentToken = async (token: string) => {
   return await axios.post<{ token: string }>(apiRoute + 'login/refreshToken', {
     refreshToken: token,
   })

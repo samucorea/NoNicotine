@@ -55,7 +55,11 @@ const Profile: React.FC<RootScreenProps<'Profile'>> = ({
       </VStack>
       <VStack space={5} flexGrow={1} position="relative">
         <Formik
-          initialValues={{ email: 'jlbello24@gmail.com' }}
+          initialValues={{
+            email: 'jlbello24@gmail.com',
+            birthDate: userContext?.user?.birthDate,
+            sex: userContext?.user?.sex,
+          }}
           onSubmit={() => {}}
         >
           {({ handleSubmit }) => (
