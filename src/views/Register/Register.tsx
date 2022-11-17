@@ -10,6 +10,7 @@ import {
   SendButton,
   ScreenContainer,
   SelectInputField,
+  SubmitMessage,
 } from '../../components'
 import User, { RegisterUser } from '../../models/User'
 import patientService from '../../services/patientService'
@@ -25,6 +26,7 @@ import Login from '../Login/Login'
 import login from '../../services/loginService'
 import { useUserContext } from '../../contexts/UserContext'
 import BaseCrudService from '../../services/baseCrudService'
+import theme from '../../AppTheme'
 
 const Register: React.FC<RootScreenProps<'Register'>> = ({
   navigation,
@@ -34,6 +36,7 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
 }) => {
   const loadingContext = useLoadingContext()
   const userContext = useUserContext()
+  const [created, setCreated] = useState(false)
 
   const subHeaderText =
     role === 'therapist'
@@ -44,107 +47,111 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
 
   return (
     <ScreenContainer>
-      <ScrollView w="100%" showsVerticalScrollIndicator={false}>
-        <VStack space={formSpacing}>
-          <Box alignSelf="center" display="flex">
-            <ScreenHeader title="¡Bienvenido/a!" />
-            <RegularText>{subHeaderText}</RegularText>
-          </Box>
+      {created ? (
+        <Box flex={1} w="100%" justifyContent="center" alignItems={'center'}>
+          <SubmitMessage type="success" fontSize={'xl'} textAlign="center">
+            Se le ha enviado un mensaje de confirmación a su correo
+          </SubmitMessage>
+          <SendButton
+            text="Atrás"
+            bg={theme.colors.primary.default}
+            mb={5}
+            onPress={() => navigation.navigate('Login')}
+          />
+        </Box>
+      ) : (
+        <ScrollView w="100%" showsVerticalScrollIndicator={false}>
+          <VStack space={formSpacing} justifyContent={'center'}>
+            <Box alignSelf="center" display="flex">
+              <ScreenHeader title="¡Bienvenido/a!" />
+              <RegularText>{subHeaderText}</RegularText>
+            </Box>
 
-          <Formik
-            validateOnChange={false}
-            validationSchema={validationSchema}
-            initialValues={{
-              name: '',
-              email: '',
-              birthDate: new Date(),
-              sex: 'M' as Sex,
-              password: '',
-              confirmPassword: '',
-              identification: '',
-              identificationPatientType: '' as Identification,
-            }}
-            onSubmit={async (values, formikHelpers) => {
-              loadingContext?.setLoading(true, 'Creando usuario')
+            <Formik
+              validateOnChange={false}
+              validationSchema={validationSchema}
+              initialValues={{
+                name: '',
+                email: '',
+                birthDate: new Date(),
+                sex: 'M' as Sex,
+                password: '',
+                confirmPassword: '',
+                identification: '',
+                identificationPatientType: '' as Identification,
+              }}
+              onSubmit={async (values, formikHelpers) => {
+                loadingContext?.setLoading(true, 'Creando usuario')
 
-              if (role == 'patient') {
-                const { confirmPassword, ...registerValues } = values
+                if (role == 'patient') {
+                  const { confirmPassword, ...registerValues } = values
 
-                try {
-                  await patientService.create(registerValues as RegisterPatient)
-                  const response = await login({
-                    email: values.email,
-                    password: values.password,
-                  })
+                  try {
+                    await patientService.create(
+                      registerValues as RegisterPatient
+                    )
+                    setCreated(true)
+                  } catch (error: any) {
+                    switch (error.response.data.message) {
+                      case 'Email already taken':
+                        formikHelpers.setFieldError(
+                          'email',
+                          'Este correo ya está registrado'
+                        )
+                        break
 
-                  const userResponse = await patientService.getCurrentPatient(
-                    response.data.token
-                  )
-                  console.log(
-                    '🚀 ~ file: Register.tsx ~ line 83 ~ onSubmit={ ~ userResponse',
-                    userResponse
-                  )
-
-                  await userContext?.setStoredUser(userResponse.data)
-                  await userContext?.setStoredToken(response.data.token)
-
-                  BaseCrudService.UpdateConfig()
-                } catch (error: any) {
-                  switch (error.response.data.message) {
-                    case 'Email already taken':
-                      formikHelpers.setFieldError(
-                        'email',
-                        'Este correo ya está registrado'
-                      )
-                      break
-
-                    default:
-                      break
+                      default:
+                        break
+                    }
                   }
                 }
-              }
 
-              loadingContext?.setLoading(false)
-            }}
-          >
-            {({ handleSubmit, values }) => (
-              <VStack space={formSpacing} flex={1} w="100%">
-                <InputField name={'name'} placeholder="Nombre completo" />
-                <InputField name={'email'} placeholder="Correo electrónico" />
-                <BirthDateInput name={'birthDate'} />
-                <RadioInput name={'sex'} label={'Sexo'} options={['M', 'F']} />
-                <InputField
-                  name={'password'}
-                  password
-                  placeholder="Contraseña"
-                />
-                <InputField
-                  name={'confirmPassword'}
-                  password
-                  placeholder="Confirmar contraseña"
-                />
-                <SelectInputField
-                  name={'identificationPatientType'}
-                  options={['Cédula', 'Pasaporte']}
-                  placeholder="Tipo de documento"
-                />
-                {values.identificationPatientType && (
-                  <InputField
-                    name={'identification'}
-                    placeholder={`Número de ${values.identificationPatientType}`}
+                loadingContext?.setLoading(false)
+              }}
+            >
+              {({ handleSubmit, values }) => (
+                <VStack space={formSpacing} flex={1} w="100%">
+                  <InputField name={'name'} placeholder="Nombre completo" />
+                  <InputField name={'email'} placeholder="Correo electrónico" />
+                  <BirthDateInput name={'birthDate'} />
+                  <RadioInput
+                    name={'sex'}
+                    label={'Sexo'}
+                    options={['M', 'F']}
                   />
-                )}
+                  <InputField
+                    name={'password'}
+                    password
+                    placeholder="Contraseña"
+                  />
+                  <InputField
+                    name={'confirmPassword'}
+                    password
+                    placeholder="Confirmar contraseña"
+                  />
+                  <SelectInputField
+                    name={'identificationPatientType'}
+                    options={['Cédula', 'Pasaporte']}
+                    placeholder="Tipo de documento"
+                  />
+                  {values.identificationPatientType && (
+                    <InputField
+                      name={'identification'}
+                      placeholder={`Número de ${values.identificationPatientType}`}
+                    />
+                  )}
 
-                <SendButton
-                  mb={10}
-                  text="Crear cuenta"
-                  onPress={() => handleSubmit()}
-                />
-              </VStack>
-            )}
-          </Formik>
-        </VStack>
-      </ScrollView>
+                  <SendButton
+                    mb={10}
+                    text="Crear cuenta"
+                    onPress={() => handleSubmit()}
+                  />
+                </VStack>
+              )}
+            </Formik>
+          </VStack>
+        </ScrollView>
+      )}
     </ScreenContainer>
   )
 }

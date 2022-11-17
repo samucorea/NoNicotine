@@ -17,4 +17,13 @@ export const refreshCurrentToken = async (token: string) => {
   })
 }
 
+export const resetPassword = async (email: string) => {
+  return await axios.post<{ message: string }>(
+    apiRoute + 'login/passwordReset',
+    {
+      email,
+    }
+  )
+}
+
 export default login
