@@ -1,6 +1,7 @@
 import { Text } from 'native-base'
 import { InterfaceTextProps } from 'native-base/lib/typescript/components/primitives/Text/types'
 import React, { FC, ReactNode } from 'react'
+import theme from '../AppTheme'
 
 interface Props {
   children: ReactNode
@@ -14,7 +15,7 @@ const SubmitMessage: FC<Props & InterfaceTextProps> = ({
 }) => {
   return (
     <Text
-      color={type == 'error' ? '#d82728' : 'green.400'}
+      color={type == 'error' ? '#d82728' : theme.colors.primary.default}
       fontSize="md"
       {...textProps}
     >

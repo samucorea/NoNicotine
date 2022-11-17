@@ -56,6 +56,10 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
 
                 BaseCrudService.UpdateConfig()
               } catch (error: any) {
+                console.log(
+                  '🚀 ~ file: Login.tsx ~ line 59 ~ onSubmit={ ~ error',
+                  error.response.data
+                )
                 loadingContext?.setLoading(false)
 
                 const errorMessage: string = error.response.data.message
@@ -65,6 +69,9 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
                     setErrorMessage(errors[errorMessage])
                     break
 
+                  case 'User email is not yet confirmed':
+                    setErrorMessage(errors[errorMessage])
+                    break
                   default:
                     break
                 }
@@ -137,6 +144,7 @@ const validationSchema = object({
 
 const errors = {
   'Wrong email and/or password': 'Usuario o contraseña inválido',
+  'User email is not yet confirmed': 'Su correo aún no ha sido confirmado',
 }
 
 export default Login
