@@ -97,7 +97,9 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
                     </Text>
                   )}
 
-                  <Pressable>
+                  <Pressable
+                    onPress={() => navigation.navigate('ForgotPassword')}
+                  >
                     <Text underline color={'#d8dee6'} textAlign="center">
                       ¿Olvidaste tu contraseña?
                     </Text>
