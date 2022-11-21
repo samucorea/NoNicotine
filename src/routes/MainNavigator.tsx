@@ -27,10 +27,10 @@ import { CustomIconButton } from '../components'
 const SettingsIcon = require('../../assets/settings.png')
 
 export type RootStackScreens = {
-  VapeQuestionnaire: undefined
-  HookahQuestionnaire: undefined
-  CigarQuestionnaire: undefined
-  CigaretteQuestionnaire: undefined
+  VapeQuestionnaire: { nextQuestionnaires: string[] }
+  HookahQuestionnaire: { nextQuestionnaires: string[] }
+  CigarQuestionnaire: { nextQuestionnaires: string[] }
+  CigaretteQuestionnaire: { nextQuestionnaires: string[] }
   MethodSelection: { firstTime: boolean }
   Register: { role: 'therapist' | 'patient' }
   SelectRole: undefined
@@ -47,7 +47,12 @@ const MainNavigator = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName={userContext?.token !== undefined ? 'Menu' : 'Login'}
+      initialRouteName={
+        userContext?.token !== undefined &&
+        userContext?.refreshToken !== undefined
+          ? 'Menu'
+          : 'Login'
+      }
       screenOptions={{
         headerShadowVisible: false,
         headerTitle: '',
@@ -124,14 +129,24 @@ const MainNavigator = () => {
 
       <Stack.Screen
         name="CigaretteQuestionnaire"
+        initialParams={{ nextQuestionnaires: [] }}
         component={CigaretteQuestionnaire}
       />
-      <Stack.Screen name="CigarQuestionnaire" component={CigarQuestionnaire} />
+      <Stack.Screen
+        name="CigarQuestionnaire"
+        initialParams={{ nextQuestionnaires: [] }}
+        component={CigarQuestionnaire}
+      />
       <Stack.Screen
         name="HookahQuestionnaire"
+        initialParams={{ nextQuestionnaires: [] }}
         component={HookahQuestionnaire}
       />
-      <Stack.Screen name="VapeQuestionnaire" component={VapeQuestionnaire} />
+      <Stack.Screen
+        name="VapeQuestionnaire"
+        initialParams={{ nextQuestionnaires: [] }}
+        component={VapeQuestionnaire}
+      />
       <Stack.Screen
         name="Profile"
         component={Profile}

@@ -112,7 +112,7 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
   }
 
   if (consumptionExpenses?.value == 0) {
-    navigation.navigate('MethodSelection', { firstTime: true })
+    return navigation.navigate('MethodSelection', { firstTime: true })
   }
 
   return (

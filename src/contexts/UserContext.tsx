@@ -27,6 +27,7 @@ interface ContextProps {
   logOut: () => Promise<void>
   user: User | undefined
   token: string | undefined
+  refreshToken: string | undefined
 }
 
 export const UserContext = createContext<ContextProps | undefined>(undefined)
@@ -39,7 +40,7 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
   const [user, setUser] = useState<User>()
   const [token, setToken] = useState<string | undefined>(initialToken)
   const [refreshToken, setRefreshToken] = useState<string | undefined>()
-  const [lastTokenSet, setLastTokenSet] = useState<Moment>()
+  const [lastTokenSet, setLastTokenSet] = useState<Moment>(moment('12/11/2000'))
 
   const previousToken = usePrevious(token)
 
@@ -56,6 +57,8 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
       })
     } else {
       getStoredUser().then((userTMP) => {
+        console.log('go to menu')
+
         setUser(userTMP as User)
         navigation.reset({
           routes: [{ name: 'Menu' }],
@@ -65,25 +68,38 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
   }, [token])
 
   useEffect(() => {
-    console.log(
-      '🚀 ~ file: UserContext.tsx ~ line 69 ~ useEffect ~ lastTokenSet',
-      lastTokenSet
-    )
+    const checkTokenValidity = async () => {
+      if (lastTokenSet) {
+        const tokenAboutToExpire = moment().diff(lastTokenSet, 'minutes') > 5
+        console.log(
+          '🚀 ~ file: UserContext.tsx ~ line 71 ~ checkTokenValidity ~ tokenAboutToExpire',
+          tokenAboutToExpire
+        )
 
-    if (lastTokenSet) {
-      const tokenAboutToExpire =
-        Math.abs(lastTokenSet.minutes() - moment().minutes()) > 5
+        if (tokenAboutToExpire) {
+          let refreshTokenTMP = refreshToken
 
-      if (tokenAboutToExpire) {
-        refreshCurrentToken(refreshToken!)
-          .then((response) => {
-            setStoredToken(response.data.token)
-          })
-          .catch((reason) => {
-            console.log(reason.response.data)
-          })
+          if (!refreshTokenTMP) {
+            refreshTokenTMP = await getStoredRefreshToken()
+
+            if (refreshTokenTMP == undefined) {
+              return await logOut()
+            }
+
+            setRefreshToken(refreshTokenTMP)
+          }
+
+          const response = await refreshCurrentToken(refreshTokenTMP)
+          console.log(
+            '🚀 ~ file: UserContext.tsx ~ line 90 ~ checkTokenValidity ~ response',
+            response
+          )
+
+          setStoredToken(response.data.token)
+        }
       }
     }
+    checkTokenValidity()
 
     // if (!user) {
     //   console.log('getting stored')
@@ -121,9 +137,20 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
     setRefreshToken(refreshTokenTMP)
   }
 
+  const getStoredRefreshToken = async () => {
+    const token = await AsyncStorage.getItem(refreshTokenKey)
+
+    if (token == null) {
+      return undefined
+    }
+
+    return token
+  }
+
   const logOut = async () => {
-    await AsyncStorage.multiRemove([tokenKey, userKey], () => {
+    await AsyncStorage.multiRemove([tokenKey, userKey, refreshTokenKey], () => {
       setToken(undefined)
+      setRefreshToken(undefined)
       setUser(undefined)
     })
   }
@@ -139,6 +166,7 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
         logOut,
         user,
         token,
+        refreshToken,
       }}
     >
       {children}

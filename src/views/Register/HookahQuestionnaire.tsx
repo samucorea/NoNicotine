@@ -13,11 +13,10 @@ import { Formik } from 'formik'
 
 const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
   navigation,
+  route: {
+    params: { nextQuestionnaires },
+  },
 }) => {
-  const handleSubmit = () => {
-    navigation.navigate('Menu')
-  }
-
   return (
     <ScreenContainer>
       <VStack space={5}>
@@ -33,7 +32,15 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
             boxSize: '',
             boxPrice: '',
           }}
-          onSubmit={() => {}}
+          onSubmit={() => {
+            if (nextQuestionnaires.length > 0) {
+              return navigation.navigate(nextQuestionnaires.pop() as any, {
+                nextQuestionnaires,
+              })
+            }
+
+            navigation.navigate('Menu')
+          }}
         >
           {({ handleSubmit }) => (
             <>

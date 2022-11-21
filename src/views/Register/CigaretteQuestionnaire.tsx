@@ -15,11 +15,12 @@ import { Formik } from 'formik'
 
 const CigaretteQuestionnaire: React.FC<
   RootScreenProps<'CigaretteQuestionnaire'>
-> = ({ navigation }) => {
-  const handleSubmit = () => {
-    navigation.navigate('Menu')
-  }
-
+> = ({
+  navigation,
+  route: {
+    params: { nextQuestionnaires },
+  },
+}) => {
   const [Size, setSize] = useState('')
 
   const spacing = 3
@@ -44,7 +45,15 @@ const CigaretteQuestionnaire: React.FC<
               boxSize: '',
               boxPrice: 0,
             }}
-            onSubmit={() => {}}
+            onSubmit={() => {
+              if (nextQuestionnaires.length > 0) {
+                return navigation.navigate(nextQuestionnaires.pop() as any, {
+                  nextQuestionnaires,
+                })
+              }
+
+              navigation.navigate('Menu')
+            }}
           >
             {({ handleSubmit, values }) => (
               <VStack space={spacing}>

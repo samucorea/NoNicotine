@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { RootScreenProps } from '../routes/MainNavigator'
+import { RootScreenProps, RootStackScreens } from '../routes/MainNavigator'
 import { Box, VStack } from 'native-base'
 import { ScreenHeader } from '../components/ScreenHeader'
 import theme from '../AppTheme'
@@ -7,7 +7,6 @@ import { ImageSourcePropType } from 'react-native'
 import { RegularText } from '../components/RegularText'
 
 import { ScreenContainer, SendButton, SquaredIconButton } from '../components'
-import { InterfaceBoxProps } from 'native-base/lib/typescript/components/primitives/Box'
 const Cigarette: ImageSourcePropType = require('../../assets/cigarette.png')
 const Vape: ImageSourcePropType = require('../../assets/vape.png')
 const Cigar: ImageSourcePropType = require('../../assets/cigar.png')
@@ -66,7 +65,15 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
             />
           ))}
         </Box>
-        <SendButton text="Continuar" fontSize={'lg'} />
+        <SendButton
+          text="Continuar"
+          fontSize={'lg'}
+          onPress={() =>
+            navigation.navigate(selectedMethods.pop() as any, {
+              nextQuestionnaires: selectedMethods,
+            })
+          }
+        />
         {/* <SendButton
           onPress={() => {
             if (Method === 'CigaretteQuestionnaire') {
@@ -97,15 +104,25 @@ const selectedStyle = {
 }
 
 const methods = [
-  { name: 'cigarette', label: 'Cigarrillo', icon: Cigarette, navigateTo: '' },
   {
-    name: 'eCigarette',
+    name: 'CigaretteQuestionnaire',
+    label: 'Cigarrillo',
+    icon: Cigarette,
+    navigateTo: '',
+  },
+  {
+    name: 'VapeQuestionnaire',
     label: 'Cigarrillo electrónico',
     icon: Vape,
     navigateTo: '',
   },
-  { name: 'cigar', label: 'Cigarro', icon: Cigar, navigateTo: '' },
-  { name: 'hookah', label: 'Hookah', icon: Hookah, navigateTo: '' },
+  { name: 'CigarQuestionnaire', label: 'Cigarro', icon: Cigar, navigateTo: '' },
+  {
+    name: 'HookahQuestionnaire',
+    label: 'Hookah',
+    icon: Hookah,
+    navigateTo: '',
+  },
 ]
 
 export default MethodSelection
