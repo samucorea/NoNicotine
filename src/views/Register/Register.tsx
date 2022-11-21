@@ -53,7 +53,7 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
             Se le ha enviado un mensaje de confirmación a su correo
           </SubmitMessage>
           <SendButton
-            text="Atrás"
+            text="Continuar"
             bg={theme.colors.primary.default}
             mb={5}
             onPress={() => navigation.navigate('Login')}

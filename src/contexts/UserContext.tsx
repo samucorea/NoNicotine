@@ -65,6 +65,11 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
   }, [token])
 
   useEffect(() => {
+    console.log(
+      '🚀 ~ file: UserContext.tsx ~ line 69 ~ useEffect ~ lastTokenSet',
+      lastTokenSet
+    )
+
     if (lastTokenSet) {
       const tokenAboutToExpire =
         Math.abs(lastTokenSet.minutes() - moment().minutes()) > 5
@@ -79,6 +84,14 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
           })
       }
     }
+
+    // if (!user) {
+    //   console.log('getting stored')
+
+    //   getStoredUser().then((user: User | undefined) => {
+    //     setUser(user)
+    //   })
+    // }
   })
 
   const getStoredUser = async (): Promise<User | undefined> => {

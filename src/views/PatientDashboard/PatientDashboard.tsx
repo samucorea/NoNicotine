@@ -1,9 +1,12 @@
+import { CompositeScreenProps } from '@react-navigation/native'
+import { StackScreenProps } from '@react-navigation/stack'
 import moment from 'moment'
 import { Box, Fab, Image, Text, VStack } from 'native-base'
 import React, { FC, useEffect, useState } from 'react'
 import theme from '../../AppTheme'
 import { useUserContext } from '../../contexts/UserContext'
 import { Patient } from '../../models'
+import { RootStackScreens } from '../../routes/MainNavigator'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
 import patientService from '../../services/patientService'
 import AbstinenceRecord from './Components/AbstinenceRecord'
@@ -15,10 +18,16 @@ const Information = require('../../../assets/information.png')
 const Inhale = require('../../../assets/inhale.png')
 const Pencil = require('../../../assets/pencil.png')
 
-const PatientDashboard: FC<MenuScreenProps<'PatientDashboard'>> = ({
-  navigation,
-}) => {
+type Props = CompositeScreenProps<
+  MenuScreenProps<'PatientDashboard'>,
+  StackScreenProps<RootStackScreens>
+>
+
+const PatientDashboard: FC<Props> = ({ navigation }) => {
   const [isFocused, setIsFocused] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [consumptionExpenses, setConsumptionExpenses] = useState<any>()
+
   const { user } = useUserContext() ?? {}
 
   const patient = user as Patient
@@ -34,14 +43,21 @@ const PatientDashboard: FC<MenuScreenProps<'PatientDashboard'>> = ({
       //   patient.patientConsumptionMethodsId!
 
       // )
-      const response = await patientService.getConsumptionMethods(
-        patient.patientConsumptionMethodsId!
-      )
-      console.log(
-        '🚀 ~ file: PatientDashboard.tsx ~ line 40 ~ getConsumptionMethods ~ response',
-        response.data
-      )
 
+      try {
+        const response = await patientService.getConsumptionExpenses(
+          patient.patientConsumptionMethodsId!
+        )
+
+        setConsumptionExpenses(response.data)
+      } catch (error) {
+        console.log(
+          '🚀 ~ file: PatientDashboard.tsx ~ line 47 ~ getConsumptionMethods ~ error',
+          error
+        )
+      }
+
+      setLoading(false)
       // .then((response) => {
       //   console.log('data', response.data)
       // })
@@ -90,6 +106,14 @@ const PatientDashboard: FC<MenuScreenProps<'PatientDashboard'>> = ({
       ],
     },
   ]
+
+  if (loading) {
+    return null
+  }
+
+  if (consumptionExpenses?.value == 0) {
+    navigation.navigate('MethodSelection', { firstTime: true })
+  }
 
   return (
     <Box flex={1} p={'8'} pt={'0'}>

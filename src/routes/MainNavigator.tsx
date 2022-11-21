@@ -26,7 +26,7 @@ import { CustomIconButton } from '../components'
 
 const SettingsIcon = require('../../assets/settings.png')
 
-type RootStackScreens = {
+export type RootStackScreens = {
   VapeQuestionnaire: undefined
   HookahQuestionnaire: undefined
   CigarQuestionnaire: undefined

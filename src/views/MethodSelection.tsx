@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { RootScreenProps } from '../routes/MainNavigator'
-import { Box, useColorModeValue, Pressable, VStack } from 'native-base'
+import { Box, VStack } from 'native-base'
 import { ScreenHeader } from '../components/ScreenHeader'
 import theme from '../AppTheme'
-import { Dimensions, ImageSourcePropType } from 'react-native'
+import { ImageSourcePropType } from 'react-native'
 import { RegularText } from '../components/RegularText'
-import { SendButton } from '../components/SendButton'
-import Ionicons from '@expo/vector-icons/Ionicons'
-import { ScreenContainer, SquaredIconButton } from '../components'
+
+import { ScreenContainer, SendButton, SquaredIconButton } from '../components'
+import { InterfaceBoxProps } from 'native-base/lib/typescript/components/primitives/Box'
 const Cigarette: ImageSourcePropType = require('../../assets/cigarette.png')
 const Vape: ImageSourcePropType = require('../../assets/vape.png')
 const Cigar: ImageSourcePropType = require('../../assets/cigar.png')
@@ -16,11 +16,28 @@ const Hookah: ImageSourcePropType = require('../../assets/hookah.png')
 const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
   navigation,
 }) => {
+  const [selectedMethods, setSelectedMethods] = useState<string[]>([])
+
+  const selectMethod = (methodName: string) => {
+    const methodIndex = selectedMethods.findIndex(
+      (element) => element == methodName
+    )
+
+    if (methodIndex == -1) {
+      return setSelectedMethods([...selectedMethods, methodName])
+    }
+
+    const selectedMethodsTMP = JSON.parse(JSON.stringify(selectedMethods))
+    selectedMethodsTMP.splice(methodIndex, 1)
+    setSelectedMethods(selectedMethodsTMP)
+  }
+
   return (
     <ScreenContainer>
       <VStack space={10}>
         <Box>
           <ScreenHeader
+            alignSelf={'flex-start'}
             title="Selecciona tus métodos de consumo"
             fontSize={24}
           />
@@ -34,17 +51,22 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
           {methods.map((method, index) => (
             <SquaredIconButton
               key={index}
-              mb={3}
+              mb={5}
+              w={'46%'}
               borderColor={theme.colors.primary.default}
               label={method.label}
               labelStyle={{ color: theme.colors.primary.default }}
               icon={method.icon}
+              {...(selectedMethods.find(
+                (element) => element == method.name
+              ) && { ...selectedStyle })}
               onPress={() => {
-                setMethod('CigaretteQuestionnaire')
+                selectMethod(method.name)
               }}
             />
           ))}
         </Box>
+        <SendButton text="Continuar" fontSize={'lg'} />
         {/* <SendButton
           onPress={() => {
             if (Method === 'CigaretteQuestionnaire') {
@@ -67,11 +89,23 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
   )
 }
 
+const selectedStyle = {
+  shadow: 0,
+  iconProps: { tintColor: '#94a4ba' },
+  borderColor: '#94a4ba',
+  labelStyle: { color: '#94a4ba' },
+}
+
 const methods = [
-  { label: 'Cigarrillo', icon: Cigarette, navigateTo: '' },
-  { label: 'Cigarrillo electrónico', icon: Vape, navigateTo: '' },
-  { label: 'Cigarro', icon: Cigar, navigateTo: '' },
-  { label: 'Hookah', icon: Hookah, navigateTo: '' },
+  { name: 'cigarette', label: 'Cigarrillo', icon: Cigarette, navigateTo: '' },
+  {
+    name: 'eCigarette',
+    label: 'Cigarrillo electrónico',
+    icon: Vape,
+    navigateTo: '',
+  },
+  { name: 'cigar', label: 'Cigarro', icon: Cigar, navigateTo: '' },
+  { name: 'hookah', label: 'Hookah', icon: Hookah, navigateTo: '' },
 ]
 
 export default MethodSelection

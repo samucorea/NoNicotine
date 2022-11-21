@@ -30,7 +30,7 @@ export const SendButton = ({
       marginTop="8px"
       {...props}
     >
-      <Text alignSelf="center" fontSize="16px" fontWeight="600" color="#FFFFFF">
+      <Text alignSelf="center" fontSize="lg" fontWeight="600" color="#FFFFFF">
         {text}
       </Text>
     </Pressable>
