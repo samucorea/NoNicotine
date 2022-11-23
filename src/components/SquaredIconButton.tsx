@@ -43,7 +43,7 @@ const SquaredIconButton: FC<Props & InterfaceBoxProps & Partial<{}>> = ({
         justifyContent={'space-evenly'}
       >
         {topRigthButton !== undefined && (
-          <Box position="absolute">{topRigthButton}</Box>
+          <Box alignSelf="flex-end">{topRigthButton}</Box>
         )}
         <Image source={icon} alt="icon" />
         <Text fontSize={'lg'} {...labelStyle}>

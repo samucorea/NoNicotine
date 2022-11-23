@@ -40,7 +40,7 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
               labelStyle={{ color: theme.colors.primary.default }}
               icon={method.icon}
               onPress={() => {
-                setMethod('CigaretteQuestionnaire')
+                // setMethod('CigaretteQuestionnaire')
               }}
             />
           ))}
