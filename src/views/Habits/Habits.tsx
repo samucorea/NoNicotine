@@ -1,13 +1,8 @@
 import theme from '../../AppTheme'
 import React from 'react'
-import {
-  HideKeyboardOnForms,
-  ScreenHeader,
-  ScreenContainer,
-  SquaredIconButton,
-} from '../../components'
+import { SquaredIconButton } from '../../components'
 import { ImageSourcePropType } from 'react-native'
-import { Fab, Image, Text, VStack } from 'native-base'
+import { Fab, Box, Text, VStack } from 'native-base'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
 import { Entypo, AntDesign } from '@expo/vector-icons'
 const Walk: ImageSourcePropType = require('../../../assets/walking.png')
@@ -16,29 +11,31 @@ const Book: ImageSourcePropType = require('../../../assets/book.png')
 
 const Habits: React.FC<MenuScreenProps<'Habits'>> = () => {
   return (
-    <VStack
-      alignItems="center"
-      flexDirection="row"
-      flexWrap="wrap"
-      height={'100%'}
-      justifyContent={'space-between'}
-      padding={2}
-    >
-      {HabitList.map((habit, index) => (
-        <SquaredIconButton
-          key={index}
-          mb={3}
-          borderColor={theme.colors.primary.default}
-          topRigthButton={
-            <Entypo name="dots-three-horizontal" size={24} color="black" />
-          }
-          label={habit.label}
-          labelStyle={{ color: theme.colors.primary.default }}
-          subLabel={habit.subLabel}
-          icon={habit.icon}
-          onPress={() => {}}
-        />
-      ))}
+    <VStack flex={1} height={'100%'} paddingX={16} paddingY={2}>
+      <Box
+        alignItems="center"
+        flexDirection="row"
+        flexWrap="wrap"
+        justifyContent={'space-between'}
+      >
+        {HabitList.map((habit, index) => (
+          <Box alignSelf="center" marginX={3} marginY={1.5}>
+            <SquaredIconButton
+              key={index}
+              mb={3}
+              borderColor={theme.colors.primary.default}
+              topRigthButton={
+                <Entypo name="dots-three-horizontal" size={24} color="black" />
+              }
+              label={habit.label}
+              labelStyle={{ color: theme.colors.primary.default }}
+              subLabel={habit.subLabel}
+              icon={habit.icon}
+              onPress={() => {}}
+            />
+          </Box>
+        ))}
+      </Box>
       <Fab
         bg={theme.colors.primary.default}
         icon={
