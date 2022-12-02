@@ -4,7 +4,14 @@ import {
   createStackNavigator,
   StackScreenProps,
 } from '@react-navigation/stack'
-import { SelectRole, MethodSelection, Register, Login, Profile } from '../views'
+import {
+  SelectRole,
+  MethodSelection,
+  Register,
+  Login,
+  Profile,
+  ForgotPassword,
+} from '../views'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
 import MenuNavigator from './MenuNavigator'
@@ -30,6 +37,7 @@ type RootStackScreens = {
   Menu: undefined
   Login: undefined
   Profile: undefined
+  ForgotPassword: undefined
 }
 
 const Stack = createStackNavigator<RootStackScreens>()
@@ -76,6 +84,19 @@ const MainNavigator = () => {
                 backgroundColor: theme.colors.primary.default,
               },
               cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
+            }}
+          />
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPassword}
+            options={{
+              headerBackImage: () => (
+                <Icon as={Ionicons} name="close" size={'2xl'} color={'#fff'} />
+              ),
+              headerStyle: {
+                backgroundColor: theme.colors.primary.default,
+              },
+              cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
             }}
           />
 
