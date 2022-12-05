@@ -10,6 +10,10 @@ import {
   ScreenContainer,
 } from '../../components'
 import { Formik } from 'formik'
+import { number, object } from 'yup'
+import vapeService from '../../services/vapeService'
+import { useUserContext } from '../../contexts/UserContext'
+import { Patient } from '../../models'
 
 const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
   navigation,
@@ -17,6 +21,10 @@ const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
     params: { nextQuestionnaires },
   },
 }) => {
+  const { user } = useUserContext() ?? {}
+
+  const patient = user as Patient
+
   return (
     <ScreenContainer>
       <VStack space={5}>
@@ -29,13 +37,17 @@ const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
 
         <Formik
           initialValues={{
-            daysPerPod: '',
-            daysPerWeek: '',
-            boxSize: '',
-            boxPrice: '',
-            podsPerBox: '',
+            cartridgeLifespan: 0,
+            unitsPerBox: 0,
+            boxPrice: 0,
           }}
-          onSubmit={() => {
+          validationSchema={validationSchema}
+          onSubmit={async (data) => {
+            await vapeService.create({
+              ...data,
+              patientConsumptionMethodsId: patient.patientConsumptionMethodsId!,
+            })
+
             if (nextQuestionnaires.length > 0) {
               return navigation.navigate(nextQuestionnaires.pop() as any, {
                 nextQuestionnaires,
@@ -50,19 +62,31 @@ const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
               <RegularText>
                 {'¿Cuántos días, en promedio, te dura un pod/vape desechable?'}
               </RegularText>
-              <InputField name="daysPerPod" placeholder="Número" />
+              <InputField
+                keyboardType="numeric"
+                name="cartridgeLifespan"
+                placeholder="Número"
+              />
               <RegularText>
                 {
                   '¿Cuántos pods suelen traer las cajas que compras? Si compras vapes desechables, coloca un 1'
                 }
               </RegularText>
-              <InputField name="podsPerBox" placeholder="Unidad(es)" />
+              <InputField
+                keyboardType="numeric"
+                name="unitsPerBox"
+                placeholder="Unidad(es)"
+              />
               <RegularText>
                 {
                   '¿Cuánto te cuesta usualmente comprar una caja de pods o un vape desechable?'
                 }
               </RegularText>
-              <InputField name="boxPrice" placeholder="RD$ 0.00" />
+              <InputField
+                keyboardType="numeric"
+                name="boxPrice"
+                placeholder="RD$ 0.00"
+              />
               <SendButton text="Continuar" onPress={() => handleSubmit()} />
             </>
           )}
@@ -71,5 +95,11 @@ const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
     </ScreenContainer>
   )
 }
+
+const validationSchema = object({
+  cartridgeLifespan: number().required(),
+  unitsPerBox: number().required(),
+  boxPrice: number().required(),
+})
 
 export default VapeQuestionnaire

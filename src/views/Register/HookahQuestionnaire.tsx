@@ -10,6 +10,10 @@ import {
   ScreenContainer,
 } from '../../components'
 import { Formik } from 'formik'
+import hookahService from '../../services/hookahService'
+import { useUserContext } from '../../contexts/UserContext'
+import { Patient } from '../../models'
+import { number, object } from 'yup'
 
 const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
   navigation,
@@ -17,6 +21,10 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
     params: { nextQuestionnaires },
   },
 }) => {
+  const { user } = useUserContext() ?? {}
+
+  const patient = user as Patient
+
   return (
     <ScreenContainer>
       <VStack space={5}>
@@ -28,11 +36,20 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
         </Box>
         <Formik
           initialValues={{
-            daysPerWeek: '',
-            boxSize: '',
-            boxPrice: '',
+            daysPerWeek: 0,
+            setupPrice: 0,
           }}
-          onSubmit={() => {
+          validationSchema={validationSchema}
+          onSubmit={async (data) => {
+            console.log(
+              '🚀 ~ file: HookahQuestionnaire.tsx ~ line 44 ~ onSubmit={ ~ data',
+              data
+            )
+            await hookahService.create({
+              ...data,
+              patientConsumptionMethodsId: patient.patientConsumptionMethodsId!,
+            })
+
             if (nextQuestionnaires.length > 0) {
               return navigation.navigate(nextQuestionnaires.pop() as any, {
                 nextQuestionnaires,
@@ -47,11 +64,19 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
               <RegularText>
                 {'¿Por lo general, cuántos días fumas hookah en una semana?'}
               </RegularText>
-              <InputField name="daysPerWeek" placeholder="Número" />
+              <InputField
+                keyboardType="numeric"
+                name="daysPerWeek"
+                placeholder="Número"
+              />
               <RegularText>
                 {'¿Cuánto te cuesta usualmente preparar una hookah?'}
               </RegularText>
-              <InputField name="boxPrice" placeholder="RD$ 0.00" />
+              <InputField
+                keyboardType="numeric"
+                name="setupPrice"
+                placeholder="RD$ 0.00"
+              />
               <SendButton text="Continuar" onPress={() => handleSubmit()} />
             </>
           )}
@@ -60,5 +85,10 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
     </ScreenContainer>
   )
 }
+
+const validationSchema = object({
+  daysPerWeek: number().required(),
+  setupPrice: number().required(),
+})
 
 export default HookahQuestionnaire

@@ -53,6 +53,9 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
 
                 await userContext?.setStoredUser(userResponse.data)
                 await userContext?.setStoredToken(response.data.token)
+                await userContext?.setStoredRefreshToken(
+                  response.data.refreshToken
+                )
 
                 BaseCrudService.UpdateConfig()
               } catch (error: any) {

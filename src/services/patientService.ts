@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Patient } from '../models'
+import { ConsumptionExpenses, Patient } from '../models'
 import { RegisterPatient } from '../models/Patient'
 import BaseCrudService from './baseCrudService'
 
@@ -16,16 +16,18 @@ export class PatientService extends BaseCrudService<Patient, RegisterPatient> {
     })
   }
 
-  async getConsumptionExpenses(patientConsumptionMethodsId: string) {
-    return await axios.get<Patient>(
-      `${this.fullRoute}/consumptionExpenses/${patientConsumptionMethodsId}`,
+  async getConsumptionExpenses() {
+    console.log(BaseCrudService.config)
+
+    return await axios.get<ConsumptionExpenses>(
+      `${this.fullRoute}/consumptionExpenses`,
       BaseCrudService.config
     )
   }
 
-  async getConsumptionMethods(patientConsumptionMethodsId: string) {
+  async getConsumptionMethods() {
     return await axios.get<Patient>(
-      `${this.fullRoute}/consumptionExpenses/${patientConsumptionMethodsId}`,
+      `${this.fullRoute}/consumptionExpenses`,
       BaseCrudService.config
     )
   }

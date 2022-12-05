@@ -78,7 +78,7 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
                 password: '',
                 confirmPassword: '',
                 identification: '',
-                identificationPatientType: '' as Identification,
+                identificationType: '' as Identification,
               }}
               onSubmit={async (values, formikHelpers) => {
                 loadingContext?.setLoading(true, 'Creando usuario')
@@ -92,6 +92,10 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
                     )
                     setCreated(true)
                   } catch (error: any) {
+                    console.log(
+                      '🚀 ~ file: Register.tsx:95 ~ onSubmit={ ~ error',
+                      error.response.data
+                    )
                     switch (error.response.data.message) {
                       case 'Email already taken':
                         formikHelpers.setFieldError(
@@ -130,14 +134,14 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
                     placeholder="Confirmar contraseña"
                   />
                   <SelectInputField
-                    name={'identificationPatientType'}
+                    name={'identificationType'}
                     options={['Cédula', 'Pasaporte']}
                     placeholder="Tipo de documento"
                   />
-                  {values.identificationPatientType && (
+                  {values.identificationType && (
                     <InputField
                       name={'identification'}
-                      placeholder={`Número de ${values.identificationPatientType}`}
+                      placeholder={`Número de ${values.identificationType}`}
                     />
                   )}
 
@@ -173,7 +177,7 @@ const validationSchema = object({
   confirmPassword: string()
     .required()
     .oneOf([ref('password'), null], 'Las contraseñas deben ser iguales'),
-  identificationPatientType: string().required().oneOf(['Cédula', 'Pasaporte']),
+  identificationType: string().required().oneOf(['Cédula', 'Pasaporte']),
   identification: string().required(),
 })
 

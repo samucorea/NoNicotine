@@ -58,7 +58,7 @@ export const RadioInput: FC<Props> = ({
             m={2}
             borderColor={theme.colors.primary.default}
             {...optionStyle}
-            value={typeof option == 'string' ? option : option.value}
+            value={typeof option == 'string' ? option : option.value.toString()}
             _text={{ color: colors, ...optionStyle?._text }}
           >
             {typeof option == 'string' ? option : option.key}

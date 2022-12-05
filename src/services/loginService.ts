@@ -7,14 +7,22 @@ interface LoginResponse {
   refreshToken: string
 }
 
+interface RefreshTokenResponse {
+  token: string
+  refreshToken: string
+}
+
 const login = async (credentials: Login) => {
   return await axios.post<LoginResponse>(apiRoute + 'login', credentials)
 }
 
 export const refreshCurrentToken = async (token: string) => {
-  return await axios.post<{ token: string }>(apiRoute + 'login/refreshToken', {
-    refreshToken: token,
-  })
+  return await axios.post<RefreshTokenResponse>(
+    apiRoute + 'login/refreshToken',
+    {
+      refreshToken: token,
+    }
+  )
 }
 
 export const resetPassword = async (email: string) => {

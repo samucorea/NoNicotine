@@ -12,6 +12,10 @@ import {
   RadioInput,
 } from '../../components'
 import { Formik } from 'formik'
+import { number, object } from 'yup'
+import cigarreteService from '../../services/cigarreteService'
+import { useUserContext } from '../../contexts/UserContext'
+import { Patient } from '../../models'
 
 const CigaretteQuestionnaire: React.FC<
   RootScreenProps<'CigaretteQuestionnaire'>
@@ -21,7 +25,9 @@ const CigaretteQuestionnaire: React.FC<
     params: { nextQuestionnaires },
   },
 }) => {
-  const [Size, setSize] = useState('')
+  const { user } = useUserContext() ?? {}
+
+  const patient = user as Patient
 
   const spacing = 3
 
@@ -40,12 +46,19 @@ const CigaretteQuestionnaire: React.FC<
           </Box>
           <Formik
             initialValues={{
-              cigarsPerDay: '',
-              daysPerWeek: '',
-              boxSize: '',
+              unitsPerDay: 0,
+              daysPerWeek: 0,
+              unitsPerBox: 0,
               boxPrice: 0,
             }}
-            onSubmit={() => {
+            validationSchema={validationSchema}
+            onSubmit={async (data) => {
+              await cigarreteService.create({
+                ...data,
+                patientConsumptionMethodsId:
+                  patient.patientConsumptionMethodsId!,
+              })
+
               if (nextQuestionnaires.length > 0) {
                 return navigation.navigate(nextQuestionnaires.pop() as any, {
                   nextQuestionnaires,
@@ -68,7 +81,7 @@ const CigaretteQuestionnaire: React.FC<
                       pb: 2,
                     },
                   }}
-                  name="cigarsPerDay"
+                  name="unitsPerDay"
                   placeholder="Unidad(es)"
                   color={theme.colors.subText.primary}
                   placeholderTextColor={theme.colors.subText.primary}
@@ -101,14 +114,14 @@ const CigaretteQuestionnaire: React.FC<
                       pb: 2,
                     },
                   }}
-                  name="boxSize"
+                  name="unitsPerBox"
                   optionStyle={{
                     value: '',
                     _text: { color: theme.colors.subText.primary },
                   }}
                   options={[
-                    { key: 'Pequeña (10 unidades)', value: 'S' },
-                    { key: 'Grande (20 unidades)', value: 'L' },
+                    { key: 'Pequeña (10 unidades)', value: 10 },
+                    { key: 'Grande (20 unidades)', value: 20 },
                   ]}
                   direction="column"
                 />
@@ -142,5 +155,12 @@ const CigaretteQuestionnaire: React.FC<
     </ScreenContainer>
   )
 }
+
+const validationSchema = object({
+  unitsPerDay: number().required(),
+  unitsPerBox: number().required(),
+  daysPerWeek: number().required(),
+  boxPrice: number().required(),
+})
 
 export default CigaretteQuestionnaire

@@ -57,8 +57,6 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
       })
     } else {
       getStoredUser().then((userTMP) => {
-        console.log('go to menu')
-
         setUser(userTMP as User)
         navigation.reset({
           routes: [{ name: 'Menu' }],
@@ -72,7 +70,12 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
       if (lastTokenSet) {
         const tokenAboutToExpire = moment().diff(lastTokenSet, 'minutes') > 5
         console.log(
-          '🚀 ~ file: UserContext.tsx ~ line 71 ~ checkTokenValidity ~ tokenAboutToExpire',
+          '🚀 ~ file: UserContext.tsx ~ line 72 ~ checkTokenValidity ~ lastTokenSet',
+          lastTokenSet,
+          moment()
+        )
+        console.log(
+          '🚀 ~ file: UserContext.tsx ~ line 72 ~ checkTokenValidity ~ tokenAboutToExpire',
           tokenAboutToExpire
         )
 
@@ -90,12 +93,9 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
           }
 
           const response = await refreshCurrentToken(refreshTokenTMP)
-          console.log(
-            '🚀 ~ file: UserContext.tsx ~ line 90 ~ checkTokenValidity ~ response',
-            response
-          )
 
           setStoredToken(response.data.token)
+          setStoredRefreshToken(response.data.refreshToken)
         }
       }
     }

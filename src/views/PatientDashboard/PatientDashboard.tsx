@@ -5,7 +5,7 @@ import { Box, Fab, Image, Text, VStack } from 'native-base'
 import React, { FC, useEffect, useState } from 'react'
 import theme from '../../AppTheme'
 import { useUserContext } from '../../contexts/UserContext'
-import { Patient } from '../../models'
+import { ConsumptionExpenses, Patient } from '../../models'
 import { RootStackScreens } from '../../routes/MainNavigator'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
 import patientService from '../../services/patientService'
@@ -26,44 +26,36 @@ type Props = CompositeScreenProps<
 const PatientDashboard: FC<Props> = ({ navigation }) => {
   const [isFocused, setIsFocused] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [consumptionExpenses, setConsumptionExpenses] = useState<any>()
+  const [consumptionExpenses, setConsumptionExpenses] =
+    useState<ConsumptionExpenses>()
 
   const { user } = useUserContext() ?? {}
 
   const patient = user as Patient
 
-  const abstinenceDays = moment(patient?.startTime).diff(moment(), 'days')
+  const abstinenceDays = moment().diff(moment(patient?.startTime), 'days')
 
   useEffect(() => {
     navigation.addListener('focus', () => setIsFocused(true))
     navigation.addListener('blur', () => setIsFocused(false))
 
     const getConsumptionMethods = async () => {
-      // const response = await patientService.getConsumptionMethods(
-      //   patient.patientConsumptionMethodsId!
-
-      // )
-
       try {
-        const response = await patientService.getConsumptionExpenses(
-          patient.patientConsumptionMethodsId!
+        const response = await patientService.getConsumptionExpenses()
+        console.log(
+          '🚀 ~ file: PatientDashboard.tsx:45 ~ getConsumptionMethods ~ response',
+          response.data
         )
 
         setConsumptionExpenses(response.data)
-      } catch (error) {
+      } catch (error: any) {
         console.log(
           '🚀 ~ file: PatientDashboard.tsx ~ line 47 ~ getConsumptionMethods ~ error',
-          error
+          error.response.data
         )
       }
 
       setLoading(false)
-      // .then((response) => {
-      //   console.log('data', response.data)
-      // })
-      // .catch((reason) => {
-      //   console.log(reason.)
-      // })
     }
     getConsumptionMethods()
   }, [])
@@ -75,7 +67,7 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
         {
           content: (
             <Text bold fontSize={'xl'}>
-              400 DOP
+              {consumptionExpenses?.total} DOP
             </Text>
           ),
           leftIcon: DollarSign,
@@ -107,13 +99,14 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
     },
   ]
 
-  if (loading) {
-    return null
-  }
+  // if (loading) {
+  //   return null
+  // }
 
-  if (consumptionExpenses?.value == 0) {
-    return navigation.navigate('MethodSelection', { firstTime: true })
-  }
+  // if (consumptionExpenses?.total == 0) {
+  //   navigation.navigate('MethodSelection', { firstTime: true })
+  //   return null
+  // }
 
   return (
     <Box flex={1} p={'8'} pt={'0'}>
