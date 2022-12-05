@@ -103,7 +103,7 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
             await setStoredRefreshToken(response.data.refreshToken)
 
             BaseCrudService.UpdateConfig()
-          } catch (error) {
+          } catch (error: any) {
             console.log(
               '🚀 ~ file: UserContext.tsx:110 ~ checkTokenValidity ~ error',
               error.response.data

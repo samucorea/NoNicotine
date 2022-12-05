@@ -13,11 +13,15 @@ export interface InfoSectionProps {
   sectionItems: SectionContent[]
 }
 
-const InfoSection: FC<InfoSectionProps> = ({ sectionTitle, sectionItems }) => {
+const InfoSection: FC<InfoSectionProps & { key: any }> = ({
+  sectionTitle,
+  sectionItems,
+  key,
+}) => {
   const borderRadius = 'xl'
 
   return (
-    <Box mb={'3'}>
+    <Box mb={'3'} key={key}>
       <Text bold pl={'4'} pb={'1'} color={'primary.default'}>
         {sectionTitle}
       </Text>

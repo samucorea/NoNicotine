@@ -7,7 +7,7 @@ import {
   VStackContainer,
 } from '../../components'
 import { useUserContext } from '../../contexts/UserContext'
-import { CreateDiaryEntry, DiaryEntry } from '../../models'
+import { CreateDiaryEntry } from '../../models'
 import { DiaryScreenProps } from '../../routes/Diary/DiaryNavigator'
 import diaryEntryService from '../../services/diaryEntryService'
 import SymptomSelection from './Components/SymptomSelection'
@@ -15,12 +15,7 @@ import SymptomSelection from './Components/SymptomSelection'
 const EntryDetailed: FC<DiaryScreenProps<'EntryDetailed'>> = ({
   navigation,
   route: {
-    params: {
-      entry,
-      // selectedFeelingsData,
-      // selectedSymptomsData,
-      // descriptionData,
-    },
+    params: { entry },
   },
 }) => {
   console.log(entry)

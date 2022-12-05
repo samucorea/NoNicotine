@@ -3,4 +3,5 @@
   "compilerOptions": {
     "strict": true
   }
+  // "include": ["./custom.d.ts", "./src/*", "./node_modules/*"]
 }

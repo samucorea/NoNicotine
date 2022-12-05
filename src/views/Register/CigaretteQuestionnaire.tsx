@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { RootScreenProps } from '../../routes/MainNavigator'
-import { Box, Radio, VStack, Text, ScrollView } from 'native-base'
+import { Box, VStack, ScrollView } from 'native-base'
 import theme from '../../AppTheme'
-import formatMoney from '../../utils/formatMoney'
 import {
   ScreenHeader,
   RegularText,

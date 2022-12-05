@@ -47,7 +47,7 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
       } catch (error: any) {
         console.log(
           '🚀 ~ file: PatientDashboard.tsx ~ line 47 ~ getConsumptionMethods ~ error',
-          error.response.data
+          error
         )
       }
 
