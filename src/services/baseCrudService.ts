@@ -30,7 +30,7 @@ export default class BaseCrudService<T extends BaseEntity, RegisterT = T> {
   }
 
   async create(data: RegisterT | FormData) {
-    return await axios.post<Patient>(
+    return await axios.post<RegisterT>(
       `${this.fullRoute}`,
       data,
       BaseCrudService.config
