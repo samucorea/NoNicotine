@@ -4,8 +4,8 @@ import moment from 'moment'
 import { Box, Fab, Image, Text, VStack } from 'native-base'
 import React, { FC, useEffect, useState } from 'react'
 import theme from '../../AppTheme'
-import { useUserContext } from '../../contexts/UserContext'
-import { ConsumptionExpenses, Patient } from '../../models'
+import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
+import { ConsumptionExpenses } from '../../models'
 import { RootStackScreens } from '../../routes/MainNavigator'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
 import patientService from '../../services/patientService'
@@ -29,9 +29,7 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
   const [consumptionExpenses, setConsumptionExpenses] =
     useState<ConsumptionExpenses>()
 
-  const { user } = useUserContext() ?? {}
-
-  const patient = user as Patient
+  const { user: patient } = useUserContext<PatientContextProps>() ?? {}
 
   const abstinenceDays = moment().diff(moment(patient?.startTime), 'days')
 

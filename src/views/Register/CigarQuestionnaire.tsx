@@ -12,8 +12,7 @@ import {
 import { Formik } from 'formik'
 import { number, object } from 'yup'
 import cigarService from '../../services/cigarService'
-import { Patient } from '../../models'
-import { useUserContext } from '../../contexts/UserContext'
+import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
 
 const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
   navigation,
@@ -21,9 +20,7 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
     params: { nextQuestionnaires },
   },
 }) => {
-  const { user } = useUserContext() ?? {}
-
-  const patient = user as Patient
+  const { user: patient } = useUserContext<PatientContextProps>() ?? {}
 
   return (
     <ScreenContainer>
@@ -43,7 +40,8 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
           onSubmit={async (data) => {
             await cigarService.create({
               ...data,
-              patientConsumptionMethodsId: patient.patientConsumptionMethodsId!,
+              patientConsumptionMethodsId:
+                patient!.patientConsumptionMethodsId!,
             })
 
             if (nextQuestionnaires.length > 0) {

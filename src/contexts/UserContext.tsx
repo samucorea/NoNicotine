@@ -10,6 +10,8 @@ import React, {
   useEffect,
 } from 'react'
 import usePrevious from '../hooks/usePreviousState'
+import { Patient } from '../models'
+import { Therapist } from '../models/Therapist'
 import User from '../models/User'
 import BaseCrudService from '../services/baseCrudService'
 import { refreshCurrentToken } from '../services/loginService'
@@ -26,15 +28,26 @@ interface ContextProps {
   setStoredRefreshToken: (refreshTokenTMP: string) => Promise<void>
   getStoredToken: () => Promise<string | null>
   logOut: () => Promise<void>
-  user: User | undefined
   token: string | undefined
   refreshToken: string | undefined
 }
 
-export const UserContext = createContext<ContextProps | undefined>(undefined)
+export interface PatientContextProps extends ContextProps {
+  user: Patient | undefined
+}
 
-export const useUserContext = () => {
-  return useContext(UserContext)
+export interface TherapistContextProps extends ContextProps {
+  user: Therapist | undefined
+}
+
+export const UserContext = createContext<
+  PatientContextProps | TherapistContextProps | undefined
+>(undefined)
+
+export const useUserContext = <
+  T extends PatientContextProps | TherapistContextProps
+>() => {
+  return useContext<T | undefined>(UserContext as React.Context<T | undefined>)
 }
 
 const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
@@ -52,6 +65,8 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
   const refreshTokenKey = 'refreshToken'
 
   useEffect(() => {
+    console.log('Go to login', !token && previousToken !== undefined)
+
     if (!token && previousToken !== undefined) {
       navigation.reset({
         routes: [{ name: 'Login' }],

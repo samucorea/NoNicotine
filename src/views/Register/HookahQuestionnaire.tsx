@@ -11,8 +11,7 @@ import {
 } from '../../components'
 import { Formik } from 'formik'
 import hookahService from '../../services/hookahService'
-import { useUserContext } from '../../contexts/UserContext'
-import { Patient } from '../../models'
+import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
 import { number, object } from 'yup'
 
 const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
@@ -21,9 +20,7 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
     params: { nextQuestionnaires },
   },
 }) => {
-  const { user } = useUserContext() ?? {}
-
-  const patient = user as Patient
+  const { user: patient } = useUserContext<PatientContextProps>() ?? {}
 
   return (
     <ScreenContainer>
@@ -47,7 +44,8 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
             )
             await hookahService.create({
               ...data,
-              patientConsumptionMethodsId: patient.patientConsumptionMethodsId!,
+              patientConsumptionMethodsId:
+                patient!.patientConsumptionMethodsId!,
             })
 
             if (nextQuestionnaires.length > 0) {

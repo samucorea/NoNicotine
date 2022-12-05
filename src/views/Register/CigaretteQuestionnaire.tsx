@@ -13,8 +13,7 @@ import {
 import { Formik } from 'formik'
 import { number, object } from 'yup'
 import cigarreteService from '../../services/cigarreteService'
-import { useUserContext } from '../../contexts/UserContext'
-import { Patient } from '../../models'
+import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
 
 const CigaretteQuestionnaire: React.FC<
   RootScreenProps<'CigaretteQuestionnaire'>
@@ -24,9 +23,7 @@ const CigaretteQuestionnaire: React.FC<
     params: { nextQuestionnaires },
   },
 }) => {
-  const { user } = useUserContext() ?? {}
-
-  const patient = user as Patient
+  const { user: patient } = useUserContext<PatientContextProps>() ?? {}
 
   const spacing = 3
 
@@ -55,7 +52,7 @@ const CigaretteQuestionnaire: React.FC<
               await cigarreteService.create({
                 ...data,
                 patientConsumptionMethodsId:
-                  patient.patientConsumptionMethodsId!,
+                  patient!.patientConsumptionMethodsId!,
               })
 
               if (nextQuestionnaires.length > 0) {
