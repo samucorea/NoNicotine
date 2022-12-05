@@ -42,10 +42,6 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
     const getConsumptionMethods = async () => {
       try {
         const response = await patientService.getConsumptionExpenses()
-        console.log(
-          '🚀 ~ file: PatientDashboard.tsx:45 ~ getConsumptionMethods ~ response',
-          response.data
-        )
 
         setConsumptionExpenses(response.data)
       } catch (error: any) {

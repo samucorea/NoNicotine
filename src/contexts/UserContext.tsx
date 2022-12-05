@@ -11,6 +11,7 @@ import React, {
 } from 'react'
 import usePrevious from '../hooks/usePreviousState'
 import User from '../models/User'
+import BaseCrudService from '../services/baseCrudService'
 import { refreshCurrentToken } from '../services/loginService'
 
 interface Props {
@@ -58,9 +59,6 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
     } else {
       getStoredUser().then((userTMP) => {
         setUser(userTMP as User)
-        navigation.reset({
-          routes: [{ name: 'Menu' }],
-        })
       })
     }
   }, [token])
@@ -82,6 +80,8 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
         if (tokenAboutToExpire) {
           let refreshTokenTMP = refreshToken
 
+          console.log('refresh token', refreshTokenTMP)
+
           if (!refreshTokenTMP) {
             refreshTokenTMP = await getStoredRefreshToken()
 
@@ -92,22 +92,27 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
             setRefreshToken(refreshTokenTMP)
           }
 
-          const response = await refreshCurrentToken(refreshTokenTMP)
+          try {
+            const response = await refreshCurrentToken(refreshTokenTMP)
+            console.log(
+              '🚀 ~ file: UserContext.tsx:99 ~ checkTokenValidity ~ response',
+              response.data.token
+            )
 
-          setStoredToken(response.data.token)
-          setStoredRefreshToken(response.data.refreshToken)
+            await setStoredToken(response.data.token)
+            await setStoredRefreshToken(response.data.refreshToken)
+
+            BaseCrudService.UpdateConfig()
+          } catch (error) {
+            console.log(
+              '🚀 ~ file: UserContext.tsx:110 ~ checkTokenValidity ~ error',
+              error.response.data
+            )
+          }
         }
       }
     }
     checkTokenValidity()
-
-    // if (!user) {
-    //   console.log('getting stored')
-
-    //   getStoredUser().then((user: User | undefined) => {
-    //     setUser(user)
-    //   })
-    // }
   })
 
   const getStoredUser = async (): Promise<User | undefined> => {
@@ -153,6 +158,7 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
       setRefreshToken(undefined)
       setUser(undefined)
     })
+    navigation.navigate('Login')
   }
 
   return (

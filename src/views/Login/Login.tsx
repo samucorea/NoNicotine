@@ -46,6 +46,10 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
               loadingContext?.setLoading(true, 'Iniciando sesión')
               try {
                 const response = await login(values)
+                console.log(
+                  '🚀 ~ file: Login.tsx:49 ~ onSubmit={ ~ response',
+                  response.data.refreshToken
+                )
 
                 const userResponse = await patientService.getCurrentPatient(
                   response.data.token

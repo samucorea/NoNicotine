@@ -17,7 +17,7 @@ export class PatientService extends BaseCrudService<Patient, RegisterPatient> {
   }
 
   async getConsumptionExpenses() {
-    console.log(BaseCrudService.config)
+    console.log(BaseCrudService.config.headers)
 
     return await axios.get<ConsumptionExpenses>(
       `${this.fullRoute}/consumptionExpenses`,

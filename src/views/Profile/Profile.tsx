@@ -19,8 +19,6 @@ const Profile: React.FC<RootScreenProps<'Profile'>> = ({
   route,
   navigation,
 }) => {
-  console.log(navigation.getState())
-
   const userContext = useUserContext()
 
   return (
