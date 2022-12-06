@@ -1,10 +1,11 @@
 import { DiaryEntry } from './DiaryEntry'
+import { Therapist } from './Therapist'
 import User, { RegisterUser } from './User'
 
 export default interface Patient extends User {
   startTime: Date
-  therapistId?: any
-  therapist?: any
+  therapistId?: string
+  therapist?: Therapist
   patientConsumptionMethodsId?: string
   patientConsumptionMethods?: PatientConsumptionMethods
   entries?: DiaryEntry[]

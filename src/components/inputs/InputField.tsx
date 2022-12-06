@@ -4,11 +4,10 @@ import {
   IFormControlLabelProps,
   Input,
   Pressable,
-  Text,
   useColorModeValue,
 } from 'native-base'
 import theme from '../../AppTheme'
-import { useField, useFormikContext } from 'formik'
+import { useField } from 'formik'
 import { IInputProps } from 'native-base/lib/typescript/components/primitives/Input/types'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
@@ -17,6 +16,8 @@ export interface InputFieldProps {
   labelStyle?: IFormControlLabelProps
   password?: boolean
   name: string
+  showError?: boolean
+  textArea?: boolean
 }
 
 export const InputField = ({
@@ -24,6 +25,8 @@ export const InputField = ({
   label,
   labelStyle,
   password = false,
+  showError = true,
+  textArea = false,
   ...props
 }: InputFieldProps & IInputProps): JSX.Element => {
   const [Show, setShow] = React.useState(false)
@@ -72,15 +75,17 @@ export const InputField = ({
         onChangeText={field?.onChange(name)}
         {...props}
       />
-      <FormControl.ErrorMessage
-        _stack={{ bg: 'transparent' }}
-        bg="transparent"
-        mt={0}
-        mb={2}
-        _text={{ fontSize: 'md' }}
-      >
-        {meta?.error}
-      </FormControl.ErrorMessage>
+      {showError && (
+        <FormControl.ErrorMessage
+          _stack={{ bg: 'transparent' }}
+          bg="transparent"
+          mt={0}
+          mb={2}
+          _text={{ fontSize: 'md' }}
+        >
+          {meta?.error}
+        </FormControl.ErrorMessage>
+      )}
     </FormControl>
   )
 }

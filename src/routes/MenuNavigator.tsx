@@ -10,6 +10,7 @@ import theme from '../AppTheme'
 import DiaryNavigator from './Diary/DiaryNavigator'
 import { useLoadingContext } from '../contexts/LoadingContext'
 import { useEffect } from 'react'
+import { PatientContextProps, useUserContext } from '../contexts/UserContext'
 
 const HomeIcon = require('../../assets/home.png')
 const DiaryIcon = require('../../assets/diary.png')
@@ -30,6 +31,7 @@ const Tab = createBottomTabNavigator<MenuNavigatorScreens>()
 
 const MenuNavigator = () => {
   const loadingContext = useLoadingContext()
+  const { user } = useUserContext<PatientContextProps>() ?? {}
 
   useEffect(() => {
     loadingContext?.setLoading(false)
@@ -98,12 +100,14 @@ const MenuNavigator = () => {
             />
           ),
           tabBarLabel: 'Terapia',
-          headerTitle: 'Terapeutas',
+          headerTitle: user?.therapist?.name,
           headerStyle: {
             height: 120,
             borderBottomWidth: 1,
             borderBottomColor: '#949494',
           },
+          // headerShown: user?.therapist != undefined,
+          headerTitleAlign: 'center',
           headerTitleStyle: {
             color: theme.colors.primary.default,
             fontSize: 28,

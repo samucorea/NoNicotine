@@ -11,6 +11,11 @@ const theme = extendTheme({
       primary: '#889ab3',
     },
     danger: '#ef756d',
+
+    message: {
+      sent: '#97acc9',
+      received: '#adb9ca',
+    },
   },
   components: {
     Box: {
