@@ -23,8 +23,7 @@ import CigarQuestionnaire from '../views/Register/CigarQuestionnaire'
 import HookahQuestionnaire from '../views/Register/HookahQuestionnaire'
 import VapeQuestionnaire from '../views/Register/VapeQuestionnaire'
 import { CustomIconButton } from '../components'
-
-const SettingsIcon = require('../../assets/settings.png')
+import SettingsIcon from '../../assets/settings.svg'
 
 export type RootStackScreens = {
   VapeQuestionnaire: { nextQuestionnaires: string[] }

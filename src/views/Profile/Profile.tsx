@@ -11,8 +11,8 @@ import {
 } from '../../components'
 import { useUserContext } from '../../contexts/UserContext'
 import { RootScreenProps } from '../../routes/MainNavigator'
+import ProfileIcon from '../../../assets/profile.svg'
 
-const ProfileIcon = require('../../../assets/profile-big.png')
 const EditIcon = require('../../../assets/pencil.png')
 
 const Profile: React.FC<RootScreenProps<'Profile'>> = ({
@@ -24,7 +24,7 @@ const Profile: React.FC<RootScreenProps<'Profile'>> = ({
   return (
     <ScreenContainer>
       <VStack alignItems={'center'} w="100%" mb={5}>
-        <Image source={ProfileIcon} size="lg" alt="profile_icon" />
+        <ProfileIcon width={100} height={100} />
         <HStack position="relative">
           <Text bold fontSize={28} color={theme.colors.primary.default}>
             Mario Almanzar

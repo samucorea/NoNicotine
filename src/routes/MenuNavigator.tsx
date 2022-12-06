@@ -3,7 +3,6 @@ import {
   BottomTabScreenProps,
 } from '@react-navigation/bottom-tabs'
 import { Image } from 'native-base'
-import { ImageSourcePropType } from 'react-native'
 import { CustomIconButton } from '../components'
 import { Habits, PatientDashboard, Therapy } from '../views'
 import theme from '../AppTheme'
@@ -11,13 +10,12 @@ import DiaryNavigator from './Diary/DiaryNavigator'
 import { useLoadingContext } from '../contexts/LoadingContext'
 import { useEffect } from 'react'
 import { PatientContextProps, useUserContext } from '../contexts/UserContext'
+import Profile from '../../assets/profile.svg'
 
 const HomeIcon = require('../../assets/home.png')
 const DiaryIcon = require('../../assets/diary.png')
 const TherapyIcon = require('../../assets/therapist.png')
 const HabitsIcon = require('../../assets/sync.png')
-
-const Profile: ImageSourcePropType = require('../../assets/profile.png')
 
 type MenuNavigatorScreens = {
   PatientDashboard: undefined
