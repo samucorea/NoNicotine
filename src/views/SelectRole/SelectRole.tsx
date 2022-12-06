@@ -5,6 +5,7 @@ import { ScreenHeader, SquaredIconButton } from '../../components'
 import theme from '../../AppTheme'
 import PatientIcon from '../../../assets/patient.svg'
 import TherapistIcon from '../../../assets/therapist-role.svg'
+import { Roles } from '../../utils/enums/Roles'
 
 const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
   navigation,
@@ -33,7 +34,9 @@ const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
             labelStyle={{ color: '#fff' }}
             Icon={PatientIcon}
             bg={theme.colors.primary.default}
-            onPress={() => navigation.navigate('Register', { role: 'patient' })}
+            onPress={() =>
+              navigation.navigate('Register', { role: Roles.patient })
+            }
           />
           <SquaredIconButton
             label="Terapeuta"
@@ -41,7 +44,7 @@ const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
             Icon={TherapistIcon}
             bg={theme.colors.primary.default}
             onPress={() =>
-              navigation.navigate('Register', { role: 'therapist' })
+              navigation.navigate('Register', { role: Roles.patient })
             }
           />
         </Box>

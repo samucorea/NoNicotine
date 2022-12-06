@@ -95,8 +95,6 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
         if (tokenAboutToExpire) {
           let refreshTokenTMP = refreshToken
 
-          console.log('refresh token', refreshTokenTMP)
-
           if (!refreshTokenTMP) {
             refreshTokenTMP = await getStoredRefreshToken()
 

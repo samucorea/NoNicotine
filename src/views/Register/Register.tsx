@@ -20,6 +20,7 @@ import { Identification, Sex } from '../../sharedTypes'
 import { useLoadingContext } from '../../contexts/LoadingContext'
 import theme from '../../AppTheme'
 import therapistService from '../../services/therapistService'
+import { Roles } from '../../utils/enums/Roles'
 
 const Register: React.FC<RootScreenProps<'Register'>> = ({
   navigation,
@@ -31,7 +32,7 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
   const [created, setCreated] = useState(false)
 
   const subHeaderText =
-    role === 'therapist'
+    role === Roles.therapist
       ? 'Completa este formulario con tu información'
       : 'Estás muy cerca de mejorar tu vida...'
 
@@ -76,7 +77,7 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
                 loadingContext?.setLoading(true, 'Creando usuario')
 
                 const service =
-                  role == 'patient'
+                  role == Roles.patient
                     ? async (data: any) => await patientService.create(data)
                     : async (data: any) => await therapistService.create(data)
 

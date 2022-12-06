@@ -10,6 +10,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import { Icon, useColorModeValue } from 'native-base'
 import theme from '../../AppTheme'
 import { DiaryEntry } from '../../models'
+import { headerStyle } from '../MenuNavigator'
 
 export type DiaryStackScreens = {
   Diary: undefined
@@ -48,11 +49,7 @@ const MainNavigator = () => {
         component={Diary}
         options={{
           headerTitle: 'Entradas',
-          headerStyle: { height: 120 },
-          headerTitleStyle: {
-            color: theme.colors.primary.default,
-            fontSize: 28,
-          },
+          ...headerStyle,
         }}
       />
       <Stack.Screen

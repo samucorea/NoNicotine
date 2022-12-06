@@ -1,4 +1,4 @@
-import { HStack, Spinner, Text, VStack } from 'native-base'
+import { Spinner, Text, VStack } from 'native-base'
 import React, { FC } from 'react'
 import theme from '../AppTheme'
 

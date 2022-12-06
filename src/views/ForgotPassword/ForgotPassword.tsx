@@ -65,7 +65,7 @@ const ForgotPassword: FC<RootScreenProps<'ForgotPassword'>> = ({
                   try {
                     await resetPassword(email)
                     setSuccess(true)
-                  } catch (error) {
+                  } catch (error: any) {
                     console.log(
                       '🚀 ~ file: ForgotPassword.tsx ~ line 69 ~ onSubmit={ ~ error',
                       error.response.data

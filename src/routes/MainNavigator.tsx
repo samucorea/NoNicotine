@@ -12,10 +12,11 @@ import {
   Profile,
   ForgotPassword,
   PreviewProfile,
+  Chat,
 } from '../views'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
-import MenuNavigator from './MenuNavigator'
+import MenuNavigator, { headerStyle } from './MenuNavigator'
 import { Icon, Text, useColorModeValue, VStack } from 'native-base'
 import theme from '../AppTheme'
 import { useUserContext } from '../contexts/UserContext'
@@ -25,6 +26,8 @@ import HookahQuestionnaire from '../views/Register/HookahQuestionnaire'
 import VapeQuestionnaire from '../views/Register/VapeQuestionnaire'
 import { CustomIconButton } from '../components'
 import SettingsIcon from '../../assets/settings.svg'
+import ProfileIcon from '../../assets/profile.svg'
+import { Roles } from '../utils/enums/Roles'
 
 export type RootStackScreens = {
   VapeQuestionnaire: { nextQuestionnaires: string[] }
@@ -32,13 +35,14 @@ export type RootStackScreens = {
   CigarQuestionnaire: { nextQuestionnaires: string[] }
   CigaretteQuestionnaire: { nextQuestionnaires: string[] }
   MethodSelection: { firstTime: boolean }
-  Register: { role: 'therapist' | 'patient' }
+  Register: { role: Roles }
   SelectRole: undefined
   Menu: undefined
   Login: undefined
   Profile: undefined
   PreviewProfile: undefined
   ForgotPassword: undefined
+  Chat: { title: string }
 }
 
 const Stack = createStackNavigator<RootStackScreens>()
@@ -93,6 +97,27 @@ const MainNavigator = () => {
                   />
                   <Text color={theme.colors.primary.default}>Consumo</Text>
                 </VStack>
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="Chat"
+            component={Chat}
+            options={({
+              navigation,
+              route: {
+                params: { title },
+              },
+            }) => ({
+              ...headerStyle,
+              headerTitle: title,
+              headerTitleAlign: 'center',
+              headerRight: () => (
+                <CustomIconButton
+                  icon={ProfileIcon}
+                  pr={'5'}
+                  onPress={() => navigation.navigate('Profile')}
+                />
               ),
             })}
           />

@@ -14,7 +14,6 @@ import { useUserContext } from '../../contexts/UserContext'
 import { RootScreenProps } from '../../routes/MainNavigator'
 import BaseCrudService from '../../services/baseCrudService'
 import login from '../../services/loginService'
-import patientService from '../../services/patientService'
 
 const DarkLogo = require('../../../assets/dark-logo.png')
 
@@ -45,29 +44,22 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
             onSubmit={async (values) => {
               loadingContext?.setLoading(true, 'Iniciando sesión')
               try {
-                const response = await login(values)
-                console.log(
-                  '🚀 ~ file: Login.tsx:49 ~ onSubmit={ ~ response',
-                  response.data.refreshToken
+                const { userResponse, token, refreshToken } = await login(
+                  values
                 )
 
-                const userResponse = await patientService.getCurrentPatient(
-                  response.data.token
-                )
+                console.log('user', userResponse)
 
-                await userContext?.setStoredUser(userResponse.data)
-                await userContext?.setStoredToken(response.data.token)
-                await userContext?.setStoredRefreshToken(
-                  response.data.refreshToken
-                )
+                await userContext?.setStoredUser(userResponse)
+                await userContext?.setStoredToken(token)
+                await userContext?.setStoredRefreshToken(refreshToken)
 
                 BaseCrudService.UpdateConfig()
               } catch (error: any) {
                 console.log(
                   '🚀 ~ file: Login.tsx ~ line 59 ~ onSubmit={ ~ error',
-                  error.response.data
+                  error
                 )
-                loadingContext?.setLoading(false)
 
                 const errorMessage: string = error.response.data.message
 
@@ -83,6 +75,7 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
                     break
                 }
               }
+              loadingContext?.setLoading(false)
             }}
           >
             {({ handleSubmit }) => (

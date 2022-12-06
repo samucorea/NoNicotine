@@ -3,7 +3,7 @@ import { Box, FlatList, IconButton } from 'native-base'
 import React from 'react'
 import { object, string } from 'yup'
 import theme from '../../../AppTheme'
-import { InputField } from '../../../components'
+import { InputField, VStackContainer } from '../../../components'
 import Message from './Message'
 import SendIcon from '../../../../assets/send.svg'
 
@@ -24,7 +24,7 @@ const messages = [
 
 const Chat = () => {
   return (
-    <Box flex={1}>
+    <VStackContainer scroll={false}>
       <FlatList
         p={5}
         data={messages}
@@ -59,7 +59,7 @@ const Chat = () => {
           )}
         </Formik>
       </Box>
-    </Box>
+    </VStackContainer>
   )
 }
 
