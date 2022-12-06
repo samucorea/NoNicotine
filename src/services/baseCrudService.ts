@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import axios, { AxiosError, AxiosRequestConfig } from 'axios'
-import { Patient } from '../models'
+import axios, { AxiosRequestConfig } from 'axios'
 import { BaseEntity } from '../models/BaseEntity'
 import apiRoute from '../utils/apiRoute'
 

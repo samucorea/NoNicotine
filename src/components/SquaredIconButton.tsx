@@ -1,6 +1,5 @@
 import { Box, Pressable, Text } from 'native-base'
 import { InterfaceBoxProps } from 'native-base/lib/typescript/components/primitives/Box'
-import { InterfaceImageProps } from 'native-base/lib/typescript/components/primitives/Image/types'
 import { InterfaceTextProps } from 'native-base/lib/typescript/components/primitives/Text/types'
 import React, { FC, ReactNode } from 'react'
 import { SvgProps } from 'react-native-svg'

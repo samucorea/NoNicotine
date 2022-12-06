@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { RootScreenProps } from '../../routes/MainNavigator'
-import { Box, ScrollView, Spinner, VStack } from 'native-base'
+import { Box, ScrollView, VStack } from 'native-base'
 import {
   ScreenHeader,
   RegularText,
@@ -12,21 +12,14 @@ import {
   SelectInputField,
   SubmitMessage,
 } from '../../components'
-import User, { RegisterUser } from '../../models/User'
 import patientService from '../../services/patientService'
 import { Formik } from 'formik'
 import { object, string, date, ref } from 'yup'
 import moment from 'moment'
-import { Patient } from '../../models'
-import { RegisterPatient } from '../../models/Patient'
 import { Identification, Sex } from '../../sharedTypes'
-import { AxiosError } from 'axios'
 import { useLoadingContext } from '../../contexts/LoadingContext'
-import Login from '../Login/Login'
-import login from '../../services/loginService'
-import { useUserContext } from '../../contexts/UserContext'
-import BaseCrudService from '../../services/baseCrudService'
 import theme from '../../AppTheme'
+import therapistService from '../../services/therapistService'
 
 const Register: React.FC<RootScreenProps<'Register'>> = ({
   navigation,
@@ -35,7 +28,6 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
   },
 }) => {
   const loadingContext = useLoadingContext()
-  const userContext = useUserContext()
   const [created, setCreated] = useState(false)
 
   const subHeaderText =
@@ -83,33 +75,33 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
               onSubmit={async (values, formikHelpers) => {
                 loadingContext?.setLoading(true, 'Creando usuario')
 
-                if (role == 'patient') {
-                  const { confirmPassword, ...registerValues } = values
+                const service =
+                  role == 'patient'
+                    ? async (data: any) => await patientService.create(data)
+                    : async (data: any) => await therapistService.create(data)
 
-                  try {
-                    await patientService.create(
-                      registerValues as RegisterPatient
-                    )
-                    setCreated(true)
-                  } catch (error: any) {
-                    console.log(
-                      '🚀 ~ file: Register.tsx:95 ~ onSubmit={ ~ error',
-                      error.response.data
-                    )
-                    switch (error.response.data.message) {
-                      case 'Email already taken':
-                        formikHelpers.setFieldError(
-                          'email',
-                          'Este correo ya está registrado'
-                        )
-                        break
+                const { confirmPassword, ...registerValues } = values
 
-                      default:
-                        break
-                    }
+                try {
+                  await service(registerValues)
+                  setCreated(true)
+                } catch (error: any) {
+                  console.log(
+                    '🚀 ~ file: Register.tsx:95 ~ onSubmit={ ~ error',
+                    error
+                  )
+                  switch (error.response?.data?.message) {
+                    case 'Email already taken':
+                      formikHelpers.setFieldError(
+                        'email',
+                        'Este correo ya está registrado'
+                      )
+                      break
+
+                    default:
+                      break
                   }
                 }
-
                 loadingContext?.setLoading(false)
               }}
             >
