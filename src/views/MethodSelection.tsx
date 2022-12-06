@@ -1,16 +1,14 @@
 import React, { useState } from 'react'
-import { RootScreenProps, RootStackScreens } from '../routes/MainNavigator'
+import { RootScreenProps } from '../routes/MainNavigator'
 import { Box, VStack } from 'native-base'
 import { ScreenHeader } from '../components/ScreenHeader'
 import theme from '../AppTheme'
-import { ImageSourcePropType } from 'react-native'
 import { RegularText } from '../components/RegularText'
-
 import { ScreenContainer, SendButton, SquaredIconButton } from '../components'
-const Cigarette: ImageSourcePropType = require('../../assets/cigarette.png')
-const Vape: ImageSourcePropType = require('../../assets/vape.png')
-const Cigar: ImageSourcePropType = require('../../assets/cigar.png')
-const Hookah: ImageSourcePropType = require('../../assets/hookah.png')
+import Cigarette from '../../assets/cigarette.svg'
+import Vape from '../../assets/vape.svg'
+import Cigar from '../../assets/cigar.svg'
+import Hookah from '../../assets/hookah.svg'
 
 const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
   navigation,
@@ -55,7 +53,8 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
               borderColor={theme.colors.primary.default}
               label={method.label}
               labelStyle={{ color: theme.colors.primary.default }}
-              icon={method.icon}
+              Icon={method.icon}
+              iconProps={{ color: theme.colors.primary.default }}
               {...(selectedMethods.find(
                 (element) => element == method.name
               ) && { ...selectedStyle })}
@@ -98,7 +97,7 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
 
 const selectedStyle = {
   shadow: 0,
-  iconProps: { tintColor: '#94a4ba' },
+  iconProps: { color: '#94a4ba' },
   borderColor: '#94a4ba',
   labelStyle: { color: '#94a4ba' },
 }

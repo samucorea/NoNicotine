@@ -1,8 +1,9 @@
 import React from 'react'
 import { Pressable, IPressableProps } from 'native-base'
+import { SvgProps } from 'react-native-svg'
 
 interface Props {
-  icon: React.FunctionComponent<React.SVGAttributes<SVGElement>>
+  icon: React.FC<SvgProps>
 }
 
 export const CustomIconButton = (

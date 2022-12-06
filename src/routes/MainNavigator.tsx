@@ -11,6 +11,7 @@ import {
   Login,
   Profile,
   ForgotPassword,
+  PreviewProfile,
 } from '../views'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
@@ -36,6 +37,7 @@ export type RootStackScreens = {
   Menu: undefined
   Login: undefined
   Profile: undefined
+  PreviewProfile: undefined
   ForgotPassword: undefined
 }
 
@@ -70,14 +72,36 @@ const MainNavigator = () => {
       }}
     >
       {userContext?.token !== undefined ? (
-        <Stack.Screen
-          name="Menu"
-          component={MenuNavigator}
-          options={{
-            headerShown: false,
-            cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
-          }}
-        />
+        <>
+          <Stack.Screen
+            name="Menu"
+            component={MenuNavigator}
+            options={{
+              headerShown: false,
+              cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
+            }}
+          />
+          <Stack.Screen
+            name="Profile"
+            component={Profile}
+            options={({ navigation }) => ({
+              headerRight: () => (
+                <VStack alignItems={'center'} pr={'5'}>
+                  <CustomIconButton
+                    icon={SettingsIcon}
+                    onPress={() => navigation.navigate('MethodSelection')}
+                  />
+                  <Text color={theme.colors.primary.default}>Consumo</Text>
+                </VStack>
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="PreviewProfile"
+            component={PreviewProfile}
+            options={({ navigation }) => ({})}
+          />
+        </>
       ) : (
         <>
           <Stack.Screen
@@ -145,21 +169,6 @@ const MainNavigator = () => {
         name="VapeQuestionnaire"
         initialParams={{ nextQuestionnaires: [] }}
         component={VapeQuestionnaire}
-      />
-      <Stack.Screen
-        name="Profile"
-        component={Profile}
-        options={({ navigation }) => ({
-          headerRight: () => (
-            <VStack alignItems={'center'} pr={'5'}>
-              <CustomIconButton
-                icon={SettingsIcon}
-                onPress={() => navigation.navigate('MethodSelection')}
-              />
-              <Text color={theme.colors.primary.default}>Consumo</Text>
-            </VStack>
-          ),
-        })}
       />
     </Stack.Navigator>
   )

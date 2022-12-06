@@ -89,7 +89,7 @@ const MenuNavigator = () => {
       <Tab.Screen
         name="Therapy"
         component={Therapy}
-        options={{
+        options={({ navigation }) => ({
           tabBarIcon: ({ focused }) => (
             <Image
               tintColor={focused ? '#fff' : '#aebacb'}
@@ -110,7 +110,14 @@ const MenuNavigator = () => {
             color: theme.colors.primary.default,
             fontSize: 28,
           },
-        }}
+          headerRight: () => (
+            <CustomIconButton
+              icon={Profile}
+              pr={'5'}
+              onPress={() => navigation.navigate('PreviewProfile')}
+            />
+          ),
+        })}
       />
       <Tab.Screen
         name="Habits"
