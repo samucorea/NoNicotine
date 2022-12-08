@@ -28,6 +28,10 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
     const getPatients = async () => {
       try {
         const response = await therapistService.getPatients()
+        console.log(
+          '🚀 ~ file: TherapistDashboard.tsx:31 ~ getPatients ~ response',
+          response.data
+        )
 
         user!.patients = response.data
 
@@ -79,6 +83,7 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
           key={index}
           name={patient.name}
           conversation={conversations[patient.id]}
+          patient={patient}
         />
       ))}
       <LinkModal show={show} toggleShow={toggleShow} />

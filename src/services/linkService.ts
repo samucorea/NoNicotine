@@ -42,6 +42,16 @@ export default class LinkService extends BaseCrudService<any> {
 
     return response
   }
+
+  async unLink(userId: string, patientId: string) {
+    const response = await axios.put<any>(
+      `${this.fullRoute}`,
+      { userId, patientId },
+      BaseCrudService.config
+    )
+
+    return response
+  }
 }
 
 export const linkService = new LinkService()

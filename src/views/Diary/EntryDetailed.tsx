@@ -21,10 +21,18 @@ const EntryDetailed: FC<DiaryScreenProps<'EntryDetailed'>> = ({
   console.log(entry)
 
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>(
-    entry ? entry.symptoms : []
+    entry
+      ? typeof entry.symptoms == 'string'
+        ? entry.symptoms.split(',')
+        : entry.symptoms
+      : []
   )
   const [selectedFeelings, setSelectedFeelings] = useState<string[]>(
-    entry ? entry.feelings : []
+    entry
+      ? typeof entry.feelings == 'string'
+        ? entry.feelings.split(',')
+        : entry.feelings
+      : []
   )
   const [description, setDescription] = useState<string>(
     entry ? entry.message : ''
@@ -44,7 +52,14 @@ const EntryDetailed: FC<DiaryScreenProps<'EntryDetailed'>> = ({
         therapistAllowed: checked,
       }
 
-      diaryEntryService.create(entryTMP)
+      try {
+        diaryEntryService.create(entryTMP)
+      } catch (error: any) {
+        console.log(
+          '🚀 ~ file: EntryDetailed.tsx:63 ~ handleSubmit ~ error',
+          error.response.data
+        )
+      }
 
       navigation.goBack()
     }

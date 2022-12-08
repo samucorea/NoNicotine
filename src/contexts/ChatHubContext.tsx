@@ -1,4 +1,4 @@
-import { HubConnectionBuilder } from '@microsoft/signalr'
+import { HubConnectionBuilder, HubConnection } from '@microsoft/signalr'
 import {
   useState,
   useEffect,
@@ -28,35 +28,41 @@ interface Props {
 const ChatHubProvider: FC<Props> = ({ children }) => {
   const { token } = useUserContext()
 
-  const [connection, setConnection] = useState(
-    new HubConnectionBuilder()
+  const [connection, setConnection] = useState<HubConnection>()
+
+  useEffect(() => {
+    const connectionTMP = new HubConnectionBuilder()
       .withAutomaticReconnect()
       .withUrl(`${process.env.SERVER_HOST}/Chat?access_token=${token!}`)
       .build()
-  )
+
+    setConnection(connectionTMP)
+  }, [token])
 
   useEffect(() => {
     const startConnection = async () => {
-      connection.on('ReceiveMessage', (message: string) => {
+      connection?.on('ReceiveMessage', (message: string) => {
         console.log('signalr meessage', message)
       })
 
-      connection.start()
+      connection?.start()
     }
 
     startConnection()
-  }, [])
+  }, [connection])
 
   const subscribe = (userId: string) => {
-    connection.send('Subscribe', userId)
+    connection?.send('Subscribe', userId)
   }
 
   const ackMessage = (messageId: string) => {
-    connection.send('AckMessage', messageId)
+    connection?.send('AckMessage', messageId)
   }
 
   const sendPrivateMessage = (userId: string, message: string) => {
-    connection.send('SendPrivateMessage', userId, message)
+    console.log({ connection })
+
+    connection?.send('SendPrivateMessage', userId, message)
   }
 
   return (

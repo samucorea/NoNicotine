@@ -8,9 +8,11 @@ import AddHabit from './partials/AddHabit'
 import Walk from '../../../assets/walking.svg'
 import Meditation from '../../../assets/meditation.svg'
 import Book from '../../../assets/book.svg'
+import { useFocus } from '../../hooks'
 
-const Habits: React.FC<MenuScreenProps<'Habits'>> = () => {
+const Habits: React.FC<MenuScreenProps<'Habits'>> = ({ navigation }) => {
   const [show, setShow] = useState(false)
+  const isFocused = useFocus(navigation)
 
   const onShowPopup: any = () => {
     setShow(true)
@@ -46,19 +48,22 @@ const Habits: React.FC<MenuScreenProps<'Habits'>> = () => {
           </Box>
         ))}
       </Box>
-      <Fab
-        bg={theme.colors.primary.default}
-        icon={
-          <AntDesign
-            name="plus"
-            size={24}
-            color="white"
-            style={{ backgroundColor: theme.colors.primary.default }}
-          />
-        }
-        bottom={90}
-        onPress={onShowPopup}
-      />
+      {isFocused && (
+        <Fab
+          bg={theme.colors.primary.default}
+          icon={
+            <AntDesign
+              name="plus"
+              size={24}
+              color="white"
+              style={{ backgroundColor: theme.colors.primary.default }}
+            />
+          }
+          bottom={90}
+          onPress={onShowPopup}
+        />
+      )}
+
       <AddHabit
         title="Añadir Habito"
         onTouchOutside={onClosePopup}

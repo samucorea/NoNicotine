@@ -1,6 +1,6 @@
 import { Text, VStack } from 'native-base'
 import React, { FC, useEffect, useState } from 'react'
-import { ScreenContainer } from '../../components'
+import { CustomIconButton, ScreenContainer } from '../../components'
 import theme from '../../AppTheme'
 import SadFace from '../../../assets/sad_face.svg'
 import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
@@ -11,9 +11,17 @@ import { LinkRequest } from '../../models/LinkRequest'
 import { useFocus, useModalToggle } from '../../hooks'
 import RequestModal from './Components/RequestModal'
 import patientService from '../../services/patientService'
+import ProfileIcon from '../../../assets/profile.svg'
 import { User } from '../../models'
+import { CompositeScreenProps } from '@react-navigation/native'
+import { StackScreenProps } from '@react-navigation/stack'
+import { RootStackScreens } from '../../routes/MainNavigator'
 
-const Therapy: FC<MenuScreenProps<'Therapy'>> = ({ navigation }) => {
+type Props = CompositeScreenProps<
+  MenuScreenProps<'Therapy'>,
+  StackScreenProps<RootStackScreens>
+>
+const Therapy: FC<Props> = ({ navigation }) => {
   const {
     user: patient,
     token,
@@ -47,7 +55,29 @@ const Therapy: FC<MenuScreenProps<'Therapy'>> = ({ navigation }) => {
     }
   }, [isFocused])
 
+  useEffect(() => {
+    console.log('checkinb', patient?.therapist)
+
+    if (patient?.therapist) {
+      navigation.setOptions({
+        headerRight: () => (
+          <CustomIconButton
+            icon={ProfileIcon}
+            pr={'5'}
+            onPress={() =>
+              navigation.navigate('PreviewProfile', {
+                user: patient.therapist as User,
+              })
+            }
+          />
+        ),
+      })
+    }
+  }, [patient?.therapist])
+
   const handleRequestUpdate = async () => {
+    console.log('closing')
+
     try {
       const response = await patientService.getCurrentPatient(token!)
 
@@ -64,7 +94,7 @@ const Therapy: FC<MenuScreenProps<'Therapy'>> = ({ navigation }) => {
     toggleShow()
   }
 
-  if (linkRequest?.requestAccepted == null) {
+  if (linkRequest?.requestAccepted == null && show) {
     return (
       <RequestModal
         show={show}
@@ -73,6 +103,8 @@ const Therapy: FC<MenuScreenProps<'Therapy'>> = ({ navigation }) => {
       />
     )
   }
+
+  console.log('terapeuta', patient?.therapist)
 
   if (!patient?.therapist) {
     // if (false) {

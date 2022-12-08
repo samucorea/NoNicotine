@@ -71,7 +71,7 @@ const DiaryNavigator = () => {
             params: { patientName },
           },
         }) => ({
-          headerTitle: `Entradas${patientName && ' - ' + patientName}`,
+          headerTitle: `Entradas${patientName ? ' - ' + patientName : ''}`,
           ...headerStyle,
         })}
       />

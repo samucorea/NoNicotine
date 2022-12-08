@@ -32,7 +32,6 @@ const LinkModal: FC<ModalProps> = ({ show, toggleShow }) => {
                 user!.identityUserId!,
                 email
               )
-              console.log('🚀 ~ file: LinkModal.tsx:36 ~ response', response)
               toggleShow()
             } catch (error) {
               console.log('🚀 ~ file: LinkModal.tsx:37 ~ error', error)

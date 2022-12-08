@@ -10,11 +10,12 @@ import { MenuNavigatorScreens } from '../../../routes/MenuNavigator'
 import { Box } from 'native-base'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackScreens } from '../../../routes/MainNavigator'
-import { ChatMessage } from '../../../models'
+import { ChatMessage, Patient } from '../../../models'
 
 interface Props {
   name: string
   conversation: ChatMessage[]
+  patient: Patient
 }
 
 type NavigationProps = CompositeNavigationProp<
@@ -22,11 +23,13 @@ type NavigationProps = CompositeNavigationProp<
   BottomTabNavigationProp<MenuNavigatorScreens, 'TherapistDashboard'>
 >
 
-const PatientListing: FC<Props> = ({ name, conversation }) => {
+const PatientListing: FC<Props> = ({ name, conversation, patient }) => {
   const navigation = useNavigation<NavigationProps>()
   return (
     <StackButton
-      onPress={() => navigation.navigate('Chat', { title: name })}
+      onPress={() =>
+        navigation.navigate('Chat', { title: name, user: patient })
+      }
       leftIcon={
         <Box mr={3}>
           <ProfileIcon />
