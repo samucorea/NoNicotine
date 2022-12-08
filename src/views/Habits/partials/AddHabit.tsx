@@ -23,6 +23,10 @@ const AddHabit: FC<Props> = ({ title, onTouchOutside, show }) => {
     setShowTimePicker(true)
   }
 
+  const close = () => {
+    console.log('close add habit')
+  }
+
   const renderOutsideTouchable = (onTouch: any) => {
     const view = <View flex={1} width="100%" />
     if (!onTouch) return view

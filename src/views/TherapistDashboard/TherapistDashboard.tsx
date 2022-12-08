@@ -31,7 +31,7 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
 
         user!.patients = response.data
 
-        setStoredUser!(user!)
+        setStoredUser(user!)
       } catch (error) {
         console.log(
           '🚀 ~ file: TherapistDashboard.tsx:21 ~ getPatients ~ error',
@@ -61,20 +61,20 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
     }
   }, [isFocused])
 
-  if (user?.patients.length == 0) {
+  if (user?.patients?.length == 0) {
     return (
       <Center flex={1}>
         <Heading mb={2} textAlign={'center'} color="primary.default">
           Aún no tiene pacientes
         </Heading>
-        <SendButton text="Vincular paciente" onPress={toggleShow} />
+        <SendButton text="Vincular paciente" onPress={() => toggleShow()} />
       </Center>
     )
   }
 
   return (
     <VStackContainer>
-      {user?.patients.map((patient, index) => (
+      {user?.patients?.map((patient, index) => (
         <PatientListing
           key={index}
           name={patient.name}
@@ -94,7 +94,7 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
           }
           bottom={90}
           bg="primary.default"
-          onPress={toggleShow}
+          onPress={() => toggleShow()}
         />
       )}
     </VStackContainer>

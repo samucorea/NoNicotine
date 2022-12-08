@@ -47,7 +47,7 @@ export const UserContext = createContext<
 export const useUserContext = <
   T extends PatientContextProps | TherapistContextProps
 >() => {
-  return useContext<T | undefined>(UserContext as React.Context<T | undefined>)
+  return useContext<T | undefined>(UserContext as React.Context<T | undefined>)!
 }
 
 const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
@@ -82,15 +82,15 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
     const checkTokenValidity = async () => {
       if (lastTokenSet) {
         const tokenAboutToExpire = moment().diff(lastTokenSet, 'minutes') > 5
-        console.log(
-          '🚀 ~ file: UserContext.tsx ~ line 72 ~ checkTokenValidity ~ lastTokenSet',
-          lastTokenSet,
-          moment()
-        )
-        console.log(
-          '🚀 ~ file: UserContext.tsx ~ line 72 ~ checkTokenValidity ~ tokenAboutToExpire',
-          tokenAboutToExpire
-        )
+        // console.log(
+        //   '🚀 ~ file: UserContext.tsx ~ line 72 ~ checkTokenValidity ~ lastTokenSet',
+        //   lastTokenSet,
+        //   moment()
+        // )
+        // console.log(
+        //   '🚀 ~ file: UserContext.tsx ~ line 72 ~ checkTokenValidity ~ tokenAboutToExpire',
+        //   tokenAboutToExpire
+        // )
 
         if (tokenAboutToExpire) {
           let refreshTokenTMP = refreshToken

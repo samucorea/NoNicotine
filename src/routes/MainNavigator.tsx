@@ -16,7 +16,7 @@ import {
 } from '../views'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
-import MenuNavigator, { headerStyle } from './MenuNavigator'
+import MenuNavigator from './MenuNavigator'
 import { Icon, Text, useColorModeValue, VStack } from 'native-base'
 import theme from '../AppTheme'
 import { useUserContext } from '../contexts/UserContext'
@@ -28,6 +28,8 @@ import { CustomIconButton } from '../components'
 import SettingsIcon from '../../assets/settings.svg'
 import ProfileIcon from '../../assets/profile.svg'
 import { Roles } from '../utils/enums/Roles'
+import ChatHubProvider from '../contexts/ChatHubContext'
+import { headerStyle } from '../utils/headerStyle'
 
 export type RootStackScreens = {
   VapeQuestionnaire: { nextQuestionnaires: string[] }

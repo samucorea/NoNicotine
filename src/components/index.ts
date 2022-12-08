@@ -1,5 +1,6 @@
 export { default as HideKeyboardOnForms } from './HideKeyboardOnForms'
 export { default as Loading } from './Loading'
+export { default as ModalComponent } from './ModalComponent'
 export * from './RadioInput'
 export * from './RegularText'
 export { default as ScreenContainer } from './ScreenContainer'

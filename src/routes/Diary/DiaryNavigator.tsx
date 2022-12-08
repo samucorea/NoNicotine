@@ -65,6 +65,7 @@ const DiaryNavigator = () => {
       <Stack.Screen
         name="Diary"
         component={Diary}
+        initialParams={{ patientName: undefined }}
         options={({
           route: {
             params: { patientName },
