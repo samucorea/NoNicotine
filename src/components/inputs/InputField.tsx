@@ -19,7 +19,7 @@ export interface InputFieldProps {
   name: string
 }
 
-export const InputField = ({
+export const InputField: any = ({
   name,
   label,
   labelStyle,

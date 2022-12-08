@@ -5,11 +5,22 @@ import { ImageSourcePropType } from 'react-native'
 import { Fab, Box, Text, VStack } from 'native-base'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
 import { Entypo, AntDesign } from '@expo/vector-icons'
+import AddHabit from './partials/AddHabit'
 const Walk: ImageSourcePropType = require('../../../assets/walking.png')
 const Meditation: ImageSourcePropType = require('../../../assets/meditation.png')
 const Book: ImageSourcePropType = require('../../../assets/book.png')
 
 const Habits: React.FC<MenuScreenProps<'Habits'>> = () => {
+  let popupRef: any = React.createRef()
+
+  const onShowPopup: any = () => {
+    popupRef.show()
+  }
+
+  const onClosePopup: any = () => {
+    popupRef.close()
+  }
+
   return (
     <VStack flex={1} height={'100%'} paddingX={16} paddingY={2}>
       <Box
@@ -47,6 +58,12 @@ const Habits: React.FC<MenuScreenProps<'Habits'>> = () => {
           />
         }
         bottom={90}
+        onPress={onShowPopup}
+      />
+      <AddHabit
+        title="Añadir Habito"
+        ref={(target: any) => (popupRef = target)}
+        onTouchOutside={onClosePopup}
       />
     </VStack>
   )
