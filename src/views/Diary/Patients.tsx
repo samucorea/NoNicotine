@@ -3,22 +3,13 @@ import React, { FC } from 'react'
 import { ScreenContainer, SquaredIconButton } from '../../components'
 import ProfileIcon from '../../../assets/profile.svg'
 import { DiaryScreenProps } from '../../routes/Diary/DiaryNavigator'
+import {
+  TherapistContextProps,
+  useUserContext,
+} from '../../contexts/UserContext'
 
 const Patients: FC<DiaryScreenProps<'Patients'>> = ({ navigation }) => {
-  const data = [
-    { icon: ProfileIcon, label: 'Juan Perez' },
-    { icon: ProfileIcon, label: 'Juan Perez' },
-    { icon: ProfileIcon, label: 'Juan Perez' },
-    { icon: ProfileIcon, label: 'Juan Perez' },
-    { icon: ProfileIcon, label: 'Juan Perez' },
-    { icon: ProfileIcon, label: 'Juan Perez' },
-    { icon: ProfileIcon, label: 'Juan Perez' },
-    { icon: ProfileIcon, label: 'Juan Perez' },
-
-    { icon: ProfileIcon, label: 'Juan Perez' },
-
-    { icon: ProfileIcon, label: 'Juan Perez' },
-  ]
+  const { user } = useUserContext<TherapistContextProps>() ?? {}
 
   return (
     <ScreenContainer
@@ -27,16 +18,21 @@ const Patients: FC<DiaryScreenProps<'Patients'>> = ({ navigation }) => {
       containerProps={{ maxW: '85%' }}
     >
       <FlatList
-        data={data}
-        renderItem={({ item: { icon, label } }) => (
+        data={user?.patients}
+        renderItem={({ item: { name, id } }) => (
           <SquaredIconButton
-            Icon={icon}
-            label={label}
+            Icon={ProfileIcon}
+            label={name}
             my={3.5}
             w="45%"
             shadow={7}
             borderColor={'primary.default'}
-            onPress={() => navigation.navigate('Diary', { patientName: label })}
+            onPress={() =>
+              navigation.navigate('Diary', {
+                patientName: name,
+                patientId: id,
+              })
+            }
           />
         )}
         numColumns={2}

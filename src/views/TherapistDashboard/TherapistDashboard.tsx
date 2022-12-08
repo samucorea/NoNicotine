@@ -1,37 +1,37 @@
 import { Button, Center, Fab, Heading, Image, Text } from 'native-base'
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { SendButton, VStackContainer } from '../../components'
 import {
   TherapistContextProps,
   useUserContext,
 } from '../../contexts/UserContext'
-import { Patient } from '../../models'
+import { useFocus } from '../../hooks'
+import { MenuScreenProps } from '../../routes/MenuNavigator'
 import { linkService } from '../../services/linkService'
 import therapistService from '../../services/therapistService'
 import PatientListing from './Components/PatientListing'
 const LinkIcon = require('../../../assets/link.png')
 
-const TherapistDashboard = () => {
-  const { user } = useUserContext<TherapistContextProps>() ?? {}
-  const [loading, setLoading] = useState(true)
-  const [patients, setPatients] = useState<Patient[]>([])
+const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
+  navigation,
+}) => {
+  const { user, setStoredUser } = useUserContext<TherapistContextProps>() ?? {}
+  const isFocused = useFocus(navigation)
 
-  useEffect(() => {
-    const getPatients = async () => {
-      try {
-        const response = await therapistService.getPatients()
-        setPatients(response.data)
-        setLoading(false)
-      } catch (error) {
-        console.log(
-          '🚀 ~ file: TherapistDashboard.tsx:21 ~ getPatients ~ error',
-          error
-        )
-      }
+  const getPatients = async () => {
+    try {
+      const response = await therapistService.getPatients()
+
+      user!.patients = response.data
+
+      setStoredUser!(user!)
+    } catch (error) {
+      console.log(
+        '🚀 ~ file: TherapistDashboard.tsx:21 ~ getPatients ~ error',
+        error
+      )
     }
-
-    getPatients()
-  }, [])
+  }
 
   const openPopUp = async () => {
     try {
@@ -39,6 +39,9 @@ const TherapistDashboard = () => {
         user!.identityUserId!,
         'jlbello24@gmail.com'
       )
+
+      getPatients()
+
       console.log(
         '🚀 ~ file: TherapistDashboard.tsx:21 ~ openPopUp ~ response',
         response.data
@@ -51,17 +54,7 @@ const TherapistDashboard = () => {
     }
   }
 
-  if (loading) {
-    return (
-      <Center flex={1}>
-        <Heading textAlign={'center'} color="primary.default">
-          Cargando pacientes...
-        </Heading>
-      </Center>
-    )
-  }
-
-  if (patients.length == 0) {
+  if (user?.patients.length == 0) {
     return (
       <Center flex={1}>
         <Heading mb={2} textAlign={'center'} color="primary.default">
@@ -74,22 +67,24 @@ const TherapistDashboard = () => {
 
   return (
     <VStackContainer>
-      {patients.map((patient, index) => (
+      {user?.patients.map((patient, index) => (
         <PatientListing key={index} name={patient.name} lastMessage="Hola" />
       ))}
-      <Fab
-        icon={
-          <Image
-            source={LinkIcon}
-            alt="image"
-            bg={'primary.default'}
-            size={35}
-          />
-        }
-        bottom={90}
-        bg="primary.default"
-        onPress={openPopUp}
-      />
+      {isFocused && (
+        <Fab
+          icon={
+            <Image
+              source={LinkIcon}
+              alt="image"
+              bg={'primary.default'}
+              size={35}
+            />
+          }
+          bottom={90}
+          bg="primary.default"
+          onPress={openPopUp}
+        />
+      )}
     </VStackContainer>
   )
 }

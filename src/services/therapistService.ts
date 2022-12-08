@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Patient } from '../models'
+import { DiaryEntry, Patient } from '../models'
 import { RegisterTherapist, Therapist } from '../models/Therapist'
 import BaseCrudService from './baseCrudService'
 
@@ -22,6 +22,15 @@ export class TherapistService extends BaseCrudService<
   async getPatients() {
     const response = await axios.get<Patient[]>(
       `${this.fullRoute}/patients`,
+      BaseCrudService.config
+    )
+
+    return response
+  }
+
+  async getPatientsEntries(patientId: string) {
+    const response = await axios.get<DiaryEntry[]>(
+      `${this.fullRoute}/patient/${patientId}/entries`,
       BaseCrudService.config
     )
 

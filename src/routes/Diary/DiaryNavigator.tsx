@@ -15,7 +15,10 @@ import { useUserContext } from '../../contexts/UserContext'
 import { Roles } from '../../utils/enums/Roles'
 
 export type DiaryStackScreens = {
-  Diary: { patientName?: string }
+  Diary: {
+    patientName?: string
+    patientId?: string
+  }
   EntryDetailed: {
     entry?: DiaryEntry
     // selectedFeelingsData?: string[]
