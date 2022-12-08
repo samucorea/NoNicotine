@@ -2,7 +2,7 @@ import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import { useState } from 'react'
 
 const useFocus = (navigation: NavigationProp<ParamListBase>) => {
-  const [isFocused, setIsFocused] = useState(false)
+  const [isFocused, setIsFocused] = useState(true)
 
   navigation.addListener('focus', () => {
     setIsFocused(true)

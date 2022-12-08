@@ -5,8 +5,8 @@ export interface DiaryEntry extends BaseEntity {
   therapistAllowed: boolean
   message: string
   createdAt: Date
-  symptoms: string
-  feelings: string
+  symptoms: string[]
+  feelings: string[]
 }
 
 export interface CreateDiaryEntry {

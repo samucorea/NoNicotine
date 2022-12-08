@@ -21,10 +21,10 @@ const EntryDetailed: FC<DiaryScreenProps<'EntryDetailed'>> = ({
   console.log(entry)
 
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>(
-    entry ? entry.symptoms.split(',') : []
+    entry ? entry.symptoms : []
   )
   const [selectedFeelings, setSelectedFeelings] = useState<string[]>(
-    entry ? entry.feelings.split(',') : []
+    entry ? entry.feelings : []
   )
   const [description, setDescription] = useState<string>(
     entry ? entry.message : ''

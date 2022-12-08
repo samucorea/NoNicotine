@@ -1,14 +1,15 @@
 import { Center, Fab, Heading, Image } from 'native-base'
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { SendButton, VStackContainer } from '../../components'
 import {
   TherapistContextProps,
   useUserContext,
 } from '../../contexts/UserContext'
-import { useFocus } from '../../hooks'
+import { useFocus, useModalToggle } from '../../hooks'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
 import { linkService } from '../../services/linkService'
 import therapistService from '../../services/therapistService'
+import LinkModal from './Components/LinkModal'
 import PatientListing from './Components/PatientListing'
 const LinkIcon = require('../../../assets/link.png')
 
@@ -16,43 +17,29 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
   navigation,
 }) => {
   const { user, setStoredUser } = useUserContext<TherapistContextProps>() ?? {}
+  const { show, toggleShow } = useModalToggle()
   const isFocused = useFocus(navigation)
 
-  const getPatients = async () => {
-    try {
-      const response = await therapistService.getPatients()
+  useEffect(() => {
+    const getPatients = async () => {
+      try {
+        const response = await therapistService.getPatients()
 
-      user!.patients = response.data
+        user!.patients = response.data
 
-      setStoredUser!(user!)
-    } catch (error) {
-      console.log(
-        '🚀 ~ file: TherapistDashboard.tsx:21 ~ getPatients ~ error',
-        error
-      )
+        setStoredUser!(user!)
+      } catch (error) {
+        console.log(
+          '🚀 ~ file: TherapistDashboard.tsx:21 ~ getPatients ~ error',
+          error
+        )
+      }
     }
-  }
 
-  const openPopUp = async () => {
-    try {
-      const response = await linkService.makeLinkRequest(
-        user!.identityUserId!,
-        'jlbello24@gmail.com'
-      )
-
+    if (isFocused) {
       getPatients()
-
-      console.log(
-        '🚀 ~ file: TherapistDashboard.tsx:21 ~ openPopUp ~ response',
-        response.data
-      )
-    } catch (error) {
-      console.log(
-        '🚀 ~ file: TherapistDashboard.tsx:18 ~ openPopUp ~ error',
-        error
-      )
     }
-  }
+  }, [isFocused])
 
   if (user?.patients.length == 0) {
     return (
@@ -60,7 +47,7 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
         <Heading mb={2} textAlign={'center'} color="primary.default">
           Aún no tiene pacientes
         </Heading>
-        <SendButton text="Vincular paciente" onPress={openPopUp} />
+        <SendButton text="Vincular paciente" onPress={toggleShow} />
       </Center>
     )
   }
@@ -70,6 +57,7 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
       {user?.patients.map((patient, index) => (
         <PatientListing key={index} name={patient.name} lastMessage="Hola" />
       ))}
+      <LinkModal show={show} toggleShow={toggleShow} />
       {isFocused && (
         <Fab
           icon={
@@ -82,7 +70,7 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
           }
           bottom={90}
           bg="primary.default"
-          onPress={openPopUp}
+          onPress={toggleShow}
         />
       )}
     </VStackContainer>
