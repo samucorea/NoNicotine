@@ -12,6 +12,7 @@ import { useEffect } from 'react'
 import { PatientContextProps, useUserContext } from '../contexts/UserContext'
 import Profile from '../../assets/profile.svg'
 import { Roles } from '../utils/enums/Roles'
+import { headerStyle } from '../utils/headerStyle'
 
 const HomeIcon = require('../../assets/home.png')
 const DiaryIcon = require('../../assets/diary.png')
@@ -25,14 +26,6 @@ export type MenuNavigatorScreens = {
   Habits: undefined
   Profile: undefined
   TherapistDashboard: undefined
-}
-
-export const headerStyle = {
-  headerStyle: { height: 120 },
-  headerTitleStyle: {
-    color: theme.colors.primary.default,
-    fontSize: 28,
-  },
 }
 
 const Tab = createBottomTabNavigator<MenuNavigatorScreens>()
