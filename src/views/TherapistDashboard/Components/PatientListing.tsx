@@ -21,7 +21,7 @@ type NavigationProps = CompositeNavigationProp<
   BottomTabNavigationProp<MenuNavigatorScreens, 'TherapistDashboard'>
 >
 
-const Patient: FC<Props> = ({ name, lastMessage }) => {
+const PatientListing: FC<Props> = ({ name, lastMessage }) => {
   const navigation = useNavigation<NavigationProps>()
   return (
     <StackButton
@@ -37,4 +37,4 @@ const Patient: FC<Props> = ({ name, lastMessage }) => {
   )
 }
 
-export default Patient
+export default PatientListing
