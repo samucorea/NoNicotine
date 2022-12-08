@@ -72,6 +72,7 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
                     setErrorMessage(errors[errorMessage])
                     break
                   default:
+                    console.error(errorMessage)
                     break
                 }
               }

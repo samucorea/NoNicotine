@@ -10,7 +10,7 @@ import {
 } from '../../../components'
 import Message from './Message'
 import SendIcon from '../../../../assets/send.svg'
-import { ChatMessage, Patient } from '../../../models'
+import { ChatMessage, Patient, Therapist } from '../../../models'
 import { useChatHubContext } from '../../../contexts/ChatHubContext'
 import { useUserContext } from '../../../contexts/UserContext'
 import { Roles } from '../../../utils/enums/Roles'
@@ -29,7 +29,15 @@ const messages = [
 
 const Chat: FC<any> = (props) => {
   const { user } = useUserContext()
-  const { sendPrivateMessage } = useChatHubContext()
+  const { sendPrivateMessage, subscribe } = useChatHubContext()
+  if (user?.role == Roles.patient) {
+    const patient = user as Patient
+    subscribe(patient.therapist?.identityUserId)
+  } else if (user?.role == Roles.therapist) {
+    // const patient = props.user as Patient
+
+    // subscribe(patient.identityUserId)
+  }
 
   if (user?.role == Roles.therapist) {
     props.navigation.setOptions({
@@ -57,11 +65,16 @@ const Chat: FC<any> = (props) => {
       <Box borderTopColor="#949494" borderWidth={1}>
         <Formik
           onSubmit={({ message }) => {
+            console.log(user?.role)
             if (user?.role == Roles.patient) {
               const patient = user as Patient
               console.log('sending')
 
-              sendPrivateMessage(patient.therapistId!, message)
+              sendPrivateMessage(patient.therapist?.identityUserId!, message)
+            } else if (user?.role == Roles.therapist) {
+              // const patient = props.user as Patient
+
+              // sendPrivateMessage(patient.identityUserId, message)
             }
           }}
           initialValues={{ message: '' }}

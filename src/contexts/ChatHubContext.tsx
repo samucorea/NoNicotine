@@ -16,6 +16,12 @@ interface ChatHubContextProps {
   sendPrivateMessage: (userId: string, message: string) => void
 }
 
+interface Message {
+  id: string
+  content: string
+  senderId: string
+}
+
 const ChatHubContext = createContext<ChatHubContextProps | undefined>(undefined)
 
 export const useChatHubContext = () => {
@@ -32,8 +38,10 @@ const ChatHubProvider: FC<Props> = ({ children }) => {
 
   useEffect(() => {
     const connectionTMP = new HubConnectionBuilder()
+      .withUrl(`${process.env.SERVER_HOST}/Chat`, {
+        accessTokenFactory: () => token!,
+      })
       .withAutomaticReconnect()
-      .withUrl(`${process.env.SERVER_HOST}/Chat?access_token=${token!}`)
       .build()
 
     setConnection(connectionTMP)
@@ -41,7 +49,8 @@ const ChatHubProvider: FC<Props> = ({ children }) => {
 
   useEffect(() => {
     const startConnection = async () => {
-      connection?.on('ReceiveMessage', (message: string) => {
+      connection?.on('ReceiveMessage', (message: Message) => {
+        ackMessage(message.id)
         console.log('signalr meessage', message)
       })
 
@@ -62,7 +71,7 @@ const ChatHubProvider: FC<Props> = ({ children }) => {
   const sendPrivateMessage = (userId: string, message: string) => {
     console.log({ connection })
 
-    connection?.send('SendPrivateMessage', userId, message)
+    connection?.invoke('SendPrivateMessage', userId, message)
   }
 
   return (
