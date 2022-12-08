@@ -2,11 +2,10 @@ import { Box, Text } from 'native-base'
 import { InterfaceBoxProps } from 'native-base/lib/typescript/components/primitives/Box'
 import React, { FC } from 'react'
 import theme from '../../../AppTheme'
-
-import { MessageText } from './Chat'
+import { ChatMessage } from '../../../models'
 
 interface Props {
-  messageText: MessageText
+  messageText: ChatMessage
 }
 
 const Message: FC<Props> = ({ messageText: { sender, text } }) => {

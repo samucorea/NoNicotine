@@ -6,7 +6,9 @@ import {
   useUserContext,
 } from '../../contexts/UserContext'
 import { useFocus, useModalToggle } from '../../hooks'
+import { Conversations } from '../../models'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
+import { chatService } from '../../services/chatService'
 import { linkService } from '../../services/linkService'
 import therapistService from '../../services/therapistService'
 import LinkModal from './Components/LinkModal'
@@ -18,6 +20,8 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
 }) => {
   const { user, setStoredUser } = useUserContext<TherapistContextProps>() ?? {}
   const { show, toggleShow } = useModalToggle()
+  const [conversations, setConversations] = useState<Conversations>({})
+  const [loading, setLoading] = useState(true)
   const isFocused = useFocus(navigation)
 
   useEffect(() => {
@@ -36,7 +40,23 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
       }
     }
 
+    const retreiveConversations = async () => {
+      try {
+        const conversationsTMP = await chatService.getConversations()
+
+        setConversations(conversationsTMP)
+      } catch (error) {
+        console.log(
+          '🚀 ~ file: TherapistDashboard.tsx:46 ~ retreiveConversations ~ error',
+          error
+        )
+      }
+
+      setLoading(false)
+    }
+
     if (isFocused) {
+      retreiveConversations()
       getPatients()
     }
   }, [isFocused])
@@ -55,7 +75,11 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
   return (
     <VStackContainer>
       {user?.patients.map((patient, index) => (
-        <PatientListing key={index} name={patient.name} lastMessage="Hola" />
+        <PatientListing
+          key={index}
+          name={patient.name}
+          conversation={conversations[patient.id]}
+        />
       ))}
       <LinkModal show={show} toggleShow={toggleShow} />
       {isFocused && (

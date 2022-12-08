@@ -1,16 +1,12 @@
 import { Formik } from 'formik'
 import { Box, FlatList, IconButton } from 'native-base'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { object, string } from 'yup'
 import theme from '../../../AppTheme'
 import { InputField, VStackContainer } from '../../../components'
 import Message from './Message'
 import SendIcon from '../../../../assets/send.svg'
-
-export interface MessageText {
-  text: string
-  sender: 'sent' | 'received'
-}
+import { ChatMessage } from '../../../models'
 
 const messages = [
   { text: 'hola', sender: 'sent' },
@@ -28,7 +24,7 @@ const Chat = () => {
       <FlatList
         p={5}
         data={messages}
-        renderItem={({ item }) => <Message messageText={item as MessageText} />}
+        renderItem={({ item }) => <Message messageText={item as ChatMessage} />}
       />
       <Box borderTopColor="#949494" borderWidth={1}>
         <Formik
