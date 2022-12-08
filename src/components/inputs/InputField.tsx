@@ -20,7 +20,7 @@ export interface InputFieldProps {
   textArea?: boolean
 }
 
-export const InputField = ({
+export const InputField: any = ({
   name,
   label,
   labelStyle,

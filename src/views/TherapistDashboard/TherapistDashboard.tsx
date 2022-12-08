@@ -1,5 +1,5 @@
-import { Button, Center, Fab, Heading, Image, Text } from 'native-base'
-import React, { FC, useEffect, useState } from 'react'
+import { Center, Fab, Heading, Image } from 'native-base'
+import React, { FC } from 'react'
 import { SendButton, VStackContainer } from '../../components'
 import {
   TherapistContextProps,

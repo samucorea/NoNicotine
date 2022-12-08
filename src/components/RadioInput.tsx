@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 import {
-  Text,
   Radio,
   useColorModeValue,
   FormControl,
@@ -9,10 +8,7 @@ import {
 import theme from '../AppTheme'
 import { useField } from 'formik'
 import { KeyValue, Sex } from '../sharedTypes'
-import {
-  IRadioComponentType,
-  IRadioProps,
-} from 'native-base/lib/typescript/components/primitives/Radio/types'
+import { IRadioProps } from 'native-base/lib/typescript/components/primitives/Radio/types'
 
 interface Props {
   value?: Sex | ''
@@ -38,7 +34,7 @@ export const RadioInput: FC<Props> = ({
     theme.colors.primary.light
   )
 
-  const [field, meta, helpers] = useField(name)
+  const [field, meta] = useField(name)
 
   return (
     <FormControl isInvalid={meta.error !== undefined}>
