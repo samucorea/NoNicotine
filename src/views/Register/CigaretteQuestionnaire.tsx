@@ -1,6 +1,6 @@
 import React from 'react'
 import { RootScreenProps } from '../../routes/MainNavigator'
-import { Box, VStack, ScrollView } from 'native-base'
+import { Box, VStack, ScrollView, HStack } from 'native-base'
 import theme from '../../AppTheme'
 import {
   ScreenHeader,
@@ -20,12 +20,14 @@ const CigaretteQuestionnaire: React.FC<
 > = ({
   navigation,
   route: {
-    params: { nextQuestionnaires },
+    params: { nextQuestionnaires, edit },
   },
 }) => {
   const { user: patient } = useUserContext<PatientContextProps>() ?? {}
 
   const spacing = 3
+
+  const handleDelete = () => {}
 
   return (
     <ScreenContainer>
@@ -138,11 +140,21 @@ const CigaretteQuestionnaire: React.FC<
                   color={theme.colors.subText.primary}
                   placeholderTextColor={theme.colors.subText.primary}
                 />
-                <SendButton
-                  text="Continuar"
-                  onPress={() => handleSubmit()}
-                  mb={3}
-                />
+                <HStack justifyContent="space-evenly" w="full">
+                  {edit && (
+                    <SendButton
+                      text="Eliminar"
+                      onPress={() => handleDelete()}
+                      w="45%"
+                      bg="#ef756d"
+                    />
+                  )}
+                  <SendButton
+                    text={edit ? 'Guardar' : 'Continuar'}
+                    onPress={() => handleSubmit()}
+                    w="45%"
+                  />
+                </HStack>
               </VStack>
             )}
           </Formik>

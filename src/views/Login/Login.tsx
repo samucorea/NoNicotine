@@ -44,15 +44,7 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
             onSubmit={async (values) => {
               loadingContext?.setLoading(true, 'Iniciando sesión')
               try {
-                const { userResponse, token, refreshToken } = await login(
-                  values
-                )
-
-                console.log('user', userResponse)
-
-                await userContext?.setStoredUser(userResponse)
-                await userContext?.setStoredToken(token)
-                await userContext?.setStoredRefreshToken(refreshToken)
+                await userContext?.logIn(values)
 
                 BaseCrudService.UpdateConfig()
               } catch (error: any) {

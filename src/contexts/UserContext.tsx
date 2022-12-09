@@ -9,16 +9,14 @@ import React, {
   useState,
   useEffect,
 } from 'react'
-import usePrevious from '../hooks/usePreviousState'
-import { Patient } from '../models'
+import { Patient, Login } from '../models'
 import { Therapist } from '../models/Therapist'
 import User from '../models/User'
 import BaseCrudService from '../services/baseCrudService'
-import { refreshCurrentToken } from '../services/loginService'
+import login, { refreshCurrentToken } from '../services/loginService'
 
 interface Props {
   children: ReactNode
-  initialToken: string | undefined
 }
 
 interface ContextProps {
@@ -28,8 +26,10 @@ interface ContextProps {
   setStoredRefreshToken: (refreshTokenTMP: string) => Promise<void>
   getStoredToken: () => Promise<string | null>
   logOut: () => Promise<void>
+  logIn: (credentials: Login) => Promise<Patient | Therapist>
   token: string | undefined
   refreshToken: string | undefined
+  loading: boolean
 }
 
 export interface PatientContextProps extends ContextProps {
@@ -50,13 +50,12 @@ export const useUserContext = <
   return useContext<T | undefined>(UserContext as React.Context<T | undefined>)!
 }
 
-const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
+const UserContextProvider: FC<Props> = ({ children }) => {
   const [user, setUser] = useState<User>()
-  const [token, setToken] = useState<string | undefined>(initialToken)
+  const [token, setToken] = useState<string | undefined>()
   const [refreshToken, setRefreshToken] = useState<string | undefined>()
   const [lastTokenSet, setLastTokenSet] = useState<Moment>(moment('12/11/2000'))
-
-  const previousToken = usePrevious(token)
+  const [loading, setLoading] = useState(true)
 
   const navigation = useNavigation<any>()
 
@@ -65,32 +64,29 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
   const refreshTokenKey = 'refreshToken'
 
   useEffect(() => {
-    console.log('Go to login', !token && previousToken !== undefined)
+    const getStored = async () => {
+      const [storedUser, storedToken, storedRefreshToken] = await Promise.all([
+        getStoredUser(),
+        getStoredToken(),
+        getStoredRefreshToken(),
+      ])
 
-    if (!token && previousToken !== undefined) {
-      navigation.reset({
-        routes: [{ name: 'Login' }],
-      })
-    } else {
-      getStoredUser().then((userTMP) => {
-        setUser(userTMP as User)
-      })
+      if (storedUser && storedToken && storedRefreshToken) {
+        setUser(storedUser)
+        setToken(storedToken)
+        setRefreshToken(storedRefreshToken)
+      }
+
+      setLoading(false)
     }
-  }, [token])
+
+    getStored()
+  }, [])
 
   useEffect(() => {
     const checkTokenValidity = async () => {
       if (lastTokenSet) {
         const tokenAboutToExpire = moment().diff(lastTokenSet, 'minutes') > 5
-        // console.log(
-        //   '🚀 ~ file: UserContext.tsx ~ line 72 ~ checkTokenValidity ~ lastTokenSet',
-        //   lastTokenSet,
-        //   moment()
-        // )
-        // console.log(
-        //   '🚀 ~ file: UserContext.tsx ~ line 72 ~ checkTokenValidity ~ tokenAboutToExpire',
-        //   tokenAboutToExpire
-        // )
 
         if (tokenAboutToExpire) {
           let refreshTokenTMP = refreshToken
@@ -107,10 +103,6 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
 
           try {
             const response = await refreshCurrentToken(refreshTokenTMP)
-            console.log(
-              '🚀 ~ file: UserContext.tsx:99 ~ checkTokenValidity ~ response',
-              response.data.token
-            )
 
             await setStoredToken(response.data.token)
             await setStoredRefreshToken(response.data.refreshToken)
@@ -165,12 +157,23 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
     return token
   }
 
+  const logIn = async (credentials: Login) => {
+    const { userResponse, token, refreshToken } = await login(credentials)
+
+    await setStoredRefreshToken(refreshToken)
+    await setStoredToken(token)
+    await setStoredUser(userResponse)
+
+    return userResponse
+  }
+
   const logOut = async () => {
     await AsyncStorage.multiRemove([tokenKey, userKey, refreshTokenKey], () => {
       setToken(undefined)
       setRefreshToken(undefined)
       setUser(undefined)
     })
+
     navigation.navigate('Login')
   }
 
@@ -184,8 +187,10 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
         getStoredToken,
         logOut,
         user,
+        logIn,
         token,
         refreshToken,
+        loading,
       }}
     >
       {children}

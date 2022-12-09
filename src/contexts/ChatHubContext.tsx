@@ -1,4 +1,8 @@
-import { HubConnectionBuilder, HubConnection } from '@microsoft/signalr'
+import {
+  HubConnectionBuilder,
+  HubConnection,
+  HubConnectionState,
+} from '@microsoft/signalr'
 import {
   useState,
   useEffect,
@@ -35,6 +39,7 @@ const ChatHubProvider: FC<Props> = ({ children }) => {
   const { token } = useUserContext()
 
   const [connection, setConnection] = useState<HubConnection>()
+  const [permanentToken, setPermanentToken] = useState(token)
 
   useEffect(() => {
     const connectionTMP = new HubConnectionBuilder()
@@ -45,22 +50,35 @@ const ChatHubProvider: FC<Props> = ({ children }) => {
       .build()
 
     setConnection(connectionTMP)
+    setPermanentToken(token)
   }, [token])
 
   useEffect(() => {
     const startConnection = async () => {
-      connection?.on('ReceiveMessage', (message: Message) => {
-        ackMessage(message.id)
+      connection!.on('ReceiveMessage', (message: Message) => {
         console.log('signalr meessage', message)
+
+        ackMessage(message.id)
       })
 
-      connection?.start()
+      connection?.onclose(startConnection)
+
+      console.log('starting')
+
+      connection!.start()
     }
 
-    startConnection()
-  }, [connection])
+    if (
+      connection &&
+      (connection.state == HubConnectionState.Disconnected ||
+        connection.state == undefined)
+    ) {
+      startConnection()
+    }
+  }, [connection, connection?.state])
 
   const subscribe = (userId: string) => {
+    console.log('subscrib to', userId)
     connection?.send('Subscribe', userId)
   }
 
@@ -69,7 +87,7 @@ const ChatHubProvider: FC<Props> = ({ children }) => {
   }
 
   const sendPrivateMessage = (userId: string, message: string) => {
-    console.log({ connection })
+    console.log('connection state', connection?.state)
 
     connection?.invoke('SendPrivateMessage', userId, message)
   }

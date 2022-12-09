@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { RootScreenProps } from '../routes/MainNavigator'
-import { Box, VStack } from 'native-base'
+import { Box, IconButton, VStack } from 'native-base'
 import { ScreenHeader } from '../components/ScreenHeader'
 import theme from '../AppTheme'
 import { RegularText } from '../components/RegularText'
@@ -9,9 +9,13 @@ import Cigarette from '../../assets/cigarette.svg'
 import Vape from '../../assets/vape.svg'
 import Cigar from '../../assets/cigar.svg'
 import Hookah from '../../assets/hookah.svg'
+import EditDots from '../../assets/editDots.svg'
 
 const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
   navigation,
+  route: {
+    params: { firstTime },
+  },
 }) => {
   const [selectedMethods, setSelectedMethods] = useState<string[]>([])
 
@@ -29,16 +33,38 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
     setSelectedMethods(selectedMethodsTMP)
   }
 
+  const handleSend = () => {
+    navigation.navigate(selectedMethods.pop() as any, {
+      nextQuestionnaires: selectedMethods,
+    })
+  }
+
+  const handlePress = (name: any) => {
+    if (firstTime) {
+      return selectMethod(name)
+    }
+
+    navigation.navigate(name, { edit: true })
+  }
+
   return (
     <ScreenContainer>
-      <VStack space={10}>
-        <Box>
+      <VStack space={10} h="full" justifyContent={'center'}>
+        <Box position={'absolute'} top={16} w="full">
           <ScreenHeader
-            alignSelf={'flex-start'}
-            title="Selecciona tus métodos de consumo"
-            fontSize={24}
+            alignSelf={firstTime ? 'flex-start' : 'center'}
+            title={
+              firstTime
+                ? 'Selecciona tus métodos de consumo'
+                : 'Tus métodos de consumo'
+            }
+            fontSize={28}
           />
-          <RegularText>Ayúdanos a conocer un poco más sobre tí...</RegularText>
+          {firstTime && (
+            <RegularText>
+              Ayúdanos a conocer un poco más sobre tí...
+            </RegularText>
+          )}
         </Box>
         <Box
           flexDirection="row"
@@ -50,6 +76,7 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
               key={index}
               mb={5}
               w={'46%'}
+              topRigthButton={!firstTime && <IconButton icon={<EditDots />} />}
               borderColor={theme.colors.primary.default}
               label={method.label}
               labelStyle={{ color: theme.colors.primary.default }}
@@ -58,38 +85,17 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
               {...(selectedMethods.find(
                 (element) => element == method.name
               ) && { ...selectedStyle })}
-              onPress={() => {
-                selectMethod(method.name)
-              }}
+              onPress={() => handlePress(method.name)}
             />
           ))}
         </Box>
         <SendButton
-          text="Continuar"
+          text={firstTime ? 'Continuar' : 'Guardar'}
           fontSize={'lg'}
-          onPress={() =>
-            navigation.navigate(selectedMethods.pop() as any, {
-              nextQuestionnaires: selectedMethods,
-            })
-          }
+          onPress={handleSend}
+          position="absolute"
+          bottom={20}
         />
-        {/* <SendButton
-          onPress={() => {
-            if (Method === 'CigaretteQuestionnaire') {
-              navigation.navigate('CigaretteQuestionnaire')
-            }
-            if (Method === 'CigarQuestionnaire') {
-              navigation.navigate('CigarQuestionnaire')
-            }
-            if (Method === 'VapeQuestionnaire') {
-              navigation.navigate('VapeQuestionnaire')
-            }
-            if (Method === 'HookahQuestionnaire') {
-              navigation.navigate('HookahQuestionnaire')
-            }
-          }}
-          text="Continuar"
-        /> */}
       </VStack>
     </ScreenContainer>
   )

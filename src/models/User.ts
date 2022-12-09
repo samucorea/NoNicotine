@@ -11,9 +11,9 @@ export default interface User extends BaseEntity {
   active?: boolean
   identityUserId?: string
   role: Roles
+  email: string
 }
 
 export interface RegisterUser extends User {
   password: string
-  email: string
 }

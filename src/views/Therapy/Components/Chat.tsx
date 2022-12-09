@@ -30,14 +30,15 @@ const messages = [
 const Chat: FC<any> = (props) => {
   const { user } = useUserContext()
   const { sendPrivateMessage, subscribe } = useChatHubContext()
-  if (user?.role == Roles.patient) {
-    const patient = user as Patient
-    subscribe(patient.therapist?.identityUserId)
-  } else if (user?.role == Roles.therapist) {
-    // const patient = props.user as Patient
 
-    // subscribe(patient.identityUserId)
-  }
+  useEffect(() => {
+    const subscribeId =
+      user?.role == Roles.patient
+        ? (user as Patient).therapist?.id
+        : props.route.params.user.id
+
+    subscribe(subscribeId)
+  }, [])
 
   if (user?.role == Roles.therapist) {
     props.navigation.setOptions({
@@ -70,10 +71,12 @@ const Chat: FC<any> = (props) => {
               const patient = user as Patient
               console.log('sending')
 
-              sendPrivateMessage(patient.therapist?.identityUserId!, message)
+              sendPrivateMessage(
+                patient.therapist?.identityUserId as string,
+                message
+              )
             } else if (user?.role == Roles.therapist) {
               // const patient = props.user as Patient
-
               // sendPrivateMessage(patient.identityUserId, message)
             }
           }}

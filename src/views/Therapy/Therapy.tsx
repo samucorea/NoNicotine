@@ -35,10 +35,7 @@ const Therapy: FC<Props> = ({ navigation }) => {
     const getLinkRequests = async () => {
       try {
         const response = await linkService.getLinkRequest()
-        console.log(
-          '🚀 ~ file: Therapy.tsx:25 ~ getLinkRequests ~ response',
-          response.data
-        )
+
         if (response.data) {
           toggleShow(true)
         }
@@ -103,8 +100,6 @@ const Therapy: FC<Props> = ({ navigation }) => {
       />
     )
   }
-
-  console.log('terapeuta', patient?.therapist)
 
   if (!patient?.therapist) {
     // if (false) {

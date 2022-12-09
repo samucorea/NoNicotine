@@ -42,10 +42,13 @@ const SquaredIconButton: FC<Props & InterfaceBoxProps & Partial<{}>> = ({
         alignContent={'center'}
         alignItems="center"
         borderWidth={'3'}
-        justifyContent={'space-evenly'}
+        justifyContent={'center'}
+        h="full"
       >
         {topRigthButton !== undefined && (
-          <Box alignSelf="flex-end">{topRigthButton}</Box>
+          <Box position={'absolute'} top={0} right={0}>
+            {topRigthButton}
+          </Box>
         )}
         <Icon color="#fff" width={75} height={75} {...iconProps} />
         <Text fontSize={'lg'} {...labelStyle}>

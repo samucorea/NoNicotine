@@ -15,9 +15,10 @@ import moment from 'moment'
 
 interface Props {
   name: string
+  isDisabled?: boolean
 }
 
-export const BirthDateInput: FC<Props> = ({ name }) => {
+export const BirthDateInput: FC<Props> = ({ name, isDisabled = false }) => {
   const [field, meta, helpers] = useField(name)
 
   const colors = useColorModeValue('#94a4ba', theme.colors.primary.light)
@@ -36,9 +37,10 @@ export const BirthDateInput: FC<Props> = ({ name }) => {
   return (
     <FormControl
       isReadOnly
+      isDisabled={isDisabled}
       isInvalid={meta.error !== undefined && meta.touched}
     >
-      <FormControl.Label>
+      <FormControl.Label isDisabled={isDisabled}>
         <Text
           pl={3}
           pb={1}
@@ -49,7 +51,7 @@ export const BirthDateInput: FC<Props> = ({ name }) => {
         </Text>
       </FormControl.Label>
 
-      <Pressable onPress={openDatePicker} w="100%">
+      <Pressable onPress={openDatePicker} isDisabled={isDisabled} w="100%">
         <HStack space={2} w="100%">
           <Input
             w="20%"

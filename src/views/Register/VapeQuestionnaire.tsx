@@ -1,6 +1,6 @@
 import React from 'react'
 import { RootScreenProps } from '../../routes/MainNavigator'
-import { Box, VStack } from 'native-base'
+import { Box, HStack, VStack } from 'native-base'
 
 import {
   ScreenHeader,
@@ -17,14 +17,16 @@ import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
 const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
   navigation,
   route: {
-    params: { nextQuestionnaires },
+    params: { nextQuestionnaires, edit },
   },
 }) => {
   const { user: patient } = useUserContext<PatientContextProps>() ?? {}
 
+  const handleDelete = () => {}
+
   return (
     <ScreenContainer>
-      <VStack space={5}>
+      <VStack space={5} h="full">
         <Box alignSelf="flex-start" display="flex">
           <ScreenHeader title="Consumo de cigarrillo electrónico" />
           <RegularText>
@@ -85,7 +87,26 @@ const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
                 name="boxPrice"
                 placeholder="RD$ 0.00"
               />
-              <SendButton text="Continuar" onPress={() => handleSubmit()} />
+              <HStack
+                position={'absolute'}
+                bottom={20}
+                justifyContent="space-evenly"
+                w="full"
+              >
+                {edit && (
+                  <SendButton
+                    text="Eliminar"
+                    onPress={() => handleDelete()}
+                    w="45%"
+                    bg="#ef756d"
+                  />
+                )}
+                <SendButton
+                  text={edit ? 'Guardar' : 'Continuar'}
+                  onPress={() => handleSubmit()}
+                  w="45%"
+                />
+              </HStack>
             </>
           )}
         </Formik>

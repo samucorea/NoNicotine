@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   CardStyleInterpolators,
   createStackNavigator,
@@ -31,12 +31,26 @@ import { Roles } from '../utils/enums/Roles'
 import ChatHubProvider from '../contexts/ChatHubContext'
 import { headerStyle } from '../utils/headerStyle'
 import { User } from '../models'
+import { useFonts } from 'expo-font'
+import * as SplashScreen from 'expo-splash-screen'
 
 export type RootStackScreens = {
-  VapeQuestionnaire: { nextQuestionnaires: string[] }
-  HookahQuestionnaire: { nextQuestionnaires: string[] }
-  CigarQuestionnaire: { nextQuestionnaires: string[] }
-  CigaretteQuestionnaire: { nextQuestionnaires: string[] }
+  VapeQuestionnaire: {
+    nextQuestionnaires: string[]
+    edit?: boolean
+  }
+  HookahQuestionnaire: {
+    nextQuestionnaires: string[]
+    edit?: boolean
+  }
+  CigarQuestionnaire: {
+    nextQuestionnaires: string[]
+    edit?: boolean
+  }
+  CigaretteQuestionnaire: {
+    nextQuestionnaires: string[]
+    edit?: boolean
+  }
   MethodSelection: { firstTime: boolean }
   Register: { role: Roles }
   SelectRole: undefined
@@ -51,20 +65,31 @@ export type RootStackScreens = {
   }
 }
 
+SplashScreen.preventAutoHideAsync()
+
 const Stack = createStackNavigator<RootStackScreens>()
 
 const MainNavigator = () => {
-  const userContext = useUserContext()
+  const { token, refreshToken, loading } = useUserContext() ?? {}
+
+  const [fontsLoaded] = useFonts({
+    'Lato-Regular': require('../../assets/fonts/Lato-Regular.ttf'),
+  })
+
+  useEffect(() => {
+    if (fontsLoaded && !loading) {
+      SplashScreen.hideAsync()
+    }
+  }, [fontsLoaded])
+
+  if (!fontsLoaded) {
+    return null
+  }
 
   return (
     <ChatHubProvider>
       <Stack.Navigator
-        initialRouteName={
-          userContext?.token !== undefined &&
-          userContext?.refreshToken !== undefined
-            ? 'Menu'
-            : 'Login'
-        }
+        initialRouteName={token && refreshToken ? 'Menu' : 'Login'}
         screenOptions={{
           headerShadowVisible: false,
           headerTitle: '',
@@ -82,7 +107,7 @@ const MainNavigator = () => {
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
       >
-        {userContext?.token !== undefined ? (
+        {token ? (
           <>
             <Stack.Screen
               name="Menu"
@@ -181,7 +206,7 @@ const MainNavigator = () => {
         )}
         <Stack.Screen
           name="MethodSelection"
-          initialParams={{ firstTime: true }}
+          initialParams={{ firstTime: false }}
           component={MethodSelection}
         />
 

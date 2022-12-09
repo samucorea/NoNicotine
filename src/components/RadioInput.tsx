@@ -18,6 +18,7 @@ interface Props {
   direction?: 'row' | 'column'
   options: string[] | KeyValue[]
   optionStyle?: IRadioProps
+  isDisabled?: boolean
 }
 
 export const RadioInput: FC<Props> = ({
@@ -28,6 +29,7 @@ export const RadioInput: FC<Props> = ({
   options,
   labelStyle,
   optionStyle,
+  isDisabled = false,
 }) => {
   const colors = useColorModeValue(
     theme.colors.primary.default,
@@ -50,6 +52,7 @@ export const RadioInput: FC<Props> = ({
       >
         {options.map((option, index) => (
           <Radio
+            isDisabled={isDisabled}
             key={index}
             m={2}
             borderColor={theme.colors.primary.default}

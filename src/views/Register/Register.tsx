@@ -89,7 +89,7 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
                 } catch (error: any) {
                   console.log(
                     '🚀 ~ file: Register.tsx:95 ~ onSubmit={ ~ error',
-                    error
+                    error.response.data
                   )
                   switch (error.response?.data?.message) {
                     case 'Email already taken':

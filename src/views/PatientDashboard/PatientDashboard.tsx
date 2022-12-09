@@ -29,7 +29,8 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
   const [consumptionExpenses, setConsumptionExpenses] =
     useState<ConsumptionExpenses>()
 
-  const { user: patient } = useUserContext<PatientContextProps>() ?? {}
+  const { user: patient, token } = useUserContext<PatientContextProps>() ?? {}
+  console.log('🚀 ~ file: PatientDashboard.tsx:33 ~ token', token)
 
   const abstinenceDays = moment().diff(moment(patient?.startTime), 'days')
 
@@ -39,6 +40,9 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
 
     const getConsumptionMethods = async () => {
       try {
+        const responseMethods = await patientService.getConsumptionMethods(
+          patient?.patientConsumptionMethodsId as string
+        )
         const response = await patientService.getConsumptionExpenses()
 
         setConsumptionExpenses(response.data)

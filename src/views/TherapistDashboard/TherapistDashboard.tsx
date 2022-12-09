@@ -28,10 +28,6 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
     const getPatients = async () => {
       try {
         const response = await therapistService.getPatients()
-        console.log(
-          '🚀 ~ file: TherapistDashboard.tsx:31 ~ getPatients ~ response',
-          response.data
-        )
 
         user!.patients = response.data
 

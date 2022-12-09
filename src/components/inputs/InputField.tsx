@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import {
   FormControl,
   IFormControlLabelProps,
@@ -20,7 +20,7 @@ export interface InputFieldProps {
   textArea?: boolean
 }
 
-export const InputField: any = ({
+export const InputField: FC<InputFieldProps & IInputProps> = ({
   name,
   label,
   labelStyle,
@@ -28,7 +28,7 @@ export const InputField: any = ({
   showError = true,
   textArea = false,
   ...props
-}: InputFieldProps & IInputProps): JSX.Element => {
+}) => {
   const [Show, setShow] = React.useState(false)
 
   const [field, meta, helpers] = useField(name)
