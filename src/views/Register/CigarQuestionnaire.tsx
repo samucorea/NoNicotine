@@ -22,6 +22,8 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
 }) => {
   const { user: patient } = useUserContext<PatientContextProps>() ?? {}
 
+  const handleDelete = () => {}
+
   return (
     <ScreenContainer>
       <VStack space={5} h="full">

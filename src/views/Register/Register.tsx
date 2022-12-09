@@ -84,7 +84,8 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
                 const { confirmPassword, ...registerValues } = values
 
                 try {
-                  await service(registerValues)
+                  const response = await service(registerValues)
+
                   setCreated(true)
                 } catch (error: any) {
                   console.log(

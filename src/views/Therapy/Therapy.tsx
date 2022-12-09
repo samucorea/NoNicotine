@@ -53,8 +53,6 @@ const Therapy: FC<Props> = ({ navigation }) => {
   }, [isFocused])
 
   useEffect(() => {
-    console.log('checkinb', patient?.therapist)
-
     if (patient?.therapist) {
       navigation.setOptions({
         headerRight: () => (
