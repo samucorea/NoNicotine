@@ -15,11 +15,7 @@ const RequestModal: FC<ModalProps & { request: LinkRequest }> = ({
 
   const updateLinkRequest = async (accepted: boolean) => {
     try {
-      const response = await linkService.updateLinkRequest(
-        accepted,
-        user!.id,
-        request.id
-      )
+      await linkService.updateLinkRequest(accepted, user!.id, request.id)
     } catch (error) {
       console.log(
         '🚀 ~ file: RequestModal.tsx:16 ~ updateLinkRequest ~ error',

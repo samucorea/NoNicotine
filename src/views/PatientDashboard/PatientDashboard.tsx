@@ -29,8 +29,7 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
   const [consumptionExpenses, setConsumptionExpenses] =
     useState<ConsumptionExpenses>()
 
-  const { user: patient, token } = useUserContext<PatientContextProps>() ?? {}
-  console.log('🚀 ~ file: PatientDashboard.tsx:33 ~ token', token)
+  const { user: patient } = useUserContext<PatientContextProps>() ?? {}
 
   const abstinenceDays = moment().diff(moment(patient?.startTime), 'days')
 

@@ -10,11 +10,10 @@ import {
 } from '../../../components'
 import Message from './Message'
 import SendIcon from '../../../../assets/send.svg'
-import { ChatMessage, Patient, Therapist } from '../../../models'
+import { ChatMessage, Patient } from '../../../models'
 import { useChatHubContext } from '../../../contexts/ChatHubContext'
 import { useUserContext } from '../../../contexts/UserContext'
 import { Roles } from '../../../utils/enums/Roles'
-import { useNavigation } from '@react-navigation/native'
 import ProfileIcon from '../../../../assets/profile.svg'
 
 const messages = [

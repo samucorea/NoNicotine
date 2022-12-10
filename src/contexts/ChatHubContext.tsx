@@ -1,13 +1,8 @@
-import {
-  HubConnectionBuilder,
-  HubConnection,
-  HubConnectionState,
-} from '@microsoft/signalr'
+import { HubConnectionBuilder, HubConnection } from '@microsoft/signalr'
 import {
   useState,
   useEffect,
   createContext,
-  Children,
   ReactNode,
   FC,
   useContext,
@@ -39,43 +34,29 @@ const ChatHubProvider: FC<Props> = ({ children }) => {
   const { token } = useUserContext()
 
   const [connection, setConnection] = useState<HubConnection>()
-  const [permanentToken, setPermanentToken] = useState(token)
-
-  useEffect(() => {
-    const connectionTMP = new HubConnectionBuilder()
-      .withUrl(`${process.env.SERVER_HOST}/Chat`, {
-        accessTokenFactory: () => token!,
-      })
-      .withAutomaticReconnect()
-      .build()
-
-    setConnection(connectionTMP)
-    setPermanentToken(token)
-  }, [token])
 
   useEffect(() => {
     const startConnection = async () => {
-      connection!.on('ReceiveMessage', (message: Message) => {
+      const connectionTMP = new HubConnectionBuilder()
+        .withUrl(`${process.env.SERVER_HOST}/Chat`, {
+          accessTokenFactory: () => token!,
+        })
+        .withAutomaticReconnect()
+        .build()
+
+      connectionTMP.on('ReceiveMessage', (message: Message) => {
         console.log('signalr meessage', message)
 
         ackMessage(message.id)
       })
 
-      connection?.onclose(startConnection)
+      connectionTMP.start()
 
-      console.log('starting')
-
-      connection!.start()
+      setConnection(connectionTMP)
     }
 
-    if (
-      connection &&
-      (connection.state == HubConnectionState.Disconnected ||
-        connection.state == undefined)
-    ) {
-      startConnection()
-    }
-  }, [connection, connection?.state])
+    startConnection()
+  }, [])
 
   const subscribe = (userId: string) => {
     console.log('subscrib to', userId)
@@ -89,7 +70,7 @@ const ChatHubProvider: FC<Props> = ({ children }) => {
   const sendPrivateMessage = (userId: string, message: string) => {
     console.log('connection state', connection?.state)
 
-    connection?.invoke('SendPrivateMessage', userId, message)
+    connection?.send('SendPrivateMessage', userId, message)
   }
 
   return (
