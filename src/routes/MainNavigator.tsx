@@ -70,7 +70,7 @@ SplashScreen.preventAutoHideAsync()
 const Stack = createStackNavigator<RootStackScreens>()
 
 const MainNavigator = () => {
-  const { token, refreshToken, loading } = useUserContext() ?? {}
+  const { token, refreshToken, loading, user } = useUserContext() ?? {}
 
   const [fontsLoaded] = useFonts({
     'Lato-Regular': require('../../assets/fonts/Lato-Regular.ttf'),
@@ -107,7 +107,7 @@ const MainNavigator = () => {
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
       >
-        {token ? (
+        {token && user ? (
           <>
             <Stack.Screen
               name="Menu"

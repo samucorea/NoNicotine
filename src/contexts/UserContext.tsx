@@ -126,6 +126,8 @@ const UserContextProvider: FC<Props> = ({ children }) => {
   }
 
   const setStoredUser = async (userTMP: User) => {
+    console.log('setted user')
+
     setUser(userTMP)
     await AsyncStorage.setItem(userKey, JSON.stringify(userTMP))
   }
