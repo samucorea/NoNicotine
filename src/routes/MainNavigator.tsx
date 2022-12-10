@@ -121,15 +121,17 @@ const MainNavigator = () => {
               name="Profile"
               component={Profile}
               options={({ navigation }) => ({
-                headerRight: () => (
-                  <VStack alignItems={'center'} pr={'5'}>
-                    <CustomIconButton
-                      icon={SettingsIcon}
-                      onPress={() => navigation.navigate('MethodSelection')}
-                    />
-                    <Text color={theme.colors.primary.default}>Consumo</Text>
-                  </VStack>
-                ),
+                ...(user.role == Roles.patient && {
+                  headerRight: () => (
+                    <VStack alignItems={'center'} pr={'5'}>
+                      <CustomIconButton
+                        icon={SettingsIcon}
+                        onPress={() => navigation.navigate('MethodSelection')}
+                      />
+                      <Text color={theme.colors.primary.default}>Consumo</Text>
+                    </VStack>
+                  ),
+                }),
               })}
             />
             <Stack.Screen
