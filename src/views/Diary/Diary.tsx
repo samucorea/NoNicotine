@@ -21,8 +21,6 @@ const Diary: FC<DiaryScreenProps<'Diary'>> = ({
 
   useEffect(() => {
     const getData = async () => {
-      console.log('oatue', patientId)
-
       const service = patientId
         ? async () => await therapistService.getPatientsEntries(patientId)
         : async () => await diaryEntryService.getAll()

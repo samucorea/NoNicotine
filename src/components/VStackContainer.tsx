@@ -1,4 +1,5 @@
 import { Box, Divider, ScrollView, VStack } from 'native-base'
+import { InterfaceVStackProps } from 'native-base/lib/typescript/components/primitives/Stack/VStack'
 import React, { FC, ReactNode } from 'react'
 
 interface Props {
@@ -7,10 +8,11 @@ interface Props {
   scroll?: boolean
 }
 
-const VStackContainer: FC<Props> = ({
+const VStackContainer: FC<Props & InterfaceVStackProps> = ({
   children,
   dividerThickness = 1.5,
   scroll = true,
+  ...props
 }) => {
   let Component = ScrollView
 
@@ -33,6 +35,7 @@ const VStackContainer: FC<Props> = ({
             thickness={dividerThickness}
           />
         }
+        {...props}
       >
         {children}
       </VStack>

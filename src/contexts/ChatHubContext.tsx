@@ -1,4 +1,8 @@
-import { HubConnectionBuilder, HubConnection } from '@microsoft/signalr'
+import {
+  HubConnectionBuilder,
+  HubConnection,
+  HubConnectionState,
+} from '@microsoft/signalr'
 import {
   useState,
   useEffect,
@@ -53,7 +57,7 @@ const ChatHubProvider: FC<Props> = ({ children }) => {
 
       connectionTMP.on('ReceiveMessage', async (message: Message) => {
         console.log('signalr meessage', message)
-        if (!user || !user.identityUserId) {
+        if (!user?.identityUserId) {
           console.error('no user found in context when message was recieved')
           return
         }
@@ -77,7 +81,7 @@ const ChatHubProvider: FC<Props> = ({ children }) => {
     }
 
     startConnection()
-  }, [])
+  }, [token])
 
   const subscribe = (userId: string) => {
     console.log('subscrib to', userId)
@@ -91,7 +95,9 @@ const ChatHubProvider: FC<Props> = ({ children }) => {
   const sendPrivateMessage = async (userId: string, message: string) => {
     console.log('connection state', connection?.state)
 
-    connection?.send('SendPrivateMessage', userId, message)
+    if (connection?.state == HubConnectionState.Connected) {
+      connection?.send('SendPrivateMessage', userId, message)
+    }
 
     const newConversations = await chatService.saveMessage(userId, {
       sender: 'sent',

@@ -10,6 +10,16 @@ import Vape from '../../assets/vape.svg'
 import Cigar from '../../assets/cigar.svg'
 import Hookah from '../../assets/hookah.svg'
 import EditDots from '../../assets/editDots.svg'
+import AddIcon from '../../assets/add.svg'
+import { PatientContextProps, useUserContext } from '../contexts/UserContext'
+import { PatientConsumptionMethods } from '../models/Patient'
+
+const methodDetails: { [key: string]: string } = {
+  cigarDetails: 'CigarQuestionnaire',
+  cigaretteDetails: 'CigaretteQuestionnaire',
+  electronicCigaretteDetails: 'VapeQuestionnaire',
+  hookahDetails: 'HookahQuestionnaire',
+}
 
 const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
   navigation,
@@ -17,7 +27,28 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
     params: { firstTime },
   },
 }) => {
-  const [selectedMethods, setSelectedMethods] = useState<string[]>([])
+  const { user } = useUserContext<PatientContextProps>()
+
+  const initialSelected = []
+
+  if (!firstTime) {
+    for (const key in methodDetails) {
+      if (
+        user?.patientConsumptionMethods?.[
+          key as keyof PatientConsumptionMethods
+        ] !== null
+      ) {
+        initialSelected.push(methodDetails[key])
+      }
+    }
+  }
+
+  const [selectedMethods, setSelectedMethods] =
+    useState<string[]>(initialSelected)
+  console.log(
+    '🚀 ~ file: MethodSelection.tsx:47 ~ selectedMethods',
+    selectedMethods
+  )
 
   const selectMethod = (methodName: string) => {
     const methodIndex = selectedMethods.findIndex(
@@ -44,7 +75,25 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
       return selectMethod(name)
     }
 
-    navigation.navigate(name, { edit: true })
+    const isMethod = selectedMethods.find((element) => element == name)
+
+    let params: { [key: string]: boolean } = { edit: true }
+
+    if (!isMethod) {
+      params = { add: true }
+    }
+
+    navigation.navigate(name, params)
+  }
+
+  const handleOpacityStyle = (methodName: string) => {
+    const isMethod = selectedMethods.find((element) => element == methodName)
+
+    if ((firstTime && isMethod) || (!firstTime && !isMethod)) {
+      return selectedStyle
+    }
+
+    return {}
   }
 
   return (
@@ -71,23 +120,33 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
           flexWrap="wrap"
           justifyContent={'space-between'}
         >
-          {methods.map((method, index) => (
-            <SquaredIconButton
-              key={index}
-              mb={5}
-              w={'46%'}
-              topRigthButton={!firstTime && <IconButton icon={<EditDots />} />}
-              borderColor={theme.colors.primary.default}
-              label={method.label}
-              labelStyle={{ color: theme.colors.primary.default }}
-              Icon={method.icon}
-              iconProps={{ color: theme.colors.primary.default }}
-              {...(selectedMethods.find(
-                (element) => element == method.name
-              ) && { ...selectedStyle })}
-              onPress={() => handlePress(method.name)}
-            />
-          ))}
+          {methods.map((method, index) => {
+            const style = handleOpacityStyle(method.name)
+
+            return (
+              <SquaredIconButton
+                key={index}
+                mb={5}
+                w={'46%'}
+                topRigthButton={
+                  <Box p={2}>
+                    {!firstTime && Object.keys(style).length == 0 ? (
+                      <EditDots />
+                    ) : (
+                      <AddIcon />
+                    )}
+                  </Box>
+                }
+                borderColor={theme.colors.primary.default}
+                label={method.label}
+                labelStyle={{ color: theme.colors.primary.default }}
+                Icon={method.icon}
+                iconProps={{ color: theme.colors.primary.default }}
+                onPress={() => handlePress(method.name)}
+                {...style}
+              />
+            )
+          })}
         </Box>
         <SendButton
           text={firstTime ? 'Continuar' : 'Guardar'}

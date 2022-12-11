@@ -20,10 +20,11 @@ const CigaretteQuestionnaire: React.FC<
 > = ({
   navigation,
   route: {
-    params: { nextQuestionnaires, edit },
+    params: { nextQuestionnaires, edit, add },
   },
 }) => {
-  const { user: patient } = useUserContext<PatientContextProps>() ?? {}
+  const { user: patient, refetchUser } =
+    useUserContext<PatientContextProps>() ?? {}
 
   const spacing = 3
 
@@ -44,14 +45,30 @@ const CigaretteQuestionnaire: React.FC<
           </Box>
           <Formik
             initialValues={{
-              unitsPerDay: 0,
-              daysPerWeek: 0,
-              unitsPerBox: 0,
-              boxPrice: 0,
+              unitsPerDay: edit
+                ? (patient?.patientConsumptionMethods?.cigaretteDetails
+                    ?.unitsPerDay as number)
+                : 0,
+              daysPerWeek: edit
+                ? (patient?.patientConsumptionMethods?.cigaretteDetails
+                    ?.daysPerWeek as number)
+                : 0,
+              unitsPerBox: edit
+                ? patient?.patientConsumptionMethods?.cigaretteDetails
+                    ?.unitsPerBox
+                : 10,
+              boxPrice: edit
+                ? (patient?.patientConsumptionMethods?.cigaretteDetails
+                    ?.boxPrice as number)
+                : 0,
             }}
             validationSchema={validationSchema}
             onSubmit={async (data) => {
-              await cigarreteService.create({
+              const service = edit
+                ? async (data: any) => await cigarreteService.update(data)
+                : async (data: any) => await cigarreteService.create(data)
+
+              await service({
                 ...data,
                 patientConsumptionMethodsId:
                   patient!.patientConsumptionMethodsId!,
@@ -63,7 +80,9 @@ const CigaretteQuestionnaire: React.FC<
                 })
               }
 
-              navigation.navigate('Menu')
+              await refetchUser()
+
+              navigation.navigate('MethodSelection', { firstTime: false })
             }}
           >
             {({ handleSubmit, values }) => (
@@ -141,16 +160,8 @@ const CigaretteQuestionnaire: React.FC<
                   placeholderTextColor={theme.colors.subText.primary}
                 />
                 <HStack justifyContent="space-evenly" w="full">
-                  {edit && (
-                    <SendButton
-                      text="Eliminar"
-                      onPress={() => handleDelete()}
-                      w="45%"
-                      bg="#ef756d"
-                    />
-                  )}
                   <SendButton
-                    text={edit ? 'Guardar' : 'Continuar'}
+                    text={edit ? 'Guardar' : add ? 'Agregar' : 'Continuar'}
                     onPress={() => handleSubmit()}
                     w="45%"
                   />

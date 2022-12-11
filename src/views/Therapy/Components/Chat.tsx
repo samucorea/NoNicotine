@@ -15,7 +15,6 @@ import { useChatHubContext } from '../../../contexts/ChatHubContext'
 import { useUserContext } from '../../../contexts/UserContext'
 import { Roles } from '../../../utils/enums/Roles'
 import ProfileIcon from '../../../../assets/profile.svg'
-import { chatService } from '../../../services/chatService'
 
 // let messages: ChatMessage[] = []
 
@@ -57,7 +56,7 @@ const Chat: FC<any> = (props) => {
 
   useEffect(() => {
     const getMessages = async () => {
-      if (!user || !user?.identityUserId) {
+      if (!user?.identityUserId) {
         return
       }
 
@@ -101,12 +100,12 @@ const Chat: FC<any> = (props) => {
   }
 
   return (
-    <VStackContainer scroll={false}>
+    <VStackContainer scroll={false} pt={5}>
       <FlatList
         data={messages}
         paddingRight={5}
         paddingLeft={5}
-        renderItem={({ item }) => <Message messageText={item as ChatMessage} />}
+        renderItem={({ item }) => <Message messageText={item} />}
       />
       <Box borderTopColor="#949494" borderWidth={1}>
         <Formik

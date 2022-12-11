@@ -17,12 +17,13 @@ import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
 const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
   navigation,
   route: {
-    params: { nextQuestionnaires, edit },
+    params: { nextQuestionnaires, edit, add },
   },
 }) => {
-  const { user: patient } = useUserContext<PatientContextProps>() ?? {}
+  const { user: patient, refetchUser } =
+    useUserContext<PatientContextProps>() ?? {}
 
-  const handleDelete = () => {}
+  // const handleDelete = () => {}
 
   return (
     <ScreenContainer>
@@ -36,13 +37,26 @@ const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
 
         <Formik
           initialValues={{
-            cartridgeLifespan: 0,
-            unitsPerBox: 0,
-            boxPrice: 0,
+            cartridgeLifespan: edit
+              ? (patient?.patientConsumptionMethods?.electronicCigaretteDetails
+                  ?.cartridgeLifespan as number)
+              : 0,
+            unitsPerBox: edit
+              ? (patient?.patientConsumptionMethods?.electronicCigaretteDetails
+                  ?.unitsPerBox as number)
+              : 0,
+            boxPrice: edit
+              ? (patient?.patientConsumptionMethods?.electronicCigaretteDetails
+                  ?.boxPrice as number)
+              : 0,
           }}
           validationSchema={validationSchema}
           onSubmit={async (data) => {
-            await vapeService.create({
+            const service = edit
+              ? async (data: any) => await vapeService.update(data)
+              : async (data: any) => await vapeService.create(data)
+
+            await service({
               ...data,
               patientConsumptionMethodsId:
                 patient!.patientConsumptionMethodsId!,
@@ -54,10 +68,12 @@ const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
               })
             }
 
-            navigation.navigate('Menu')
+            await refetchUser()
+
+            navigation.navigate('MethodSelection', { firstTime: false })
           }}
         >
-          {({ handleSubmit }) => (
+          {({ handleSubmit, values }) => (
             <>
               <RegularText>
                 {'¿Cuántos días, en promedio, te dura un pod/vape desechable?'}
@@ -93,16 +109,16 @@ const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
                 justifyContent="space-evenly"
                 w="full"
               >
-                {edit && (
+                {/* {edit && (
                   <SendButton
                     text="Eliminar"
                     onPress={() => handleDelete()}
                     w="45%"
                     bg="#ef756d"
                   />
-                )}
+                )} */}
                 <SendButton
-                  text={edit ? 'Guardar' : 'Continuar'}
+                  text={edit ? 'Guardar' : add ? 'Agregar' : 'Continuar'}
                   onPress={() => handleSubmit()}
                   w="45%"
                 />
