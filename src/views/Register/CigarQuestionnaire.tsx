@@ -17,12 +17,11 @@ import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
 const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
   navigation,
   route: {
-    params: { nextQuestionnaires, edit },
+    params: { nextQuestionnaires, edit, add },
   },
 }) => {
-  const { user: patient } = useUserContext<PatientContextProps>() ?? {}
-
-  const handleDelete = () => {}
+  const { user: patient, refetchUser } =
+    useUserContext<PatientContextProps>() ?? {}
 
   return (
     <ScreenContainer>
@@ -33,21 +32,35 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
 
         <Formik
           initialValues={{
-            unitsPerDay: 0,
-            daysPerWeek: 0,
-            unitsPerBox: 0,
-            boxPrice: 0,
+            unitsPerDay: edit
+              ? patient?.patientConsumptionMethods?.cigarDetails?.unitsPerDay
+              : 0,
+            daysPerWeek: edit
+              ? patient?.patientConsumptionMethods?.cigarDetails?.daysPerWeek
+              : 0,
+            unitsPerBox: edit
+              ? patient?.patientConsumptionMethods?.cigarDetails?.unitsPerBox
+              : 0,
+            boxPrice: edit
+              ? patient?.patientConsumptionMethods?.cigarDetails?.boxPrice
+              : 0,
           }}
           validationSchema={validationSchema}
           onSubmit={async (data) => {
+            console.log(
+              '🚀 ~ file: CigarQuestionnaire.tsx:52 ~ onSubmit={ ~ data',
+              data
+            )
             try {
-              const response = await cigarService.create({
+              const service = edit
+                ? async (data: any) => await cigarService.update(data)
+                : async (data: any) => await cigarService.create(data)
+
+              await service({
                 ...data,
                 patientConsumptionMethodsId:
                   patient!.patientConsumptionMethodsId!,
               })
-
-              console.info(response.data)
 
               if (nextQuestionnaires.length > 0) {
                 return navigation.navigate(nextQuestionnaires.pop() as any, {
@@ -55,7 +68,9 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
                 })
               }
 
-              navigation.navigate('Menu')
+              await refetchUser()
+
+              navigation.navigate('MethodSelection', { firstTime: false })
             } catch (error: any) {
               console.log(error.response.data)
             }
@@ -68,7 +83,7 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
               </RegularText>
               <InputField
                 keyboardType="numeric"
-                name="cigarsPerDay"
+                name="unitsPerDay"
                 placeholder="Unidad(es)"
               />
               <RegularText>
@@ -84,7 +99,7 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
               </RegularText>
               <InputField
                 keyboardType="numeric"
-                name="cigarsPerBox"
+                name="unitsPerBox"
                 placeholder="Unidad(es)"
               />
               <RegularText>
@@ -101,16 +116,8 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
                 justifyContent="space-evenly"
                 w="full"
               >
-                {edit && (
-                  <SendButton
-                    text="Eliminar"
-                    onPress={() => handleDelete()}
-                    w="45%"
-                    bg="#ef756d"
-                  />
-                )}
                 <SendButton
-                  text={edit ? 'Guardar' : 'Continuar'}
+                  text={edit ? 'Guardar' : add ? 'Agregar' : 'Continuar'}
                   onPress={() => handleSubmit()}
                   w="45%"
                 />

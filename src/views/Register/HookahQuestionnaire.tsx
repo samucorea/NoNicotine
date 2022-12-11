@@ -17,12 +17,15 @@ import { number, object } from 'yup'
 const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
   navigation,
   route: {
-    params: { nextQuestionnaires, edit },
+    params: { nextQuestionnaires, edit, add },
   },
 }) => {
-  const { user: patient } = useUserContext<PatientContextProps>() ?? {}
-
-  const handleDelete = () => {}
+  const { user: patient, refetchUser } =
+    useUserContext<PatientContextProps>() ?? {}
+  console.log(
+    '🚀 ~ file: HookahQuestionnaire.tsx:24 ~ patient',
+    patient?.patientConsumptionMethods?.hookahDetails
+  )
 
   return (
     <ScreenContainer>
@@ -35,16 +38,22 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
         </Box>
         <Formik
           initialValues={{
-            daysPerWeek: 0,
-            setupPrice: 0,
+            daysPerWeek: edit
+              ? (patient?.patientConsumptionMethods?.hookahDetails
+                  ?.daysPerWeek as number)
+              : 0,
+            setupPrice: edit
+              ? (patient?.patientConsumptionMethods?.hookahDetails
+                  ?.setupPrice as number)
+              : 0,
           }}
           validationSchema={validationSchema}
           onSubmit={async (data) => {
-            console.log(
-              '🚀 ~ file: HookahQuestionnaire.tsx ~ line 44 ~ onSubmit={ ~ data',
-              data
-            )
-            await hookahService.create({
+            const service = edit
+              ? async (data: any) => await hookahService.update(data)
+              : async (data: any) => await hookahService.create(data)
+
+            await service({
               ...data,
               patientConsumptionMethodsId:
                 patient!.patientConsumptionMethodsId!,
@@ -56,11 +65,14 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
               })
             }
 
-            navigation.navigate('Menu')
+            await refetchUser()
+
+            navigation.navigate('MethodSelection', { firstTime: false })
           }}
         >
-          {({ handleSubmit }) => (
+          {({ handleSubmit, values }) => (
             <>
+              {console.log(values)}
               <RegularText>
                 {'¿Por lo general, cuántos días fumas hookah en una semana?'}
               </RegularText>
@@ -83,16 +95,16 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
                 justifyContent="space-evenly"
                 w="full"
               >
-                {edit && (
+                {/* {edit && (
                   <SendButton
                     text="Eliminar"
                     onPress={() => handleDelete()}
                     w="45%"
                     bg="#ef756d"
                   />
-                )}
+                )} */}
                 <SendButton
-                  text={edit ? 'Guardar' : 'Continuar'}
+                  text={edit ? 'Guardar' : add ? 'Agregar' : 'Continuar'}
                   onPress={() => handleSubmit()}
                   w="45%"
                 />

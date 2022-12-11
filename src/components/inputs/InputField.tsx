@@ -71,7 +71,7 @@ export const InputField: FC<InputFieldProps & IInputProps> = ({
             </Pressable>
           ) : undefined
         }
-        value={field?.value}
+        value={field?.value?.toString()}
         onChangeText={field?.onChange(name)}
         {...props}
       />

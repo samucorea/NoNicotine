@@ -14,6 +14,8 @@ import { Therapist } from '../models/Therapist'
 import User from '../models/User'
 import BaseCrudService from '../services/baseCrudService'
 import login, { refreshCurrentToken } from '../services/loginService'
+import patientService from '../services/patientService'
+import { Roles } from '../utils/enums/Roles'
 
 interface Props {
   children: ReactNode
@@ -27,6 +29,7 @@ interface ContextProps {
   getStoredToken: () => Promise<string | null>
   logOut: () => Promise<void>
   logIn: (credentials: Login) => Promise<Patient | Therapist>
+  refetchUser: () => Promise<void>
   token: string | undefined
   refreshToken: string | undefined
   loading: boolean
@@ -179,6 +182,14 @@ const UserContextProvider: FC<Props> = ({ children }) => {
     navigation.navigate('Login')
   }
 
+  const refetchUser = async () => {
+    const response = await patientService.getCurrentPatient(token!)
+
+    response.data.role = Roles.patient
+
+    setStoredUser(response.data)
+  }
+
   return (
     <UserContext.Provider
       value={{
@@ -193,6 +204,7 @@ const UserContextProvider: FC<Props> = ({ children }) => {
         token,
         refreshToken,
         loading,
+        refetchUser,
       }}
     >
       {children}

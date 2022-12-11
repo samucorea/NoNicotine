@@ -38,18 +38,22 @@ export type RootStackScreens = {
   VapeQuestionnaire: {
     nextQuestionnaires: string[]
     edit?: boolean
+    add?: boolean
   }
   HookahQuestionnaire: {
     nextQuestionnaires: string[]
     edit?: boolean
+    add?: boolean
   }
   CigarQuestionnaire: {
     nextQuestionnaires: string[]
     edit?: boolean
+    add?: boolean
   }
   CigaretteQuestionnaire: {
     nextQuestionnaires: string[]
     edit?: boolean
+    add?: boolean
   }
   MethodSelection: { firstTime: boolean }
   Register: { role: Roles }

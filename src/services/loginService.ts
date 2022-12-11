@@ -22,7 +22,6 @@ const login = async (credentials: Login) => {
     credentials
   )
   const role = getTokenRole(response.data.token)
-  console.log('🚀 ~ file: loginService.ts:25 ~ login ~ role', role)
 
   const service =
     role == Roles.patient
