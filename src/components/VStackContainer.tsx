@@ -21,11 +21,11 @@ const VStackContainer: FC<Props> = ({
   return (
     <Component flex={1} bg="#fff">
       <VStack
-        flex={1}
         borderColor="#949494"
         borderTopWidth={dividerThickness}
         borderBottomWidth={dividerThickness}
         bg="#fff"
+        flex={1}
         divider={
           <Divider
             orientation="vertical"

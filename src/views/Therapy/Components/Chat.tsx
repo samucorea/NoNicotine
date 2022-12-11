@@ -1,6 +1,6 @@
 import { Formik } from 'formik'
 import { Box, FlatList, IconButton } from 'native-base'
-import React, { useEffect, FC } from 'react'
+import React, { useEffect, FC, useState } from 'react'
 import { object, string } from 'yup'
 import theme from '../../../AppTheme'
 import {
@@ -15,29 +15,74 @@ import { useChatHubContext } from '../../../contexts/ChatHubContext'
 import { useUserContext } from '../../../contexts/UserContext'
 import { Roles } from '../../../utils/enums/Roles'
 import ProfileIcon from '../../../../assets/profile.svg'
+import { chatService } from '../../../services/chatService'
 
-const messages = [
-  { text: 'hola', sender: 'sent' },
-  { text: 'adiós', sender: 'received' },
-  {
-    text: 'basiduyfghuiyasfddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
-    sender: 'received',
-  },
-  { text: 'hola', sender: 'sent' },
-]
+// let messages: ChatMessage[] = []
 
 const Chat: FC<any> = (props) => {
   const { user } = useUserContext()
-  const { sendPrivateMessage, subscribe } = useChatHubContext()
+  const { sendPrivateMessage, subscribe, conversations } = useChatHubContext()
+  const [messages, setMessages] = useState<ChatMessage[]>([])
+
+  const getSenderId = (): string | null => {
+    if (user?.role === Roles.patient) {
+      const patient = user as Patient
+      if (!patient.therapist?.identityUserId) {
+        return null
+      }
+      return patient.therapist?.identityUserId
+    } else if (user?.role === Roles.therapist) {
+      const patient = props.route.params.user as Patient
+      if (!patient.identityUserId) {
+        return null
+      }
+
+      return patient.identityUserId
+    }
+
+    return null
+  }
+  const senderId = getSenderId()
+  if (!senderId) {
+    console.error('no sender id was found')
+  }
 
   useEffect(() => {
     const subscribeId =
       user?.role == Roles.patient
         ? (user as Patient).therapist?.id
         : props.route.params.user.id
-
     subscribe(subscribeId)
   }, [])
+
+  useEffect(() => {
+    const getMessages = async () => {
+      if (!user || !user?.identityUserId) {
+        return
+      }
+
+      if (!senderId) {
+        throw new Error('no sender id was found in chat')
+      }
+
+      if (user?.role === Roles.patient) {
+        const patient = user as Patient
+        if (!patient.therapist?.identityUserId) {
+          return
+        }
+
+        setMessages(conversations[senderId])
+      } else if (user?.role === Roles.therapist) {
+        const patient = props.route.params.user as Patient
+        if (!patient.identityUserId) {
+          return
+        }
+        setMessages(conversations[senderId])
+      }
+    }
+
+    getMessages()
+  }, [conversations])
 
   if (user?.role == Roles.therapist) {
     props.navigation.setOptions({
@@ -58,26 +103,23 @@ const Chat: FC<any> = (props) => {
   return (
     <VStackContainer scroll={false}>
       <FlatList
-        p={5}
         data={messages}
+        paddingRight={5}
+        paddingLeft={5}
         renderItem={({ item }) => <Message messageText={item as ChatMessage} />}
       />
       <Box borderTopColor="#949494" borderWidth={1}>
         <Formik
-          onSubmit={({ message }) => {
+          onSubmit={async ({ message }, { resetForm }) => {
             console.log(user?.role)
             if (user?.role == Roles.patient) {
-              const patient = user as Patient
               console.log('sending')
 
-              sendPrivateMessage(
-                patient.therapist?.identityUserId as string,
-                message
-              )
+              sendPrivateMessage(senderId!, message)
             } else if (user?.role == Roles.therapist) {
-              // const patient = props.user as Patient
-              // sendPrivateMessage(patient.identityUserId, message)
+              sendPrivateMessage(senderId!, message)
             }
+            resetForm()
           }}
           initialValues={{ message: '' }}
           validationSchema={validationSchema}
