@@ -56,7 +56,7 @@ const ChatHubProvider: FC<Props> = ({ children }) => {
     }
 
     startConnection()
-  }, [])
+  }, [token])
 
   const subscribe = (userId: string) => {
     console.log('subscrib to', userId)

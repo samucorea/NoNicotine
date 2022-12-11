@@ -32,16 +32,15 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
 
         setPatients(response.data)
 
-        user!.patients = response.data
+        const userTMP = { ...user }
 
-        await setStoredUser(user as User)
+        userTMP.patients = response.data
 
-        console.log('setted')
+        await setStoredUser(userTMP as User)
       } catch (error) {
         console.log(
           '🚀 ~ file: TherapistDashboard.tsx:21 ~ getPatients ~ error',
-          error,
-          user
+          error.response.data
         )
       }
     }
@@ -78,6 +77,7 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
           Aún no tiene pacientes
         </Heading>
         <SendButton text="Vincular paciente" onPress={() => toggleShow()} />
+        <LinkModal show={show} toggleShow={toggleShow} />
       </Center>
     )
   }

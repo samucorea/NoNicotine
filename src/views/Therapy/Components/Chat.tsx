@@ -27,17 +27,8 @@ const messages = [
 ]
 
 const Chat: FC<any> = (props) => {
-  const { user } = useUserContext()
+  const { user, token } = useUserContext()
   const { sendPrivateMessage, subscribe } = useChatHubContext()
-
-  useEffect(() => {
-    const subscribeId =
-      user?.role == Roles.patient
-        ? (user as Patient).therapist?.id
-        : props.route.params.user.id
-
-    subscribe(subscribeId)
-  }, [])
 
   if (user?.role == Roles.therapist) {
     props.navigation.setOptions({
@@ -65,19 +56,36 @@ const Chat: FC<any> = (props) => {
       <Box borderTopColor="#949494" borderWidth={1}>
         <Formik
           onSubmit={({ message }) => {
-            console.log(user?.role)
-            if (user?.role == Roles.patient) {
-              const patient = user as Patient
-              console.log('sending')
+            const sendToId =
+              user?.role == Roles.patient
+                ? (user as Patient).therapist?.identityUserId
+                : props.route.params.user.identityUserId
 
-              sendPrivateMessage(
-                patient.therapist?.identityUserId as string,
-                message
-              )
-            } else if (user?.role == Roles.therapist) {
-              // const patient = props.user as Patient
-              // sendPrivateMessage(patient.identityUserId, message)
-            }
+            console.log(
+              'patientId',
+              user?.role == Roles.patient,
+              sendToId,
+              user.therapist?.identityUserId
+            )
+
+            console.log('sender', user?.identityUserId)
+
+            console.log('🚀 ~ file: Chat.tsx:60 ~ sendToId', sendToId)
+
+            sendPrivateMessage(sendToId as string, message)
+
+            // if (user?.role == Roles.patient) {
+            //   const patient = user as Patient
+            //   console.log('sending')
+
+            //   sendPrivateMessage(
+            //     patient.therapist?.identityUserId as string,
+            //     message
+            //   )
+            // } else if (user?.role == Roles.therapist) {
+            //   // const patient = props.user as Patient
+            //   // sendPrivateMessage(patient.identityUserId, message)
+            // }
           }}
           initialValues={{ message: '' }}
           validationSchema={validationSchema}

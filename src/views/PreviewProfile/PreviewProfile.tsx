@@ -8,7 +8,7 @@ import moment from 'moment'
 import { useUserContext } from '../../contexts/UserContext'
 import { Roles } from '../../utils/enums/Roles'
 import { linkService } from '../../services/linkService'
-import { Patient } from '../../models'
+import { Patient, Therapist } from '../../models'
 
 const PreviewProfile: React.FC<RootScreenProps<'PreviewProfile'>> = ({
   route: {
@@ -22,6 +22,12 @@ const PreviewProfile: React.FC<RootScreenProps<'PreviewProfile'>> = ({
     const patientId =
       loggedUser?.role == Roles.therapist ? user.id : loggedUser!.id
 
+    console.log(
+      '🚀 ~ file: PreviewProfile.tsx:22 ~ desvinculate ~ userId',
+      { userId },
+      { patientId }
+    )
+
     try {
       await linkService.unLink(userId, patientId)
 
@@ -33,16 +39,27 @@ const PreviewProfile: React.FC<RootScreenProps<'PreviewProfile'>> = ({
         patient.therapistId = undefined
 
         setStoredUser(patient)
+      } else {
+        const therapist = loggedUser as Therapist
+
+        const patientIndex = therapist.patients.findIndex(
+          (patient) => patient.id == user.id
+        )
+
+        therapist.patients.splice(patientIndex, 1)
+
+        setStoredUser(therapist)
       }
 
       navigation.goBack()
     } catch (error) {
       console.log(
         '🚀 ~ file: PreviewProfile.tsx:21 ~ desvinculate ~ error',
-        error
+        error.response.data
       )
     }
   }
+  console.log('Log', loggedUser.patients)
 
   return (
     <ScreenContainer>
