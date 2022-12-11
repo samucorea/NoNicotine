@@ -6,6 +6,7 @@ interface SectionContent {
   leftIcon?: ImageSourcePropType
   rigthIcon?: ImageSourcePropType
   content: ReactNode
+  subContent?: boolean
 }
 
 export interface InfoSectionProps {
@@ -39,14 +40,14 @@ const InfoSection: FC<InfoSectionProps & { key: any }> = ({
           py={'3'}
           alignItems={'center'}
           key={index}
-          bg={'#f8f8f8'}
+          bg={item.subContent ? '#f1f0f0' : '#f8f8f8'}
         >
           {item.leftIcon !== undefined && (
             <Center bg={'#f8f8f8'} flex="2">
               <Image source={item.leftIcon} alt="leftIcon" />
             </Center>
           )}
-          <Box bg={'#f8f8f8'} flex="8">
+          <Box pl={2} bg={item.subContent ? '#f1f0f0' : '#f8f8f8'} flex="8">
             {item.content}
           </Box>
           {item.rigthIcon !== undefined && (

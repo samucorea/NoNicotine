@@ -28,6 +28,10 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
   },
 }) => {
   const { user } = useUserContext<PatientContextProps>()
+  console.log(
+    '🚀 ~ file: MethodSelection.tsx:31 ~ user',
+    user?.patientConsumptionMethods
+  )
 
   const initialSelected = []
 
@@ -133,7 +137,7 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
                     {!firstTime && Object.keys(style).length == 0 ? (
                       <EditDots />
                     ) : (
-                      <AddIcon />
+                      !firstTime && <AddIcon />
                     )}
                   </Box>
                 }

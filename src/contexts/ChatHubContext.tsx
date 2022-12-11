@@ -43,46 +43,46 @@ const ChatHubProvider: FC<Props> = ({ children }) => {
   const [connection, setConnection] = useState<HubConnection>()
   const [conversations, setConversations] = useState<Conversations>({})
 
-  useEffect(() => {
-    const startConnection = async () => {
-      const connectionTMP = new HubConnectionBuilder()
-        .withUrl(`${process.env.SERVER_HOST}/Chat`, {
-          accessTokenFactory: () => token!,
-        })
-        .withAutomaticReconnect()
-        .build()
+  // useEffect(() => {
+  //   const startConnection = async () => {
+  //     const connectionTMP = new HubConnectionBuilder()
+  //       .withUrl(`${process.env.SERVER_HOST}/Chat`, {
+  //         accessTokenFactory: () => token!,
+  //       })
+  //       .withAutomaticReconnect()
+  //       .build()
 
-      const conversationStorage = await chatService.getConversations()
-      setConversations(conversationStorage)
+  //     const conversationStorage = await chatService.getConversations()
+  //     setConversations(conversationStorage)
 
-      connectionTMP.on('ReceiveMessage', async (message: Message) => {
-        console.log('signalr meessage', message)
-        if (!user?.identityUserId) {
-          console.error('no user found in context when message was recieved')
-          return
-        }
+  //     connectionTMP.on('ReceiveMessage', async (message: Message) => {
+  //       console.log('signalr meessage', message)
+  //       if (!user?.identityUserId) {
+  //         console.error('no user found in context when message was recieved')
+  //         return
+  //       }
 
-        const newConversations = await chatService.saveMessage(
-          message.senderId,
-          {
-            sender: 'reciever',
-            date: new Date(),
-            text: message.content,
-          }
-        )
-        console.log('setConversatonis', newConversations)
-        setConversations(newConversations)
+  //       const newConversations = await chatService.saveMessage(
+  //         message.senderId,
+  //         {
+  //           sender: 'reciever',
+  //           date: new Date(),
+  //           text: message.content,
+  //         }
+  //       )
+  //       console.log('setConversatonis', newConversations)
+  //       setConversations(newConversations)
 
-        ackMessage(message.id)
-      })
+  //       ackMessage(message.id)
+  //     })
 
-      connectionTMP.start()
+  //     connectionTMP.start()
 
-      setConnection(connectionTMP)
-    }
+  //     setConnection(connectionTMP)
+  //   }
 
-    startConnection()
-  }, [token])
+  //   startConnection()
+  // }, [token])
 
   const subscribe = (userId: string) => {
     console.log('subscrib to', userId)

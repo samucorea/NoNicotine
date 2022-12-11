@@ -1,11 +1,12 @@
 import { CompositeScreenProps } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import moment from 'moment'
-import { Box, Fab, Image, Text, VStack } from 'native-base'
+import { Box, Fab, Image, ScrollView, Text, VStack } from 'native-base'
 import React, { FC, useEffect, useState } from 'react'
 import theme from '../../AppTheme'
 import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
 import { ConsumptionExpenses } from '../../models'
+import { PatientConsumptionMethods } from '../../models/Patient'
 import { RootStackScreens } from '../../routes/MainNavigator'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
 import patientService from '../../services/patientService'
@@ -23,6 +24,13 @@ type Props = CompositeScreenProps<
   StackScreenProps<RootStackScreens>
 >
 
+const methodExpenses = {
+  cigar: 'cigarTotal',
+  cigarette: 'cigaretteTotal',
+  electronicCigarette: 'electronicCigaretteTotal',
+  hookah: 'hookaTotal',
+}
+
 const PatientDashboard: FC<Props> = ({ navigation }) => {
   const [isFocused, setIsFocused] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -39,16 +47,13 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
 
     const getConsumptionMethods = async () => {
       try {
-        const responseMethods = await patientService.getConsumptionMethods(
-          patient?.patientConsumptionMethodsId as string
-        )
         const response = await patientService.getConsumptionExpenses()
 
         setConsumptionExpenses(response.data)
       } catch (error: any) {
         console.log(
           '🚀 ~ file: PatientDashboard.tsx ~ line 47 ~ getConsumptionMethods ~ error',
-          error
+          error.response.data
         )
       }
 
@@ -57,9 +62,32 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
     getConsumptionMethods()
   }, [])
 
+  const expenseArray = []
+
+  if (!loading) {
+    for (const key in methodExpenses) {
+      if (
+        patient!.patientConsumptionMethods![
+          key as keyof PatientConsumptionMethods
+        ] !== null
+      ) {
+        expenseArray.push({
+          subContent: true,
+          content: (
+            <Text bg={'transparent'} bold fontSize={'xl'}>
+              {consumptionExpenses?.[key as keyof ConsumptionExpenses]} DOP
+            </Text>
+          ),
+        })
+      }
+    }
+  }
+
+  console.log('expenses', consumptionExpenses)
+
   const infoItems: InfoSectionProps[] = [
     {
-      sectionTitle: 'Ahorro econónmico',
+      sectionTitle: 'Ahorro económico',
       sectionItems: [
         {
           content: (
@@ -69,6 +97,7 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
           ),
           leftIcon: DollarSign,
         },
+        ...expenseArray,
       ],
     },
     {
@@ -96,17 +125,29 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
     },
   ]
 
-  // if (loading) {
-  //   return null
-  // }
+  if (loading) {
+    return null
+  }
 
-  // if (consumptionExpenses?.total == 0) {
-  //   navigation.navigate('MethodSelection', { firstTime: true })
-  //   return null
-  // }
+  let areMethodsNull = 0
+
+  for (const key in patient?.patientConsumptionMethods) {
+    if (
+      patient?.patientConsumptionMethods[
+        key as keyof PatientConsumptionMethods
+      ] == null
+    ) {
+      areMethodsNull += 1
+    }
+
+    if (areMethodsNull == 4) {
+      navigation.navigate('MethodSelection', { firstTime: true })
+      return null
+    }
+  }
 
   return (
-    <Box flex={1} p={'8'} pt={'0'}>
+    <ScrollView flex={1} p={'8'} pt={'0'} bg="#ffffff">
       <Box flex={4} alignSelf="center">
         <AbstinenceRecord abstinenceDays={abstinenceDays} />
       </Box>
@@ -129,7 +170,7 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
           bottom={90}
         />
       )}
-    </Box>
+    </ScrollView>
   )
 }
 
