@@ -66,7 +66,6 @@ const ChatHubProvider: FC<Props> = ({ children }) => {
             text: message.content,
           }
         )
-        console.log('setConversatonis', newConversations)
         setConversations(newConversations)
 
         ackMessage(message.id)

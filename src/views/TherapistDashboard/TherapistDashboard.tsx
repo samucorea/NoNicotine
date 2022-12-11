@@ -28,7 +28,6 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
     const getPatients = async () => {
       try {
         const response = await therapistService.getPatients()
-
         user!.patients = response.data
 
         setStoredUser(user!)
