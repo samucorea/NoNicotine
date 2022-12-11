@@ -70,7 +70,7 @@ SplashScreen.preventAutoHideAsync()
 const Stack = createStackNavigator<RootStackScreens>()
 
 const MainNavigator = () => {
-  const { token, refreshToken, loading } = useUserContext() ?? {}
+  const { token, refreshToken, loading, user } = useUserContext() ?? {}
 
   const [fontsLoaded] = useFonts({
     'Lato-Regular': require('../../assets/fonts/Lato-Regular.ttf'),
@@ -107,7 +107,7 @@ const MainNavigator = () => {
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
       >
-        {token ? (
+        {token && user ? (
           <>
             <Stack.Screen
               name="Menu"
@@ -121,15 +121,17 @@ const MainNavigator = () => {
               name="Profile"
               component={Profile}
               options={({ navigation }) => ({
-                headerRight: () => (
-                  <VStack alignItems={'center'} pr={'5'}>
-                    <CustomIconButton
-                      icon={SettingsIcon}
-                      onPress={() => navigation.navigate('MethodSelection')}
-                    />
-                    <Text color={theme.colors.primary.default}>Consumo</Text>
-                  </VStack>
-                ),
+                ...(user.role == Roles.patient && {
+                  headerRight: () => (
+                    <VStack alignItems={'center'} pr={'5'}>
+                      <CustomIconButton
+                        icon={SettingsIcon}
+                        onPress={() => navigation.navigate('MethodSelection')}
+                      />
+                      <Text color={theme.colors.primary.default}>Consumo</Text>
+                    </VStack>
+                  ),
+                }),
               })}
             />
             <Stack.Screen

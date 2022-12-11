@@ -6,7 +6,7 @@ import {
   useUserContext,
 } from '../../contexts/UserContext'
 import { useFocus, useModalToggle } from '../../hooks'
-import { Conversations } from '../../models'
+import { Conversations, Patient, User } from '../../models'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
 import { chatService } from '../../services/chatService'
 import { linkService } from '../../services/linkService'
@@ -22,19 +22,26 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
   const { show, toggleShow } = useModalToggle()
   const [conversations, setConversations] = useState<Conversations>({})
   const [loading, setLoading] = useState(true)
+  const [patients, setPatients] = useState<Patient[]>([])
   const isFocused = useFocus(navigation)
 
   useEffect(() => {
     const getPatients = async () => {
       try {
         const response = await therapistService.getPatients()
+
+        setPatients(response.data)
+
         user!.patients = response.data
 
-        setStoredUser(user!)
+        await setStoredUser(user as User)
+
+        console.log('setted')
       } catch (error) {
         console.log(
           '🚀 ~ file: TherapistDashboard.tsx:21 ~ getPatients ~ error',
-          error
+          error,
+          user
         )
       }
     }
@@ -55,12 +62,16 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
     }
 
     if (isFocused) {
+      console.log(
+        '🚀 ~ file: TherapistDashboard.tsx:59 ~ useEffect ~ isFocused',
+        isFocused
+      )
       retreiveConversations()
       getPatients()
     }
   }, [isFocused])
 
-  if (user?.patients?.length == 0) {
+  if (patients.length == 0) {
     return (
       <Center flex={1}>
         <Heading mb={2} textAlign={'center'} color="primary.default">
@@ -73,7 +84,7 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
 
   return (
     <VStackContainer>
-      {user?.patients?.map((patient, index) => (
+      {patients.map((patient, index) => (
         <PatientListing
           key={index}
           name={patient.name}
