@@ -1,6 +1,6 @@
 import { Formik } from 'formik'
 import { Box, FlatList, IconButton } from 'native-base'
-import React, { useEffect, FC, useState } from 'react'
+import React, { useEffect, FC, useState, useRef } from 'react'
 import { object, string } from 'yup'
 import theme from '../../../AppTheme'
 import {
@@ -19,6 +19,7 @@ import ProfileIcon from '../../../../assets/profile.svg'
 // let messages: ChatMessage[] = []
 
 const Chat: FC<any> = (props) => {
+  const listRef = useRef<any>()
   const { user } = useUserContext()
   const { sendPrivateMessage, subscribe, conversations } = useChatHubContext()
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -83,6 +84,10 @@ const Chat: FC<any> = (props) => {
     getMessages()
   }, [conversations])
 
+  useEffect(() => {
+    listRef.current?.scrollToEnd()
+  }, [messages])
+
   if (user?.role == Roles.therapist) {
     props.navigation.setOptions({
       headerRight: () => (
@@ -102,6 +107,7 @@ const Chat: FC<any> = (props) => {
   return (
     <VStackContainer scroll={false} pt={5}>
       <FlatList
+        ref={listRef}
         data={messages}
         paddingRight={5}
         paddingLeft={5}
