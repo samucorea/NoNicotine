@@ -52,14 +52,13 @@ const PreviewProfile: React.FC<RootScreenProps<'PreviewProfile'>> = ({
       }
 
       navigation.goBack()
-    } catch (error) {
+    } catch (error: any) {
       console.log(
         '🚀 ~ file: PreviewProfile.tsx:21 ~ desvinculate ~ error',
         error.response.data
       )
     }
   }
-  console.log('Log', loggedUser.patients)
 
   return (
     <ScreenContainer>

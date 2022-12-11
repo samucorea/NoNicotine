@@ -5,7 +5,6 @@ import theme from '../../../AppTheme'
 import React, { useState, FC } from 'react'
 import { InputField, SelectInputField } from '../../../components'
 import { object, string } from 'yup'
-import DateTimePicker from '@react-native-community/datetimepicker'
 
 const deviceHeight = Dimensions.get('window').height
 
@@ -16,7 +15,6 @@ interface Props {
 }
 
 const AddHabit: FC<Props> = ({ title, onTouchOutside, show }) => {
-  const [mode, setMode] = useState('show')
   const [showTimePicker, setShowTimePicker] = useState(false)
 
   const showTime = () => {

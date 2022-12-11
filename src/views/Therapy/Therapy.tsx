@@ -53,21 +53,23 @@ const Therapy: FC<Props> = ({ navigation }) => {
   }, [isFocused])
 
   useEffect(() => {
-    if (patient?.therapist) {
-      navigation.setOptions({
-        headerRight: () => (
-          <CustomIconButton
-            icon={ProfileIcon}
-            pr={'5'}
-            onPress={() =>
-              navigation.navigate('PreviewProfile', {
-                user: patient.therapist as User,
-              })
-            }
-          />
-        ),
-      })
-    }
+    const navigationOptions = patient?.therapist
+      ? {
+          headerRight: () => (
+            <CustomIconButton
+              icon={ProfileIcon}
+              pr={'5'}
+              onPress={() =>
+                navigation.navigate('PreviewProfile', {
+                  user: patient.therapist as User,
+                })
+              }
+            />
+          ),
+        }
+      : {}
+
+    navigation.setOptions(navigationOptions)
   }, [patient?.therapist])
 
   const handleRequestUpdate = async () => {

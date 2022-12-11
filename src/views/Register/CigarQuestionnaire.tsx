@@ -40,19 +40,25 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
           }}
           validationSchema={validationSchema}
           onSubmit={async (data) => {
-            await cigarService.create({
-              ...data,
-              patientConsumptionMethodsId:
-                patient!.patientConsumptionMethodsId!,
-            })
-
-            if (nextQuestionnaires.length > 0) {
-              return navigation.navigate(nextQuestionnaires.pop() as any, {
-                nextQuestionnaires,
+            try {
+              const response = await cigarService.create({
+                ...data,
+                patientConsumptionMethodsId:
+                  patient!.patientConsumptionMethodsId!,
               })
-            }
 
-            navigation.navigate('Menu')
+              console.info(response.data)
+
+              if (nextQuestionnaires.length > 0) {
+                return navigation.navigate(nextQuestionnaires.pop() as any, {
+                  nextQuestionnaires,
+                })
+              }
+
+              navigation.navigate('Menu')
+            } catch (error: any) {
+              console.log(error.response.data)
+            }
           }}
         >
           {({ handleSubmit }) => (
