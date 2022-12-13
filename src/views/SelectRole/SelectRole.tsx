@@ -44,7 +44,7 @@ const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
             Icon={TherapistIcon}
             bg={theme.colors.primary.default}
             onPress={() =>
-              navigation.navigate('Register', { role: Roles.patient })
+              navigation.navigate('Register', { role: Roles.therapist })
             }
           />
         </Box>

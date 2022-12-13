@@ -78,6 +78,7 @@ const MenuNavigator = () => {
                 />
               ),
               tabBarLabel: 'Inicio',
+              ...headerStyle,
             })}
           />
 
