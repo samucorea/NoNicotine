@@ -57,10 +57,6 @@ const ChatHubProvider: FC<Props> = ({ children }) => {
 
       connectionTMP.on('ReceiveMessage', async (message: Message) => {
         console.log('signalr meessage', message)
-        if (!user?.identityUserId) {
-          console.error('no user found in context when message was recieved')
-          return
-        }
 
         const newConversations = await chatService.saveMessage(
           message.senderId,

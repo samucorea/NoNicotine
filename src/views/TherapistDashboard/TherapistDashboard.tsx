@@ -1,6 +1,7 @@
-import { Center, Fab, Heading, Image } from 'native-base'
+import { Center, Fab, Heading, Image, Spinner, Text, VStack } from 'native-base'
 import React, { FC, useEffect, useState } from 'react'
 import { SendButton, VStackContainer } from '../../components'
+import { useLoadingContext } from '../../contexts/LoadingContext'
 import {
   TherapistContextProps,
   useUserContext,
@@ -13,6 +14,7 @@ import { linkService } from '../../services/linkService'
 import therapistService from '../../services/therapistService'
 import LinkModal from './Components/LinkModal'
 import PatientListing from './Components/PatientListing'
+import theme from '../../AppTheme'
 const LinkIcon = require('../../../assets/link.png')
 
 const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
@@ -40,8 +42,10 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
       } catch (error) {
         console.log(
           '🚀 ~ file: TherapistDashboard.tsx:21 ~ getPatients ~ error',
-          error.response.data
+          error
         )
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -56,8 +60,6 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
           error
         )
       }
-
-      setLoading(false)
     }
 
     if (isFocused) {
@@ -69,6 +71,20 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
       getPatients()
     }
   }, [isFocused])
+
+  if (loading) {
+    return (
+      <VStack
+        h="full"
+        justifyContent={'center'}
+        alignItems={'center'}
+        space={2}
+      >
+        <Spinner size="lg" color={theme.colors.primary.default} />
+        <Text fontSize="lg">Cargando pacientes vinculados...</Text>
+      </VStack>
+    )
+  }
 
   if (patients.length == 0) {
     return (
