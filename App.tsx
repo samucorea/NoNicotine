@@ -8,11 +8,14 @@ import 'moment/locale/es'
 import UserContextProvider from './src/contexts/UserContext'
 import { setLocale } from 'yup'
 import LoadingContextProvider from './src/contexts/LoadingContext'
+import { LogBox } from 'react-native'
 moment.locale('es')
 
 // SplashScreen.preventAutoHideAsync()
 
 export default function App() {
+  LogBox.ignoreAllLogs()
+
   setLocale({
     mixed: {
       default: 'El valor introducido no es válido',
