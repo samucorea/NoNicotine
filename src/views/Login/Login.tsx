@@ -14,7 +14,6 @@ import { useUserContext } from '../../contexts/UserContext'
 import { RootScreenProps } from '../../routes/MainNavigator'
 import BaseCrudService from '../../services/baseCrudService'
 import login from '../../services/loginService'
-import patientService from '../../services/patientService'
 
 const DarkLogo = require('../../../assets/dark-logo.png')
 
@@ -45,22 +44,14 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
             onSubmit={async (values) => {
               loadingContext?.setLoading(true, 'Iniciando sesión')
               try {
-                const response = await login(values)
-
-                const userResponse = await patientService.getCurrentPatient(
-                  response.data.token
-                )
-
-                await userContext?.setStoredUser(userResponse.data)
-                await userContext?.setStoredToken(response.data.token)
+                await userContext?.logIn(values)
 
                 BaseCrudService.UpdateConfig()
               } catch (error: any) {
                 console.log(
                   '🚀 ~ file: Login.tsx ~ line 59 ~ onSubmit={ ~ error',
-                  error.response.data
+                  error
                 )
-                loadingContext?.setLoading(false)
 
                 const errorMessage: string = error.response.data.message
 
@@ -73,9 +64,11 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
                     setErrorMessage(errors[errorMessage])
                     break
                   default:
+                    console.error(errorMessage)
                     break
                 }
               }
+              loadingContext?.setLoading(false)
             }}
           >
             {({ handleSubmit }) => (

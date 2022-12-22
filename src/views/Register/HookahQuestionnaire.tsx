@@ -1,6 +1,6 @@
 import React from 'react'
 import { RootScreenProps } from '../../routes/MainNavigator'
-import { Box, VStack } from 'native-base'
+import { Box, HStack, VStack } from 'native-base'
 
 import {
   ScreenHeader,
@@ -10,17 +10,26 @@ import {
   ScreenContainer,
 } from '../../components'
 import { Formik } from 'formik'
+import hookahService from '../../services/hookahService'
+import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
+import { number, object } from 'yup'
 
 const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
   navigation,
+  route: {
+    params: { nextQuestionnaires, edit, add },
+  },
 }) => {
-  const handleSubmit = () => {
-    navigation.navigate('Menu')
-  }
+  const { user: patient, refetchUser } =
+    useUserContext<PatientContextProps>() ?? {}
+  console.log(
+    '🚀 ~ file: HookahQuestionnaire.tsx:24 ~ patient',
+    patient?.patientConsumptionMethods?.hookahDetails
+  )
 
   return (
     <ScreenContainer>
-      <VStack space={5}>
+      <VStack space={5} h="full">
         <Box alignSelf="flex-start" display="flex">
           <ScreenHeader title="Consumo de hookah" />
           <RegularText>
@@ -29,23 +38,77 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
         </Box>
         <Formik
           initialValues={{
-            daysPerWeek: '',
-            boxSize: '',
-            boxPrice: '',
+            daysPerWeek: edit
+              ? (patient?.patientConsumptionMethods?.hookahDetails
+                  ?.daysPerWeek as number)
+              : 0,
+            setupPrice: edit
+              ? (patient?.patientConsumptionMethods?.hookahDetails
+                  ?.setupPrice as number)
+              : 0,
           }}
-          onSubmit={() => {}}
+          validationSchema={validationSchema}
+          onSubmit={async (data) => {
+            const service = edit
+              ? async (data: any) => await hookahService.update(data)
+              : async (data: any) => await hookahService.create(data)
+
+            await service({
+              ...data,
+              patientConsumptionMethodsId:
+                patient!.patientConsumptionMethodsId!,
+            })
+
+            if (nextQuestionnaires.length > 0) {
+              return navigation.navigate(nextQuestionnaires.pop() as any, {
+                nextQuestionnaires,
+              })
+            }
+
+            await refetchUser()
+
+            navigation.navigate('MethodSelection', { firstTime: false })
+          }}
         >
-          {({ handleSubmit }) => (
+          {({ handleSubmit, values }) => (
             <>
+              {console.log(values)}
               <RegularText>
                 {'¿Por lo general, cuántos días fumas hookah en una semana?'}
               </RegularText>
-              <InputField name="daysPerWeek" placeholder="Número" />
+              <InputField
+                keyboardType="numeric"
+                name="daysPerWeek"
+                placeholder="Número"
+              />
               <RegularText>
                 {'¿Cuánto te cuesta usualmente preparar una hookah?'}
               </RegularText>
-              <InputField name="boxPrice" placeholder="RD$ 0.00" />
-              <SendButton text="Continuar" onPress={() => handleSubmit()} />
+              <InputField
+                keyboardType="numeric"
+                name="setupPrice"
+                placeholder="RD$ 0.00"
+              />
+              <HStack
+                position={'absolute'}
+                bottom={20}
+                justifyContent="space-evenly"
+                w="full"
+              >
+                {/* {edit && (
+                  <SendButton
+                    text="Eliminar"
+                    onPress={() => handleDelete()}
+                    w="45%"
+                    bg="#ef756d"
+                  />
+                )} */}
+                <SendButton
+                  text={edit ? 'Guardar' : add ? 'Agregar' : 'Continuar'}
+                  onPress={() => handleSubmit()}
+                  w="45%"
+                />
+              </HStack>
             </>
           )}
         </Formik>
@@ -53,5 +116,10 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
     </ScreenContainer>
   )
 }
+
+const validationSchema = object({
+  daysPerWeek: number().required(),
+  setupPrice: number().required(),
+})
 
 export default HookahQuestionnaire

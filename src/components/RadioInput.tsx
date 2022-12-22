@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 import {
-  Text,
   Radio,
   useColorModeValue,
   FormControl,
@@ -9,10 +8,7 @@ import {
 import theme from '../AppTheme'
 import { useField } from 'formik'
 import { KeyValue, Sex } from '../sharedTypes'
-import {
-  IRadioComponentType,
-  IRadioProps,
-} from 'native-base/lib/typescript/components/primitives/Radio/types'
+import { IRadioProps } from 'native-base/lib/typescript/components/primitives/Radio/types'
 
 interface Props {
   value?: Sex | ''
@@ -22,6 +18,7 @@ interface Props {
   direction?: 'row' | 'column'
   options: string[] | KeyValue[]
   optionStyle?: IRadioProps
+  isDisabled?: boolean
 }
 
 export const RadioInput: FC<Props> = ({
@@ -32,13 +29,14 @@ export const RadioInput: FC<Props> = ({
   options,
   labelStyle,
   optionStyle,
+  isDisabled = false,
 }) => {
   const colors = useColorModeValue(
     theme.colors.primary.default,
     theme.colors.primary.light
   )
 
-  const [field, meta, helpers] = useField(name)
+  const [field, meta] = useField(name)
 
   return (
     <FormControl isInvalid={meta.error !== undefined}>
@@ -54,11 +52,12 @@ export const RadioInput: FC<Props> = ({
       >
         {options.map((option, index) => (
           <Radio
+            isDisabled={isDisabled}
             key={index}
             m={2}
             borderColor={theme.colors.primary.default}
             {...optionStyle}
-            value={typeof option == 'string' ? option : option.value}
+            value={typeof option == 'string' ? option : option.value.toString()}
             _text={{ color: colors, ...optionStyle?._text }}
           >
             {typeof option == 'string' ? option : option.key}

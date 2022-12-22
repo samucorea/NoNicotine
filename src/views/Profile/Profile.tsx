@@ -1,6 +1,6 @@
 import { Formik } from 'formik'
 import { Box, HStack, IconButton, Image, Text, VStack } from 'native-base'
-import React from 'react'
+import React, { useState } from 'react'
 import theme from '../../AppTheme'
 import {
   BirthDateInput,
@@ -11,83 +11,135 @@ import {
 } from '../../components'
 import { useUserContext } from '../../contexts/UserContext'
 import { RootScreenProps } from '../../routes/MainNavigator'
+import ProfileIcon from '../../../assets/profile.svg'
+import moment from 'moment'
+import patientService from '../../services/patientService'
+import { Sex } from '../../sharedTypes'
+import { Roles } from '../../utils/enums/Roles'
 
-const ProfileIcon = require('../../../assets/profile-big.png')
 const EditIcon = require('../../../assets/pencil.png')
 
 const Profile: React.FC<RootScreenProps<'Profile'>> = ({
   route,
   navigation,
 }) => {
-  console.log(navigation.getState())
+  const { user, logOut, setStoredUser } = useUserContext()
+  const [editing, setEditing] = useState(false)
 
-  const userContext = useUserContext()
+  const toggleEdit = () => {
+    setEditing(!editing)
+  }
+
+  const handleRelapse = async () => {
+    try {
+      const response = await patientService.relapse(user?.id as string)
+      console.log(
+        '🚀 ~ file: Profile.tsx:36 ~ handleRelapse ~ response',
+        response.data
+      )
+      setStoredUser({ ...response.data, role: Roles.patient })
+      navigation.goBack()
+    } catch (error) {
+      console.log('🚀 ~ file: Profile.tsx:36 ~ handleRelapse ~ error', error)
+    }
+  }
 
   return (
     <ScreenContainer>
-      <VStack alignItems={'center'} w="100%" mb={5}>
-        <Image source={ProfileIcon} size="lg" alt="profile_icon" />
-        <HStack position="relative">
-          <Text bold fontSize={28} color={theme.colors.primary.default}>
-            Mario Almanzar
-          </Text>
-          <Box
-            position={'absolute'}
-            right={-25}
-            bottom={0}
-            top={0}
-            justifyContent="center"
-            alignItems={'center'}
-          >
-            <IconButton
-              icon={
-                <Image
-                  source={EditIcon}
-                  alt="pencil"
-                  tintColor={theme.colors.primary.default}
-                  size="5"
-                />
-              }
-              size="5"
-            />
-          </Box>
-        </HStack>
-      </VStack>
-      <VStack space={5} flexGrow={1} position="relative">
+      <VStack space={5} flexGrow={1} position="relative" w="full">
         <Formik
           initialValues={{
-            email: 'jlbello24@gmail.com',
-            birthDate: userContext?.user?.birthDate,
-            sex: userContext?.user?.sex,
+            email: user?.email as string,
+            birthDate: moment(user?.birthDate).toDate(),
+            sex: user?.sex as Sex,
+            name: user?.name as string,
           }}
-          onSubmit={() => {}}
+          onSubmit={async (values) => {
+            try {
+              const response = await patientService.updatePatient({
+                ...values,
+                id: user?.id as string,
+              })
+
+              setStoredUser(response.data)
+
+              toggleEdit()
+            } catch (error) {
+              console.log('🚀 ~ file: Profile.tsx:72 ~ error', error)
+            }
+          }}
         >
           {({ handleSubmit }) => (
             <>
+              <VStack alignItems={'center'} w="100%" mb={5}>
+                <ProfileIcon width={100} height={100} />
+                <HStack position="relative">
+                  <InputField
+                    name="name"
+                    isDisabled={!editing}
+                    color="primary.default"
+                    _disabled={{ color: 'primary.default', opacity: 1 }}
+                    borderWidth={0}
+                    fontSize={28}
+                    textAlign={'center'}
+                    alignSelf="center"
+                    rightElement={
+                      <Box justifyContent="center" alignItems={'center'}>
+                        <IconButton
+                          icon={
+                            <Image
+                              source={EditIcon}
+                              alt="pencil"
+                              tintColor={theme.colors.primary.default}
+                              size="5"
+                            />
+                          }
+                          onPress={toggleEdit}
+                          size="5"
+                        />
+                      </Box>
+                    }
+                  />
+                </HStack>
+              </VStack>
               <InputField
                 name="email"
-                isDisabled
+                isDisabled={!editing}
                 placeholder="Correo electrónico"
               />
-              <BirthDateInput name="birthDate" />
-              <RadioInput name="sex" options={['M', 'F']} />
-              <SendButton
-                text="Guardar"
-                bottom={5}
-                position={'absolute'}
-                onPress={() => handleSubmit()}
+              <BirthDateInput name="birthDate" isDisabled={!editing} />
+              <RadioInput
+                name="sex"
+                options={['M', 'F']}
+                isDisabled={!editing}
               />
-              <SendButton
-                text="Cerrar sesión"
-                bottom={5}
-                position={'absolute'}
-                onPress={userContext?.logOut}
-              />
+              {editing ? (
+                <SendButton
+                  text="Guardar"
+                  bottom={5}
+                  position={'absolute'}
+                  onPress={() => handleSubmit()}
+                />
+              ) : (
+                <SendButton
+                  text="Cerrar sesión"
+                  bottom={5}
+                  position={'absolute'}
+                  onPress={logOut}
+                />
+              )}
             </>
           )}
         </Formik>
       </VStack>
-      <SendButton text="Tuve una recaída" bg="#ef756d" mb={10} />
+      {user?.role == Roles.patient && (
+        <SendButton
+          text="Tuve una recaída"
+          bg="#ef756d"
+          mb={10}
+          onPress={handleRelapse}
+        />
+      )}
     </ScreenContainer>
   )
 }

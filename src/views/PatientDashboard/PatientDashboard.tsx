@@ -1,9 +1,13 @@
+import { CompositeScreenProps } from '@react-navigation/native'
+import { StackScreenProps } from '@react-navigation/stack'
 import moment from 'moment'
-import { Box, Fab, Image, Text, VStack } from 'native-base'
+import { Box, Fab, Image, ScrollView, Text, VStack } from 'native-base'
 import React, { FC, useEffect, useState } from 'react'
 import theme from '../../AppTheme'
-import { useUserContext } from '../../contexts/UserContext'
-import { Patient } from '../../models'
+import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
+import { ConsumptionExpenses } from '../../models'
+import { PatientConsumptionMethods } from '../../models/Patient'
+import { RootStackScreens } from '../../routes/MainNavigator'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
 import patientService from '../../services/patientService'
 import AbstinenceRecord from './Components/AbstinenceRecord'
@@ -15,55 +19,85 @@ const Information = require('../../../assets/information.png')
 const Inhale = require('../../../assets/inhale.png')
 const Pencil = require('../../../assets/pencil.png')
 
-const PatientDashboard: FC<MenuScreenProps<'PatientDashboard'>> = ({
-  navigation,
-}) => {
+type Props = CompositeScreenProps<
+  MenuScreenProps<'PatientDashboard'>,
+  StackScreenProps<RootStackScreens>
+>
+
+const methodExpenses = {
+  cigar: 'cigarTotal',
+  cigarette: 'cigaretteTotal',
+  electronicCigarette: 'electronicCigaretteTotal',
+  hookah: 'hookaTotal',
+}
+
+const PatientDashboard: FC<Props> = ({ navigation }) => {
   const [isFocused, setIsFocused] = useState(false)
-  const { user } = useUserContext() ?? {}
+  const [loading, setLoading] = useState(true)
+  const [consumptionExpenses, setConsumptionExpenses] =
+    useState<ConsumptionExpenses>()
 
-  const patient = user as Patient
+  const { user: patient } = useUserContext<PatientContextProps>() ?? {}
 
-  const abstinenceDays = moment(patient?.startTime).diff(moment(), 'days')
+  const abstinenceDays = moment().diff(moment(patient?.startTime), 'days')
 
   useEffect(() => {
     navigation.addListener('focus', () => setIsFocused(true))
     navigation.addListener('blur', () => setIsFocused(false))
 
     const getConsumptionMethods = async () => {
-      // const response = await patientService.getConsumptionMethods(
-      //   patient.patientConsumptionMethodsId!
+      try {
+        const response = await patientService.getConsumptionExpenses()
 
-      // )
-      const response = await patientService.getConsumptionMethods(
-        patient.patientConsumptionMethodsId!
-      )
-      console.log(
-        '🚀 ~ file: PatientDashboard.tsx ~ line 40 ~ getConsumptionMethods ~ response',
-        response.data
-      )
+        setConsumptionExpenses(response.data)
+      } catch (error: any) {
+        console.log(
+          '🚀 ~ file: PatientDashboard.tsx ~ line 47 ~ getConsumptionMethods ~ error',
+          error.response.data
+        )
+      }
 
-      // .then((response) => {
-      //   console.log('data', response.data)
-      // })
-      // .catch((reason) => {
-      //   console.log(reason.)
-      // })
+      setLoading(false)
     }
     getConsumptionMethods()
   }, [])
 
+  const expenseArray = []
+
+  if (!loading) {
+    for (const key in methodExpenses) {
+      if (
+        patient!.patientConsumptionMethods![
+          key as keyof PatientConsumptionMethods
+        ] !== null
+      ) {
+        expenseArray.push({
+          subContent: true,
+          content: (
+            <Text bg={'transparent'} bold fontSize={'xl'}>
+              {consumptionExpenses?.[key as keyof ConsumptionExpenses]} DOP
+            </Text>
+          ),
+        })
+      }
+    }
+  }
+
+  console.log('expenses', consumptionExpenses)
+
   const infoItems: InfoSectionProps[] = [
     {
-      sectionTitle: 'Ahorro econónmico',
+      sectionTitle: 'Ahorro económico',
       sectionItems: [
         {
           content: (
             <Text bold fontSize={'xl'}>
-              400 DOP
+              {consumptionExpenses?.total} DOP
             </Text>
           ),
           leftIcon: DollarSign,
         },
+        ...expenseArray,
       ],
     },
     {
@@ -91,8 +125,29 @@ const PatientDashboard: FC<MenuScreenProps<'PatientDashboard'>> = ({
     },
   ]
 
+  if (loading) {
+    return null
+  }
+
+  let areMethodsNull = 0
+
+  for (const key in patient?.patientConsumptionMethods) {
+    if (
+      patient?.patientConsumptionMethods[
+        key as keyof PatientConsumptionMethods
+      ] == null
+    ) {
+      areMethodsNull += 1
+    }
+
+    if (areMethodsNull == 4) {
+      navigation.navigate('MethodSelection', { firstTime: true })
+      return null
+    }
+  }
+
   return (
-    <Box flex={1} p={'8'} pt={'0'}>
+    <ScrollView flex={1} p={'8'} pt={'0'} bg="#ffffff">
       <Box flex={4} alignSelf="center">
         <AbstinenceRecord abstinenceDays={abstinenceDays} />
       </Box>
@@ -115,7 +170,7 @@ const PatientDashboard: FC<MenuScreenProps<'PatientDashboard'>> = ({
           bottom={90}
         />
       )}
-    </Box>
+    </ScrollView>
   )
 }
 

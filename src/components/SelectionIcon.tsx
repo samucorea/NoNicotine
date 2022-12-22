@@ -1,9 +1,9 @@
 import React from 'react'
-import { Pressable, Image, IPressableProps } from 'native-base'
-import { ImageSourcePropType } from 'react-native'
+import { Pressable, IPressableProps } from 'native-base'
+import { SvgProps } from 'react-native-svg'
 
 interface Props {
-  icon: ImageSourcePropType
+  icon: React.FC<SvgProps>
 }
 
 export const CustomIconButton = (
@@ -13,7 +13,7 @@ export const CustomIconButton = (
 
   return (
     <Pressable {...pressableProps} alignItems="center">
-      <Image alt="selectionIcon" source={props.icon} />
+      <props.icon />
     </Pressable>
   )
 }

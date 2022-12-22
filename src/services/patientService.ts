@@ -1,6 +1,9 @@
 import axios from 'axios'
-import { Patient } from '../models'
+import { ConsumptionExpenses, Patient } from '../models'
+import { ConsumptionMethods } from '../models/ConsumptionMethods'
 import { RegisterPatient } from '../models/Patient'
+import { Sex } from '../sharedTypes'
+import apiRoute from '../utils/apiRoute'
 import BaseCrudService from './baseCrudService'
 
 export class PatientService extends BaseCrudService<Patient, RegisterPatient> {
@@ -16,18 +19,45 @@ export class PatientService extends BaseCrudService<Patient, RegisterPatient> {
     })
   }
 
-  async getConsumptionExpenses(patientConsumptionMethodsId: string) {
-    return await axios.get<Patient>(
-      `${this.fullRoute}/consumptionExpenses/${patientConsumptionMethodsId}`,
+  async getConsumptionExpenses() {
+    console.log(BaseCrudService.config.headers)
+
+    return await axios.get<ConsumptionExpenses>(
+      `${this.fullRoute}/consumptionExpenses`,
       BaseCrudService.config
     )
   }
 
-  async getConsumptionMethods(patientConsumptionMethodsId: string) {
-    return await axios.get<Patient>(
-      `${this.fullRoute}/consumptionExpenses/${patientConsumptionMethodsId}`,
+  async getConsumptionMethods(consumptionMethodsId: string) {
+    return await axios.get<ConsumptionMethods>(
+      `${apiRoute}/patientConsumptionMethods/${consumptionMethodsId}`,
       BaseCrudService.config
     )
+  }
+
+  async updatePatient(body: {
+    id: string
+    name: string
+    birthDate: Date
+    sex: Sex
+  }) {
+    const response = await axios.put<Patient>(
+      `${this.fullRoute}`,
+      body,
+      BaseCrudService.config
+    )
+
+    return response
+  }
+
+  async relapse(userId: string) {
+    const response = await axios.put<Patient>(
+      `${this.fullRoute}/indicateRelapse`,
+      { userId, restartDate: new Date() },
+      BaseCrudService.config
+    )
+
+    return response
   }
 }
 

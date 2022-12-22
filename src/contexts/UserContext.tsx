@@ -9,13 +9,16 @@ import React, {
   useState,
   useEffect,
 } from 'react'
-import usePrevious from '../hooks/usePreviousState'
+import { Patient, Login } from '../models'
+import { Therapist } from '../models/Therapist'
 import User from '../models/User'
-import { refreshCurrentToken } from '../services/loginService'
+import BaseCrudService from '../services/baseCrudService'
+import login, { refreshCurrentToken } from '../services/loginService'
+import patientService from '../services/patientService'
+import { Roles } from '../utils/enums/Roles'
 
 interface Props {
   children: ReactNode
-  initialToken: string | undefined
 }
 
 interface ContextProps {
@@ -25,23 +28,37 @@ interface ContextProps {
   setStoredRefreshToken: (refreshTokenTMP: string) => Promise<void>
   getStoredToken: () => Promise<string | null>
   logOut: () => Promise<void>
-  user: User | undefined
+  logIn: (credentials: Login) => Promise<Patient | Therapist>
+  refetchUser: () => Promise<void>
   token: string | undefined
+  refreshToken: string | undefined
+  loading: boolean
 }
 
-export const UserContext = createContext<ContextProps | undefined>(undefined)
-
-export const useUserContext = () => {
-  return useContext(UserContext)
+export interface PatientContextProps extends ContextProps {
+  user: Patient | undefined
 }
 
-const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
+export interface TherapistContextProps extends ContextProps {
+  user: Therapist | undefined
+}
+
+export const UserContext = createContext<
+  PatientContextProps | TherapistContextProps | undefined
+>(undefined)
+
+export const useUserContext = <
+  T extends PatientContextProps | TherapistContextProps
+>() => {
+  return useContext<T | undefined>(UserContext as React.Context<T | undefined>)!
+}
+
+const UserContextProvider: FC<Props> = ({ children }) => {
   const [user, setUser] = useState<User>()
-  const [token, setToken] = useState<string | undefined>(initialToken)
+  const [token, setToken] = useState<string | undefined>()
   const [refreshToken, setRefreshToken] = useState<string | undefined>()
-  const [lastTokenSet, setLastTokenSet] = useState<Moment>()
-
-  const previousToken = usePrevious(token)
+  const [lastTokenSet, setLastTokenSet] = useState<Moment>(moment('12/11/2000'))
+  const [loading, setLoading] = useState(true)
 
   const navigation = useNavigation<any>()
 
@@ -50,35 +67,60 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
   const refreshTokenKey = 'refreshToken'
 
   useEffect(() => {
-    if (!token && previousToken !== undefined) {
-      navigation.reset({
-        routes: [{ name: 'Login' }],
-      })
-    } else {
-      getStoredUser().then((userTMP) => {
-        setUser(userTMP as User)
-        navigation.reset({
-          routes: [{ name: 'Menu' }],
-        })
-      })
+    const getStored = async () => {
+      const [storedUser, storedToken, storedRefreshToken] = await Promise.all([
+        getStoredUser(),
+        getStoredToken(),
+        getStoredRefreshToken(),
+      ])
+
+      if (storedUser && storedToken && storedRefreshToken) {
+        setUser(storedUser)
+        setToken(storedToken)
+        setRefreshToken(storedRefreshToken)
+      }
+
+      setLoading(false)
     }
-  }, [token])
+
+    getStored()
+  }, [])
 
   useEffect(() => {
-    if (lastTokenSet) {
-      const tokenAboutToExpire =
-        Math.abs(lastTokenSet.minutes() - moment().minutes()) > 5
+    const checkTokenValidity = async () => {
+      if (lastTokenSet) {
+        const tokenAboutToExpire = moment().diff(lastTokenSet, 'minutes') > 5
 
-      if (tokenAboutToExpire) {
-        refreshCurrentToken(refreshToken!)
-          .then((response) => {
-            setStoredToken(response.data.token)
-          })
-          .catch((reason) => {
-            console.log(reason.response.data)
-          })
+        if (tokenAboutToExpire) {
+          let refreshTokenTMP = refreshToken
+
+          if (!refreshTokenTMP) {
+            refreshTokenTMP = await getStoredRefreshToken()
+
+            if (refreshTokenTMP == undefined) {
+              return await logOut()
+            }
+
+            setRefreshToken(refreshTokenTMP)
+          }
+
+          try {
+            const response = await refreshCurrentToken(refreshTokenTMP)
+
+            await setStoredToken(response.data.token)
+            await setStoredRefreshToken(response.data.refreshToken)
+
+            BaseCrudService.UpdateConfig()
+          } catch (error: any) {
+            console.log(
+              '🚀 ~ file: UserContext.tsx:110 ~ checkTokenValidity ~ error',
+              error.response.data
+            )
+          }
+        }
       }
     }
+    checkTokenValidity()
   })
 
   const getStoredUser = async (): Promise<User | undefined> => {
@@ -87,6 +129,8 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
   }
 
   const setStoredUser = async (userTMP: User) => {
+    console.log('setted user')
+
     setUser(userTMP)
     await AsyncStorage.setItem(userKey, JSON.stringify(userTMP))
   }
@@ -108,11 +152,42 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
     setRefreshToken(refreshTokenTMP)
   }
 
+  const getStoredRefreshToken = async () => {
+    const token = await AsyncStorage.getItem(refreshTokenKey)
+
+    if (token == null) {
+      return undefined
+    }
+
+    return token
+  }
+
+  const logIn = async (credentials: Login) => {
+    const { userResponse, token, refreshToken } = await login(credentials)
+
+    await setStoredRefreshToken(refreshToken)
+    await setStoredToken(token)
+    await setStoredUser(userResponse)
+
+    return userResponse
+  }
+
   const logOut = async () => {
-    await AsyncStorage.multiRemove([tokenKey, userKey], () => {
+    await AsyncStorage.multiRemove([tokenKey, userKey, refreshTokenKey], () => {
       setToken(undefined)
+      setRefreshToken(undefined)
       setUser(undefined)
     })
+
+    navigation.navigate('Login')
+  }
+
+  const refetchUser = async () => {
+    const response = await patientService.getCurrentPatient(token!)
+
+    response.data.role = Roles.patient
+
+    setStoredUser(response.data)
   }
 
   return (
@@ -125,7 +200,11 @@ const UserContextProvider: FC<Props> = ({ children, initialToken }) => {
         getStoredToken,
         logOut,
         user,
+        logIn,
         token,
+        refreshToken,
+        loading,
+        refetchUser,
       }}
     >
       {children}

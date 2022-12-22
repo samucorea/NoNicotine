@@ -6,11 +6,13 @@ import { InterfacePressableProps } from 'native-base/lib/typescript/components/p
 interface Props {
   text: string
   onPress?: () => void
+  altern?: boolean
 }
 
 export const SendButton = ({
   text,
   onPress,
+  altern = false,
   ...props
 }: Props & InterfacePressableProps): JSX.Element => {
   const colors = useColorModeValue(
@@ -30,7 +32,12 @@ export const SendButton = ({
       marginTop="8px"
       {...props}
     >
-      <Text alignSelf="center" fontSize="16px" fontWeight="600" color="#FFFFFF">
+      <Text
+        alignSelf="center"
+        fontSize="lg"
+        fontWeight="600"
+        color={altern ? 'primary.default' : '#FFFFFF'}
+      >
         {text}
       </Text>
     </Pressable>

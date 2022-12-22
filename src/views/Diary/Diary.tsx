@@ -2,31 +2,39 @@ import { AddIcon, Fab, Text } from 'native-base'
 import React, { FC, useState, useEffect } from 'react'
 import theme from '../../AppTheme'
 import { Loading, VStackContainer } from '../../components'
+import { useFocus } from '../../hooks'
 import { DiaryEntry } from '../../models/DiaryEntry'
 import { DiaryScreenProps } from '../../routes/Diary/DiaryNavigator'
 import diaryEntryService from '../../services/diaryEntryService'
+import therapistService from '../../services/therapistService'
 import Entry from './Components/Entry'
 
-const Diary: FC<DiaryScreenProps<'Diary'>> = ({ navigation }) => {
-  const [isFocused, setIsFocused] = useState(false)
+const Diary: FC<DiaryScreenProps<'Diary'>> = ({
+  navigation,
+  route: {
+    params: { patientId },
+  },
+}) => {
   const [entries, setEntries] = useState<DiaryEntry[]>([])
   const [loading, setLoading] = useState(true)
+  const isFocused = useFocus(navigation)
 
   useEffect(() => {
     const getData = async () => {
-      const response = await diaryEntryService.getAll()
+      const service = patientId
+        ? async () => await therapistService.getPatientsEntries(patientId)
+        : async () => await diaryEntryService.getAll()
+
+      const response = await service()
 
       setEntries(response.data)
       setLoading(false)
     }
 
-    getData()
-    navigation.addListener('focus', () => {
-      setIsFocused(true)
+    if (isFocused) {
       getData()
-    })
-    navigation.addListener('blur', () => setIsFocused(false))
-  }, [])
+    }
+  }, [isFocused])
 
   if (loading) {
     return null
@@ -43,7 +51,7 @@ const Diary: FC<DiaryScreenProps<'Diary'>> = ({ navigation }) => {
         )}
       </VStackContainer>
 
-      {isFocused && (
+      {isFocused && !patientId && (
         <Fab
           onPress={() =>
             navigation.navigate('EntryDetailed', { entry: undefined })

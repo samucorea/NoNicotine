@@ -1,4 +1,5 @@
 import { Identification, Sex } from '../sharedTypes'
+import { Roles } from '../utils/enums/Roles'
 import { BaseEntity } from './BaseEntity'
 
 export default interface User extends BaseEntity {
@@ -6,12 +7,13 @@ export default interface User extends BaseEntity {
   sex: Sex
   birthDate: Date
   identification: string
-  identificationPatientType: Identification
+  identificationType: Identification
   active?: boolean
   identityUserId?: string
+  role: Roles
+  email: string
 }
 
 export interface RegisterUser extends User {
   password: string
-  email: string
 }

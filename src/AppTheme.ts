@@ -1,16 +1,23 @@
 import { extendTheme } from 'native-base'
 
+const defaultPrimaryColor = '#3c5a82'
+
 const theme = extendTheme({
   colors: {
     // Add new color
     primary: {
-      default: '#3c5a82',
+      default: defaultPrimaryColor,
       light: '#8faadc',
     },
     subText: {
       primary: '#889ab3',
     },
     danger: '#ef756d',
+
+    message: {
+      sent: '#97acc9',
+      received: '#adb9ca',
+    },
   },
   components: {
     Box: {
@@ -22,7 +29,19 @@ const theme = extendTheme({
       baseStyle: {
         fontFamily: 'Lato-Regular',
       },
+      variants: {
+        previewLabel: {
+          color: defaultPrimaryColor,
+          fontSize: 'md',
+        },
+        previewValue: {
+          color: defaultPrimaryColor,
+          bold: true,
+          fontSize: 'lg',
+        },
+      },
     },
+    VStack: { variants: { previewVStack: { space: 2 } } },
     Input: {
       variants: {
         date: {

@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import axios, { AxiosError, AxiosRequestConfig } from 'axios'
-import { Patient } from '../models'
+import axios, { AxiosRequestConfig } from 'axios'
 import { BaseEntity } from '../models/BaseEntity'
 import apiRoute from '../utils/apiRoute'
 
@@ -30,18 +29,24 @@ export default class BaseCrudService<T extends BaseEntity, RegisterT = T> {
   }
 
   async create(data: RegisterT | FormData) {
-    return await axios.post<Patient>(
+    return await axios.post<RegisterT>(
       `${this.fullRoute}`,
       data,
       BaseCrudService.config
     )
   }
 
-  async update(id: number, data: T | FormData) {
-    return await axios.put(
-      `${this.fullRoute}/${id}`,
-      data,
-      BaseCrudService.config
+  async update(data: T | FormData, id?: number) {
+    console.log(
+      '🚀 ~ file: baseCrudService.ts:40 ~ BaseCrudService<T ~ update ~ data',
+      data
     )
+    let route = this.fullRoute
+
+    if (id) {
+      route += '/' + id.toString()
+    }
+
+    return await axios.put(route, data, BaseCrudService.config)
   }
 }

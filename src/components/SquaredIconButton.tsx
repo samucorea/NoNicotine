@@ -1,12 +1,12 @@
-import { Box, Image, Pressable, Text } from 'native-base'
+import { Box, Pressable, Text } from 'native-base'
 import { InterfaceBoxProps } from 'native-base/lib/typescript/components/primitives/Box'
-import { InterfacePressableProps } from 'native-base/lib/typescript/components/primitives/Pressable/types'
 import { InterfaceTextProps } from 'native-base/lib/typescript/components/primitives/Text/types'
 import React, { FC, ReactNode } from 'react'
-import { ImageSourcePropType } from 'react-native'
+import { SvgProps } from 'react-native-svg'
 
 interface Props {
-  icon: ImageSourcePropType
+  Icon: React.FC<SvgProps>
+  iconProps?: SvgProps
   label: string
   labelStyle?: InterfaceTextProps
   subLabel?: ReactNode
@@ -15,12 +15,13 @@ interface Props {
 }
 
 const SquaredIconButton: FC<Props & InterfaceBoxProps & Partial<{}>> = ({
-  icon,
+  Icon,
   label,
   subLabel,
   topRigthButton,
   labelStyle,
   onPress,
+  iconProps,
   ...props
 }) => {
   return (
@@ -29,6 +30,7 @@ const SquaredIconButton: FC<Props & InterfaceBoxProps & Partial<{}>> = ({
       rounded="10px"
       position="relative"
       borderColor={'#fff'}
+      borderWidth={2}
       height={'150px'}
       width={'150px'}
       justifyContent="center"
@@ -40,12 +42,15 @@ const SquaredIconButton: FC<Props & InterfaceBoxProps & Partial<{}>> = ({
         alignContent={'center'}
         alignItems="center"
         borderWidth={'3'}
-        justifyContent={'space-evenly'}
+        justifyContent={'center'}
+        h="full"
       >
         {topRigthButton !== undefined && (
-          <Box position="absolute">{topRigthButton}</Box>
+          <Box position={'absolute'} top={0} right={0}>
+            {topRigthButton}
+          </Box>
         )}
-        <Image source={icon} alt="icon" />
+        <Icon color="#fff" width={75} height={75} {...iconProps} />
         <Text fontSize={'lg'} {...labelStyle}>
           {label}
         </Text>

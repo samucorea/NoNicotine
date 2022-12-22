@@ -1,14 +1,13 @@
-import React from 'react'
+import React, { FC } from 'react'
 import {
   FormControl,
   IFormControlLabelProps,
   Input,
   Pressable,
-  Text,
   useColorModeValue,
 } from 'native-base'
 import theme from '../../AppTheme'
-import { useField, useFormikContext } from 'formik'
+import { useField } from 'formik'
 import { IInputProps } from 'native-base/lib/typescript/components/primitives/Input/types'
 import Ionicons from '@expo/vector-icons/Ionicons'
 
@@ -17,15 +16,19 @@ export interface InputFieldProps {
   labelStyle?: IFormControlLabelProps
   password?: boolean
   name: string
+  showError?: boolean
+  textArea?: boolean
 }
 
-export const InputField = ({
+export const InputField: FC<InputFieldProps & IInputProps> = ({
   name,
   label,
   labelStyle,
   password = false,
+  showError = true,
+  textArea = false,
   ...props
-}: InputFieldProps & IInputProps): JSX.Element => {
+}) => {
   const [Show, setShow] = React.useState(false)
 
   const [field, meta, helpers] = useField(name)
@@ -68,19 +71,21 @@ export const InputField = ({
             </Pressable>
           ) : undefined
         }
-        value={field?.value}
+        value={field?.value?.toString()}
         onChangeText={field?.onChange(name)}
         {...props}
       />
-      <FormControl.ErrorMessage
-        _stack={{ bg: 'transparent' }}
-        bg="transparent"
-        mt={0}
-        mb={2}
-        _text={{ fontSize: 'md' }}
-      >
-        {meta?.error}
-      </FormControl.ErrorMessage>
+      {showError && (
+        <FormControl.ErrorMessage
+          _stack={{ bg: 'transparent' }}
+          bg="transparent"
+          mt={0}
+          mb={2}
+          _text={{ fontSize: 'md' }}
+        >
+          {meta?.error}
+        </FormControl.ErrorMessage>
+      )}
     </FormControl>
   )
 }
