@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { ConsumptionExpenses, Patient } from '../models'
 import { ConsumptionMethods } from '../models/ConsumptionMethods'
+import { CreateHabitDetails } from '../models/Habit'
 import { RegisterPatient } from '../models/Patient'
 import { Sex } from '../sharedTypes'
 import apiRoute from '../utils/apiRoute'
@@ -54,6 +55,16 @@ export class PatientService extends BaseCrudService<Patient, RegisterPatient> {
     const response = await axios.put<Patient>(
       `${this.fullRoute}/indicateRelapse`,
       { userId, restartDate: new Date() },
+      BaseCrudService.config
+    )
+
+    return response
+  }
+
+  async addHabit(habit: CreateHabitDetails) {
+    const response = await axios.post<CreateHabitDetails>(
+      `${this.fullRoute}/habits`,
+      habit,
       BaseCrudService.config
     )
 

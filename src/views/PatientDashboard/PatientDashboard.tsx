@@ -65,6 +65,7 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
   const expenseArray = []
 
   if (!loading) {
+    console.log('expenses', consumptionExpenses)
     for (const key in methodExpenses) {
       if (
         patient!.patientConsumptionMethods![
@@ -74,16 +75,19 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
         expenseArray.push({
           subContent: true,
           content: (
-            <Text bg={'transparent'} bold fontSize={'xl'}>
-              {consumptionExpenses?.[key as keyof ConsumptionExpenses]} DOP
-            </Text>
+            <>
+              <Text>{key}</Text>
+              <Text bg={'transparent'} bold fontSize={'xl'}>
+                {consumptionExpenses?.[key as keyof ConsumptionExpenses]} DOP
+              </Text>
+            </>
           ),
         })
       }
     }
   }
 
-  console.log('expenses', consumptionExpenses)
+  
 
   const infoItems: InfoSectionProps[] = [
     {

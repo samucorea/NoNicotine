@@ -31,8 +31,8 @@ const RequestModal: FC<ModalProps & { request: LinkRequest }> = ({
       <VStack space={5}>
         <Text color="primary.default">
           confirmar solicitud de vinculación con el terapeuta
-          {/* <Text bold>{request.therapist.name}</Text> */}
         </Text>
+        <Text bold> {request?.therapist.name}</Text>
         <HStack justifyContent={'space-evenly'} direction="row" w="100%">
           <SendButton
             onPress={() => updateLinkRequest(false)}
