@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next'
 
 // let messages: ChatMessage[] = []
 
-const Chat: FC<any> = (props) => {
+const Chat: FC = (props: any) => {
   const listRef = useRef<any>()
   const { user } = useUserContext()
   const { sendPrivateMessage, subscribe, conversations } = useChatHubContext()

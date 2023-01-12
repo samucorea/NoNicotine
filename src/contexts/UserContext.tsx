@@ -142,6 +142,8 @@ const UserContextProvider: FC<Props> = ({ children }) => {
   const setStoredToken = async (tokenTMP: string) => {
     await AsyncStorage.setItem(tokenKey, tokenTMP)
 
+    console.log(tokenKey)
+
     setToken(tokenTMP)
     setLastTokenSet(moment())
   }
@@ -168,6 +170,8 @@ const UserContextProvider: FC<Props> = ({ children }) => {
     await setStoredRefreshToken(refreshToken)
     await setStoredToken(token)
     await setStoredUser(userResponse)
+
+    BaseCrudService.config = { headers: { Authorization: `Bearer ${token}` } }
 
     return userResponse
   }

@@ -14,7 +14,7 @@ import {
   PreviewProfile,
   Chat,
 } from '../views'
-import Ionicons from '@expo/vector-icons/Ionicons'
+import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 
 import MenuNavigator from './MenuNavigator'
 import {
@@ -33,7 +33,6 @@ import HookahQuestionnaire from '../views/Register/HookahQuestionnaire'
 import VapeQuestionnaire from '../views/Register/VapeQuestionnaire'
 import { CustomIconButton } from '../components'
 import SettingsIcon from '../../assets/settings.svg'
-import { MaterialIcons } from '@expo/vector-icons'
 import { Roles } from '../utils/enums/Roles'
 import ChatHubProvider from '../contexts/ChatHubContext'
 import { headerStyle } from '../utils/headerStyle'

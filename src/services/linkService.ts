@@ -14,7 +14,7 @@ export default class LinkService extends BaseCrudService<any> {
         therapistUserId,
         patientEmail,
       },
-      BaseCrudService.config
+      await BaseCrudService.GetConfig()
     )
 
     return response
@@ -23,7 +23,7 @@ export default class LinkService extends BaseCrudService<any> {
   async getLinkRequest() {
     const response = await axios.get<LinkRequest>(
       `${this.fullRoute}/Request`,
-      BaseCrudService.config
+      await BaseCrudService.GetConfig()
     )
 
     return response
@@ -37,7 +37,7 @@ export default class LinkService extends BaseCrudService<any> {
     const response = await axios.put<any>(
       `${this.fullRoute}/Request`,
       { userId, linkRequestId, approval },
-      BaseCrudService.config
+      await BaseCrudService.GetConfig()
     )
 
     return response
@@ -47,7 +47,7 @@ export default class LinkService extends BaseCrudService<any> {
     const response = await axios.put<any>(
       `${this.fullRoute}`,
       { userId, patientId },
-      BaseCrudService.config
+      await BaseCrudService.GetConfig()
     )
 
     return response

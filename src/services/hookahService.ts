@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { CreateHookahDetails, HookahDetails } from '../models/HookahDetails'
 import BaseCrudService from './baseCrudService'
 

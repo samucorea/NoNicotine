@@ -13,16 +13,14 @@ export class TherapistService extends BaseCrudService<
 
   async getCurrentTherapist(bearer: string) {
     return await axios.get<Therapist>(`${this.fullRoute}`, {
-      headers: {
-        Authorization: `Bearer ${bearer} `,
-      },
+      headers: { Authorization: `Bearer ${bearer}` },
     })
   }
 
   async getPatients() {
     const response = await axios.get<Patient[]>(
       `${this.fullRoute}/patients`,
-      BaseCrudService.config
+      await BaseCrudService.GetConfig()
     )
 
     return response
@@ -31,7 +29,7 @@ export class TherapistService extends BaseCrudService<
   async getPatientsEntries(patientId: string) {
     const response = await axios.get<DiaryEntry[]>(
       `${this.fullRoute}/patient/${patientId}/entries`,
-      BaseCrudService.config
+      await BaseCrudService.GetConfig()
     )
 
     return response

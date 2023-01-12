@@ -1,5 +1,5 @@
 import { Formik } from 'formik'
-import { Box, HStack, IconButton, Image, Text, VStack } from 'native-base'
+import { Box, HStack, IconButton, Image, VStack } from 'native-base'
 import React, { useState } from 'react'
 import theme from '../../AppTheme'
 import {

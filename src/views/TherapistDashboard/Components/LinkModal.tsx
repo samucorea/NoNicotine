@@ -1,14 +1,14 @@
 import { Formik } from 'formik'
-import { Box, Modal, Text, VStack } from 'native-base'
+import { Text, VStack } from 'native-base'
 import React, { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { object, string } from 'yup'
 import { InputField, ModalComponent, SendButton } from '../../../components'
+import { linkService } from '../../../services/linkService'
 import {
   TherapistContextProps,
   useUserContext,
 } from '../../../contexts/UserContext'
-import { linkService } from '../../../services/linkService'
 import { ModalProps } from '../../../sharedTypes'
 
 const LinkModal: FC<ModalProps> = ({ show, toggleShow }) => {

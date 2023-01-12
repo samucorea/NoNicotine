@@ -16,6 +16,7 @@ moment.locale('es')
 
 // SplashScreen.preventAutoHideAsync()
 
+LogBox.ignoreAllLogs()
 export default function App() {
   LogBox.ignoreAllLogs()
 
