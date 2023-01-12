@@ -9,6 +9,7 @@ import { useUserContext } from '../../contexts/UserContext'
 import { Roles } from '../../utils/enums/Roles'
 import { linkService } from '../../services/linkService'
 import { Patient, Therapist } from '../../models'
+import { useTranslation } from 'react-i18next'
 
 const PreviewProfile: React.FC<RootScreenProps<'PreviewProfile'>> = ({
   route: {
@@ -17,6 +18,9 @@ const PreviewProfile: React.FC<RootScreenProps<'PreviewProfile'>> = ({
   navigation,
 }) => {
   const { user: loggedUser, setStoredUser } = useUserContext()
+
+  const { t } = useTranslation()
+
   const desvinculate = async () => {
     const userId = loggedUser?.role == Roles.therapist ? loggedUser.id : user.id
     const patientId =
@@ -70,36 +74,46 @@ const PreviewProfile: React.FC<RootScreenProps<'PreviewProfile'>> = ({
       </VStack>
       <VStack space={5} flexGrow={1} position="relative">
         <VStack variant="previewVStack">
-          <Text variant="previewLabel">Correo electrónico</Text>
-          <Text variant="previewValue">juanperez@email.com</Text>
+          <Text variant="previewLabel">
+            {t('therapy.chat.previewProfile.labels.email')!}
+          </Text>
+          <Text variant="previewValue">{user.email}</Text>
         </VStack>
         <HStack space={10}>
           <VStack variant="previewVStack">
-            <Text variant="previewLabel">Edad</Text>
+            <Text variant="previewLabel">
+              {t('therapy.chat.previewProfile.labels.age')!}
+            </Text>
             <Text variant="previewValue">
               {moment().diff(user.birthDate, 'years')}
             </Text>
           </VStack>
           <VStack variant="previewVStack">
-            <Text variant="previewLabel">Sexo</Text>
+            <Text variant="previewLabel">
+              {t('therapy.chat.previewProfile.labels.gender')!}
+            </Text>
             <Text variant="previewValue">{user.sex}</Text>
           </VStack>
         </HStack>
         {loggedUser?.role == Roles.therapist && (
           <HStack space={10}>
             <VStack variant="previewVStack">
-              <Text variant="previewLabel">Método de consumo</Text>
+              <Text variant="previewLabel">
+                {t('therapy.chat.previewProfile.labels.consumptionMethod')!}
+              </Text>
               <Text variant="previewValue">Cigarrillo</Text>
             </VStack>
             <VStack variant="previewVStack">
-              <Text variant="previewLabel">Frecuencia</Text>
+              <Text variant="previewLabel">
+                {t('therapy.chat.previewProfile.labels.frequency')!}
+              </Text>
               <Text variant="previewValue">5 por día</Text>
             </VStack>
           </HStack>
         )}
       </VStack>
       <SendButton
-        text="Desvincular"
+        text={t('therapy.chat.previewProfile.desvinculate')!}
         onPress={() => desvinculate()}
         bg="#ef756d"
         mb={10}

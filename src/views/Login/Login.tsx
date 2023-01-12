@@ -1,6 +1,7 @@
 import { Formik } from 'formik'
 import { Box, HStack, Image, Pressable, Text, VStack } from 'native-base'
 import React, { FC, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { object, string } from 'yup'
 import theme from '../../AppTheme'
 import {
@@ -13,13 +14,13 @@ import { useLoadingContext } from '../../contexts/LoadingContext'
 import { useUserContext } from '../../contexts/UserContext'
 import { RootScreenProps } from '../../routes/MainNavigator'
 import BaseCrudService from '../../services/baseCrudService'
-import login from '../../services/loginService'
 
 const DarkLogo = require('../../../assets/dark-logo.png')
 
 const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
   const userContext = useUserContext()
   const loadingContext = useLoadingContext()
+  const { t } = useTranslation()
 
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
     undefined
@@ -42,7 +43,7 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
             validationSchema={validationSchema}
             initialValues={{ email: '', password: '' }}
             onSubmit={async (values) => {
-              loadingContext?.setLoading(true, 'Iniciando sesión')
+              loadingContext?.setLoading(true, t('login.signingIn')!)
               try {
                 await userContext?.logIn(values)
 
@@ -77,7 +78,7 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
                   <InputField
                     onFocus={removeErrorMessage}
                     name="email"
-                    label="Correo electrónico"
+                    label={t('login.email')!}
                     labelStyle={{ _text: { color: '#fff' } }}
                     mb={5}
                     height={60}
@@ -86,7 +87,7 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
                     onFocus={removeErrorMessage}
                     name={'password'}
                     password
-                    label="Contraseña"
+                    label={t('login.password')!}
                     labelStyle={{ _text: { color: '#fff' } }}
                     height={60}
                     mb={2.5}
@@ -101,22 +102,24 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
                     onPress={() => navigation.navigate('ForgotPassword')}
                   >
                     <Text underline color={'#d8dee6'} textAlign="center">
-                      ¿Olvidaste tu contraseña?
+                      {t('login.forgot-password')!}
                     </Text>
                   </Pressable>
                 </VStack>
                 <Box bg="transparent" flex={1}>
                   <SendButton
-                    text="Iniciar sesión"
+                    text={t('login.init-session')!}
                     bg={theme.colors.primary.light}
                     mb={5}
                     onPress={() => handleSubmit()}
                   />
                   <Pressable onPress={() => navigation.navigate('SelectRole')}>
                     <HStack bg="transparent">
-                      <Text color={'#fff'}>¿Eres nuevo aquí? </Text>
+                      <Text color={'#fff'}>
+                        {t('login.register.message')!}{' '}
+                      </Text>
                       <Text color={'#d8dee6'} underline>
-                        Regístrate
+                        {t('login.register.button')!}
                       </Text>
                     </HStack>
                   </Pressable>

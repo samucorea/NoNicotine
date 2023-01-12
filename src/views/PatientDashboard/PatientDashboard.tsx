@@ -3,6 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import moment from 'moment'
 import { Box, Fab, Image, ScrollView, Text, VStack } from 'native-base'
 import React, { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import theme from '../../AppTheme'
 import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
 import { ConsumptionExpenses } from '../../models'
@@ -37,6 +38,7 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
   const [consumptionExpenses, setConsumptionExpenses] =
     useState<ConsumptionExpenses>()
 
+  const { t } = useTranslation()
   const { user: patient } = useUserContext<PatientContextProps>() ?? {}
 
   const abstinenceDays = moment().diff(moment(patient?.startTime), 'days')
@@ -87,7 +89,7 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
 
   const infoItems: InfoSectionProps[] = [
     {
-      sectionTitle: 'Ahorro económico',
+      sectionTitle: t('patientDashboard.savingsTitle')!,
       sectionItems: [
         {
           content: (
@@ -101,12 +103,12 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
       ],
     },
     {
-      sectionTitle: 'Beneficios de salud',
+      sectionTitle: t('patientDashboard.benefits.title')!,
       sectionItems: [
         {
           content: (
             <Text fontSize={'md'} bold>
-              Reducción del ritmo cardíaco
+              {t('patientDashboard.benefits.cardiacReduction')!}
             </Text>
           ),
           leftIcon: Heart,
@@ -115,7 +117,7 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
         {
           content: (
             <Text fontSize={'md'} bold>
-              Mejor sentido del olfato
+              {t('patientDashboard.benefits.betterSmell')!}
             </Text>
           ),
           leftIcon: Inhale,

@@ -1,5 +1,6 @@
 import { Box, Checkbox, Text, TextArea } from 'native-base'
 import React, { FC, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import theme from '../../AppTheme'
 import {
   HideKeyboardOnForms,
@@ -18,7 +19,19 @@ const EntryDetailed: FC<DiaryScreenProps<'EntryDetailed'>> = ({
     params: { entry },
   },
 }) => {
-  console.log(entry)
+  const { t } = useTranslation()
+  const titles = {
+    create: {
+      symptoms: t('diary.entryDetailed.onCreate.symptoms')!,
+      feelings: t('diary.entryDetailed.onCreate.feelings')!,
+      description: t('diary.entryDetailed.onCreate.description')!,
+    },
+    read: {
+      symptoms: t('diary.entryDetailed.onRead.symptoms')!,
+      feelings: t('diary.entryDetailed.onRead.feelings')!,
+      description: t('diary.entryDetailed.onRead.description')!,
+    },
+  }
 
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>(
     entry
@@ -90,7 +103,7 @@ const EntryDetailed: FC<DiaryScreenProps<'EntryDetailed'>> = ({
             {currentTitles.description}
           </Text>
           <TextArea
-            placeholder="Siéntete libre de escribir lo que quieras..."
+            placeholder={t('diary.entryDetailed.descriptionPlaceholder')!}
             autoCompleteType={false}
             isDisabled={!create}
             px={0}
@@ -114,29 +127,20 @@ const EntryDetailed: FC<DiaryScreenProps<'EntryDetailed'>> = ({
             }}
             _text={{ color: '#8f8f8f' }}
           >
-            Compartir con tu terapeuta
+            {t('diary.entryDetailed.share')!}
           </Checkbox>
           <SendButton
-            text={create ? 'Guardar' : 'Atrás'}
+            text={
+              create
+                ? t('diary.entryDetailed.sendButton.save')!
+                : t('diary.entryDetailed.sendButton.back')!
+            }
             onPress={create ? handleSubmit : navigation.goBack}
           />
         </Box>
       </VStackContainer>
     </HideKeyboardOnForms>
   )
-}
-
-const titles = {
-  create: {
-    symptoms: '¿Cuáles síntomas experimentas?',
-    feelings: '¿Cómo te sientes?',
-    description: 'Describe qué tal ha sido tu día',
-  },
-  read: {
-    symptoms: 'Síntomas experimentados',
-    feelings: 'Sentimientos experimentados',
-    description: 'Descripción de tu día',
-  },
 }
 
 export default EntryDetailed

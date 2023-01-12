@@ -21,6 +21,7 @@ import { useLoadingContext } from '../../contexts/LoadingContext'
 import theme from '../../AppTheme'
 import therapistService from '../../services/therapistService'
 import { Roles } from '../../utils/enums/Roles'
+import { useTranslation } from 'react-i18next'
 
 const Register: React.FC<RootScreenProps<'Register'>> = ({
   navigation,
@@ -30,11 +31,12 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
 }) => {
   const loadingContext = useLoadingContext()
   const [created, setCreated] = useState(false)
+  const { t } = useTranslation()
 
   const subHeaderText =
     role === Roles.therapist
-      ? 'Completa este formulario con tu información'
-      : 'Estás muy cerca de mejorar tu vida...'
+      ? t('register.subHeaderText.therapist')
+      : t('register.subHeaderText.patient')
 
   const formSpacing = 5
 
@@ -43,10 +45,10 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
       {created ? (
         <Box flex={1} w="100%" justifyContent="center" alignItems={'center'}>
           <SubmitMessage type="success" fontSize={'xl'} textAlign="center">
-            Se le ha enviado un mensaje de confirmación a su correo
+            {t('register.confirmationSent')}
           </SubmitMessage>
           <SendButton
-            text="Continuar"
+            text={t('register.continue')}
             bg={theme.colors.primary.default}
             mb={5}
             onPress={() => navigation.navigate('Login')}
@@ -56,7 +58,7 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
         <ScrollView w="100%" showsVerticalScrollIndicator={false}>
           <VStack space={formSpacing} justifyContent={'center'}>
             <Box alignSelf="center" display="flex">
-              <ScreenHeader title="¡Bienvenido/a!" />
+              <ScreenHeader title={t('register.title')} />
               <RegularText>{subHeaderText}</RegularText>
             </Box>
 
@@ -74,7 +76,7 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
                 identificationType: '' as Identification,
               }}
               onSubmit={async (values, formikHelpers) => {
-                loadingContext?.setLoading(true, 'Creando usuario')
+                loadingContext?.setLoading(true, t('register.creatingUser')!)
 
                 const service =
                   role == Roles.patient
@@ -96,7 +98,7 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
                     case 'Email already taken':
                       formikHelpers.setFieldError(
                         'email',
-                        'Este correo ya está registrado'
+                        t('register.errors.emailTaken')!
                       )
                       break
 
@@ -109,39 +111,50 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
             >
               {({ handleSubmit, values }) => (
                 <VStack space={formSpacing} flex={1} w="100%">
-                  <InputField name={'name'} placeholder="Nombre completo" />
-                  <InputField name={'email'} placeholder="Correo electrónico" />
+                  <InputField
+                    name={'name'}
+                    placeholder={t('register.placeholders.fullName')!}
+                  />
+                  <InputField
+                    name={'email'}
+                    placeholder={t('register.placeholders.email')!}
+                  />
                   <BirthDateInput name={'birthDate'} />
                   <RadioInput
                     name={'sex'}
-                    label={'Sexo'}
+                    label={t('register.placeholders.gender')!}
                     options={['M', 'F']}
                   />
                   <InputField
                     name={'password'}
                     password
-                    placeholder="Contraseña"
+                    placeholder={t('register.placeholders.password')!}
                   />
                   <InputField
                     name={'confirmPassword'}
                     password
-                    placeholder="Confirmar contraseña"
+                    placeholder={t('register.placeholders.confirmPassword')!}
                   />
                   <SelectInputField
                     name={'identificationType'}
-                    options={['Cédula', 'Pasaporte']}
-                    placeholder="Tipo de documento"
+                    options={[
+                      t('register.documentOptions.idCard')!,
+                      t('register.documentOptions.passport')!,
+                    ]}
+                    placeholder={t('register.placeholders.documentType')!}
                   />
                   {values.identificationType && (
                     <InputField
                       name={'identification'}
-                      placeholder={`Número de ${values.identificationType}`}
+                      placeholder={`${t(
+                        'register.placeholders.documentNumber'
+                      )} ${values.identificationType}`}
                     />
                   )}
 
                   <SendButton
                     mb={10}
-                    text="Crear cuenta"
+                    text={t('register.createAccount')!}
                     onPress={() => handleSubmit()}
                   />
                 </VStack>

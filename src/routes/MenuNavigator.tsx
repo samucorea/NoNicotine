@@ -13,7 +13,7 @@ import { PatientContextProps, useUserContext } from '../contexts/UserContext'
 import Profile from '../../assets/profile.svg'
 import { Roles } from '../utils/enums/Roles'
 import { headerStyle } from '../utils/headerStyle'
-import ChatHubProvider from '../contexts/ChatHubContext'
+import { useTranslation } from 'react-i18next'
 
 const HomeIcon = require('../../assets/home.png')
 const DiaryIcon = require('../../assets/diary.png')
@@ -34,6 +34,8 @@ const Tab = createBottomTabNavigator<MenuNavigatorScreens>()
 const MenuNavigator = () => {
   const loadingContext = useLoadingContext()
   const { user } = useUserContext<PatientContextProps>() ?? {}
+
+  const { t } = useTranslation()
 
   useEffect(() => {
     loadingContext?.setLoading(false)
@@ -77,7 +79,7 @@ const MenuNavigator = () => {
                   alt="home_icon"
                 />
               ),
-              tabBarLabel: 'Inicio',
+              tabBarLabel: t('menuNavigator.home')!,
               ...headerStyle,
             })}
           />
@@ -93,8 +95,8 @@ const MenuNavigator = () => {
                   alt="habits_icon"
                 />
               ),
-              tabBarLabel: 'Hábitos',
-              headerTitle: 'Hábitos saludables',
+              tabBarLabel: t('menuNavigator.habits')!,
+              headerTitle: t('habits.headerTitle')!,
               headerStyle: {
                 height: 120,
                 borderBottomWidth: 1,
@@ -117,7 +119,7 @@ const MenuNavigator = () => {
                   alt="therapy_icon"
                 />
               ),
-              tabBarLabel: 'Terapia',
+              tabBarLabel: t('menuNavigator.therapy')!,
               headerTitle: user?.therapist?.name,
               headerStyle: {
                 height: 120,
@@ -154,7 +156,7 @@ const MenuNavigator = () => {
                 />
               ),
               headerTitle: 'Pacientes',
-              tabBarLabel: 'Inicio',
+              tabBarLabel: t('menuNavigator.home')!,
               ...headerStyle,
             })}
           />
@@ -173,7 +175,7 @@ const MenuNavigator = () => {
             />
           ),
           headerShown: false,
-          tabBarLabel: 'Diario',
+          tabBarLabel: t('menuNavigator.diary')!,
         }}
       />
     </Tab.Navigator>
