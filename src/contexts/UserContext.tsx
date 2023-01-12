@@ -17,7 +17,6 @@ import login, { refreshCurrentToken } from '../services/loginService'
 import patientService from '../services/patientService'
 import { Roles } from '../utils/enums/Roles'
 
-
 interface Props {
   children: ReactNode
 }
