@@ -91,6 +91,8 @@ const Therapy: FC<Props> = ({ navigation }) => {
     toggleShow()
   }
 
+  console.log(linkRequest?.requestAccepted)
+
   if (linkRequest?.requestAccepted == null && show) {
     return (
       <RequestModal

@@ -3,15 +3,15 @@ import { Text, VStack } from 'native-base'
 import React, { FC } from 'react'
 import { object, string } from 'yup'
 import { InputField, ModalComponent, SendButton } from '../../../components'
-// import {
-//   TherapistContextProps,
-//   useUserContext,
-// } from '../../../contexts/UserContext'
-// import { linkService } from '../../../services/linkService'
+import { linkService } from '../../../services/linkService'
+import {
+  TherapistContextProps,
+  useUserContext,
+} from '../../../contexts/UserContext'
 import { ModalProps } from '../../../sharedTypes'
 
 const LinkModal: FC<ModalProps> = ({ show, toggleShow }) => {
-  // const { user } = useUserContext<TherapistContextProps>() ?? {}
+  const { user } = useUserContext<TherapistContextProps>() ?? {}
 
   return (
     <ModalComponent
@@ -26,12 +26,12 @@ const LinkModal: FC<ModalProps> = ({ show, toggleShow }) => {
         </Text>
         <Formik
           initialValues={{ email: '' }}
-          onSubmit={async () => {
+          onSubmit={async ({ email }) => {
             try {
-              // const response = await linkService.makeLinkRequest(
-              //   user!.identityUserId!,
-              //   email
-              // )
+              const response = await linkService.makeLinkRequest(
+                user!.identityUserId!,
+                email
+              )
               toggleShow()
             } catch (error) {
               console.log('🚀 ~ file: LinkModal.tsx:37 ~ error', error)
