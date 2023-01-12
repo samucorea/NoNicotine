@@ -6,10 +6,13 @@ import theme from '../../AppTheme'
 import PatientIcon from '../../../assets/patient.svg'
 import TherapistIcon from '../../../assets/therapist-role.svg'
 import { Roles } from '../../utils/enums/Roles'
+import { useTranslation } from 'react-i18next'
 
 const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
   navigation,
 }) => {
+  const { t } = useTranslation()
+
   return (
     <Box
       bg={theme.colors.primary.default}
@@ -22,7 +25,7 @@ const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
         flex={1}
         justifyContent="center"
       >
-        <ScreenHeader title="Selecciona tu rol" color="#fff" mb={20} />
+        <ScreenHeader title={t('selectRole.title')!} color="#fff" mb={20} />
         <Box
           bg={theme.colors.primary.default}
           flexDirection="row"
@@ -30,7 +33,7 @@ const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
           w="100%"
         >
           <SquaredIconButton
-            label="Paciente"
+            label={t('selectRole.patient')!}
             labelStyle={{ color: '#fff' }}
             Icon={PatientIcon}
             bg={theme.colors.primary.default}
@@ -39,7 +42,7 @@ const SelectRole: React.FC<RootScreenProps<'SelectRole'>> = ({
             }
           />
           <SquaredIconButton
-            label="Terapeuta"
+            label={t('selectRole.therapist')!}
             labelStyle={{ color: '#fff' }}
             Icon={TherapistIcon}
             bg={theme.colors.primary.default}

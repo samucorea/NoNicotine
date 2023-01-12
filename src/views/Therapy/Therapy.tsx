@@ -16,6 +16,7 @@ import { User } from '../../models'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import { RootStackScreens } from '../../routes/MainNavigator'
+import { useTranslation } from 'react-i18next'
 
 type Props = CompositeScreenProps<
   MenuScreenProps<'Therapy'>,
@@ -30,6 +31,7 @@ const Therapy: FC<Props> = ({ navigation }) => {
   const [linkRequest, setLinkRequest] = useState<LinkRequest>()
   const { show, toggleShow } = useModalToggle()
   const isFocused = useFocus(navigation)
+  const { t } = useTranslation()
 
   useEffect(() => {
     const getLinkRequests = async () => {

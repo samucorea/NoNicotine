@@ -10,7 +10,6 @@ import {
 
 const Patients: FC<DiaryScreenProps<'Patients'>> = ({ navigation }) => {
   const { user } = useUserContext<TherapistContextProps>() ?? {}
-  console.log('🚀 ~ file: Patients.tsx:13 ~ user', user?.patients)
 
   return (
     <ScreenContainer

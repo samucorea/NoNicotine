@@ -15,6 +15,7 @@ import { useChatHubContext } from '../../../contexts/ChatHubContext'
 import { useUserContext } from '../../../contexts/UserContext'
 import { Roles } from '../../../utils/enums/Roles'
 import ProfileIcon from '../../../../assets/profile.svg'
+import { useTranslation } from 'react-i18next'
 
 // let messages: ChatMessage[] = []
 
@@ -23,6 +24,7 @@ const Chat: FC = (props: any) => {
   const { user } = useUserContext()
   const { sendPrivateMessage, subscribe, conversations } = useChatHubContext()
   const [messages, setMessages] = useState<ChatMessage[]>([])
+  const { t } = useTranslation()
 
   const getSenderId = (): string | null => {
     if (user?.role === Roles.patient) {
@@ -135,7 +137,7 @@ const Chat: FC = (props: any) => {
               name="message"
               borderWidth={0}
               showError={false}
-              placeholder="Escribe un mensaje"
+              placeholder={t('therapy.chat.typeMessage')!}
               placeholderTextColor="#737373"
               InputRightElement={
                 <IconButton

@@ -13,6 +13,7 @@ import therapistService from '../../services/therapistService'
 import LinkModal from './Components/LinkModal'
 import PatientListing from './Components/PatientListing'
 import theme from '../../AppTheme'
+import { useTranslation } from 'react-i18next'
 const LinkIcon = require('../../../assets/link.png')
 
 const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
@@ -24,6 +25,7 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
   const [loading, setLoading] = useState(true)
   const [patients, setPatients] = useState<Patient[]>([])
   const isFocused = useFocus(navigation)
+  const { t } = useTranslation()
 
   useEffect(() => {
     const getPatients = async () => {
@@ -61,10 +63,6 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
     }
 
     if (isFocused) {
-      console.log(
-        '🚀 ~ file: TherapistDashboard.tsx:59 ~ useEffect ~ isFocused',
-        isFocused
-      )
       retreiveConversations()
       getPatients()
     }
@@ -88,9 +86,12 @@ const TherapistDashboard: FC<MenuScreenProps<'TherapistDashboard'>> = ({
     return (
       <Center flex={1}>
         <Heading mb={2} textAlign={'center'} color="primary.default">
-          Aún no tiene pacientes
+          {t('therapistDashboard.noPatients')!}
         </Heading>
-        <SendButton text="Vincular paciente" onPress={() => toggleShow()} />
+        <SendButton
+          text={t('therapistDashboard.vinculatePatients')!}
+          onPress={() => toggleShow()}
+        />
         <LinkModal show={show} toggleShow={toggleShow} />
       </Center>
     )

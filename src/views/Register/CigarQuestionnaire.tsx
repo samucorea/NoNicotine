@@ -13,6 +13,7 @@ import { Formik } from 'formik'
 import { number, object } from 'yup'
 import cigarService from '../../services/cigarService'
 import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
+import { useTranslation } from 'react-i18next'
 
 const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
   navigation,
@@ -23,11 +24,12 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
   const { user: patient, refetchUser } =
     useUserContext<PatientContextProps>() ?? {}
 
+  const { t } = useTranslation()
   return (
     <ScreenContainer>
       <VStack space={5} h="full">
         <Box alignSelf="flex-start" display="flex">
-          <ScreenHeader title="Consumo de cigarro" />
+          <ScreenHeader title={t('methodsQuestionnaires.cigar.title')!} />
         </Box>
 
         <Formik
@@ -47,10 +49,6 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
           }}
           validationSchema={validationSchema}
           onSubmit={async (data) => {
-            console.log(
-              '🚀 ~ file: CigarQuestionnaire.tsx:52 ~ onSubmit={ ~ data',
-              data
-            )
             try {
               const service = edit
                 ? async (data: any) => await cigarService.update(data)
@@ -79,7 +77,7 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
           {({ handleSubmit }) => (
             <>
               <RegularText>
-                {'¿Cuántos cigarros fumas, en promedio, por día?'}
+                {t('methodsQuestionnaires.cigar.labels.cigarsPerDay')!}
               </RegularText>
               <InputField
                 keyboardType="numeric"
@@ -87,7 +85,7 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
                 placeholder="Unidad(es)"
               />
               <RegularText>
-                {'¿Por lo general, cuántos días fumas cigarro en una semana?'}
+                {t('methodsQuestionnaires.cigar.labels.cigarsPerWeek')!}
               </RegularText>
               <InputField
                 keyboardType="numeric"
@@ -95,7 +93,7 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
                 placeholder="Número"
               />
               <RegularText>
-                {'¿Cuántos cigarros suelen traer las cajas que compras?'}
+                {t('methodsQuestionnaires.cigar.labels.cigarsAmount')!}
               </RegularText>
               <InputField
                 keyboardType="numeric"
@@ -103,7 +101,7 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
                 placeholder="Unidad(es)"
               />
               <RegularText>
-                {'¿Cuánto te cuesta usualmente comprar una caja de cigarros?'}
+                {t('methodsQuestionnaires.cigar.labels.price')!}
               </RegularText>
               <InputField
                 keyboardType="numeric"
@@ -117,7 +115,13 @@ const CigarQuestionnaire: React.FC<RootScreenProps<'CigarQuestionnaire'>> = ({
                 w="full"
               >
                 <SendButton
-                  text={edit ? 'Guardar' : add ? 'Agregar' : 'Continuar'}
+                  text={
+                    edit
+                      ? t('methodsQuestionnaires.sendButton.edit')!
+                      : add
+                      ? t('methodsQuestionnaires.sendButton.add')!
+                      : t('methodsQuestionnaires.sendButton.continue')!
+                  }
                   onPress={() => handleSubmit()}
                   w="45%"
                 />

@@ -14,10 +14,17 @@ import {
   PreviewProfile,
   Chat,
 } from '../views'
-import Ionicons from '@expo/vector-icons/Ionicons'
+import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 
 import MenuNavigator from './MenuNavigator'
-import { Icon, Text, useColorModeValue, VStack } from 'native-base'
+import {
+  HStack,
+  Icon,
+  IconButton,
+  Text,
+  useColorModeValue,
+  VStack,
+} from 'native-base'
 import theme from '../AppTheme'
 import { useUserContext } from '../contexts/UserContext'
 import CigaretteQuestionnaire from '../views/Register/CigaretteQuestionnaire'
@@ -26,13 +33,14 @@ import HookahQuestionnaire from '../views/Register/HookahQuestionnaire'
 import VapeQuestionnaire from '../views/Register/VapeQuestionnaire'
 import { CustomIconButton } from '../components'
 import SettingsIcon from '../../assets/settings.svg'
-// import ProfileIcon from '../../assets/profile.svg'
 import { Roles } from '../utils/enums/Roles'
 import ChatHubProvider from '../contexts/ChatHubContext'
 import { headerStyle } from '../utils/headerStyle'
 import { User } from '../models'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
+import { useTranslation } from 'react-i18next'
+import { useSettingsContext } from '../contexts/SettingsContext'
 
 export type RootStackScreens = {
   VapeQuestionnaire: {
@@ -75,6 +83,9 @@ const Stack = createStackNavigator<RootStackScreens>()
 
 const MainNavigator = () => {
   const { token, refreshToken, loading, user } = useUserContext() ?? {}
+  const { handleLanguageChange } = useSettingsContext() ?? {}
+
+  const { t } = useTranslation()
 
   const [fontsLoaded] = useFonts({
     'Lato-Regular': require('../../assets/fonts/Lato-Regular.ttf'),
@@ -127,13 +138,30 @@ const MainNavigator = () => {
               options={({ navigation }) => ({
                 ...(user.role == Roles.patient && {
                   headerRight: () => (
-                    <VStack alignItems={'center'} pr={'5'}>
-                      <CustomIconButton
-                        icon={SettingsIcon}
-                        onPress={() => navigation.navigate('MethodSelection')}
-                      />
-                      <Text color={theme.colors.primary.default}>Consumo</Text>
-                    </VStack>
+                    <HStack>
+                      <VStack alignItems={'center'} pr={'5'}>
+                        <IconButton
+                          icon={
+                            <MaterialIcons
+                              name="language"
+                              color={theme.colors.primary.default}
+                              size={30}
+                            />
+                          }
+                          p={0}
+                          onPress={handleLanguageChange}
+                        />
+                      </VStack>
+                      <VStack alignItems={'center'} pr={'5'}>
+                        <CustomIconButton
+                          icon={SettingsIcon}
+                          onPress={() => navigation.navigate('MethodSelection')}
+                        />
+                        <Text color={theme.colors.primary.default}>
+                          {t('profile.consumption')!}
+                        </Text>
+                      </VStack>
+                    </HStack>
                   ),
                 }),
               })}
@@ -168,6 +196,15 @@ const MainNavigator = () => {
                   backgroundColor: theme.colors.primary.default,
                 },
                 cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
+                headerLeft: () => (
+                  <IconButton
+                    icon={
+                      <MaterialIcons name="language" color={'#fff'} size={30} />
+                    }
+                    pl={5}
+                    onPress={handleLanguageChange}
+                  />
+                ),
               }}
             />
             <Stack.Screen

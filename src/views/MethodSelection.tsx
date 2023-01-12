@@ -13,6 +13,7 @@ import EditDots from '../../assets/editDots.svg'
 import AddIcon from '../../assets/add.svg'
 import { PatientContextProps, useUserContext } from '../contexts/UserContext'
 import { PatientConsumptionMethods } from '../models/Patient'
+import { useTranslation } from 'react-i18next'
 
 const methodDetails: { [key: string]: string } = {
   cigarDetails: 'CigarQuestionnaire',
@@ -28,10 +29,35 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
   },
 }) => {
   const { user } = useUserContext<PatientContextProps>()
-  console.log(
-    '🚀 ~ file: MethodSelection.tsx:31 ~ user',
-    user?.patientConsumptionMethods
-  )
+
+  const { t } = useTranslation()
+
+  const methods = [
+    {
+      name: 'CigaretteQuestionnaire',
+      label: t('methodSelection.consumptionMethods.cigarette')!,
+      icon: Cigarette,
+      navigateTo: '',
+    },
+    {
+      name: 'VapeQuestionnaire',
+      label: t('methodSelection.consumptionMethods.vape')!,
+      icon: Vape,
+      navigateTo: '',
+    },
+    {
+      name: 'CigarQuestionnaire',
+      label: t('methodSelection.consumptionMethods.cigar')!,
+      icon: Cigar,
+      navigateTo: '',
+    },
+    {
+      name: 'HookahQuestionnaire',
+      label: t('methodSelection.consumptionMethods.hookah')!,
+      icon: Hookah,
+      navigateTo: '',
+    },
+  ]
 
   const initialSelected = []
 
@@ -108,8 +134,8 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
             alignSelf={firstTime ? 'flex-start' : 'center'}
             title={
               firstTime
-                ? 'Selecciona tus métodos de consumo'
-                : 'Tus métodos de consumo'
+                ? t('methodSelection.firstTime.title')!
+                : t('methodSelection.normal.title')!
             }
             fontSize={28}
           />
@@ -153,7 +179,11 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
           })}
         </Box>
         <SendButton
-          text={firstTime ? 'Continuar' : 'Guardar'}
+          text={
+            firstTime
+              ? t('methodSelection.sendButton.continue')!
+              : t('methodSelection.sendButton.save')!
+          }
           fontSize={'lg'}
           onPress={handleSend}
           position="absolute"
@@ -170,27 +200,5 @@ const selectedStyle = {
   borderColor: '#94a4ba',
   labelStyle: { color: '#94a4ba' },
 }
-
-const methods = [
-  {
-    name: 'CigaretteQuestionnaire',
-    label: 'Cigarrillo',
-    icon: Cigarette,
-    navigateTo: '',
-  },
-  {
-    name: 'VapeQuestionnaire',
-    label: 'Cigarrillo electrónico',
-    icon: Vape,
-    navigateTo: '',
-  },
-  { name: 'CigarQuestionnaire', label: 'Cigarro', icon: Cigar, navigateTo: '' },
-  {
-    name: 'HookahQuestionnaire',
-    label: 'Hookah',
-    icon: Hookah,
-    navigateTo: '',
-  },
-]
 
 export default MethodSelection

@@ -1,0 +1,165 @@
+{
+  "changeLanguage": "Inglés",
+  "menuNavigator": {
+    "home": "Inicio",
+    "habits": "Hábitos",
+    "therapy": "Terapia",
+    "diary": "Diario"
+  },
+  "validations": {
+    "required": "Este campo es obligatorio",
+    "default": "El valor introducido no es válido",
+    "email": "Este correo no es válido"
+  },
+  "habits": { "headerTitle": "Hábitos saludables" },
+  "login": {
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "forgot-password": "¿Olvidaste tu contraseña?",
+    "init-session": "Iniciar sesión",
+    "register": { "message": "¿Eres nuevo aquí?", "button": "Regístrate" },
+    "signingIn": "Iniciando sesión"
+  },
+  "selectRole": {
+    "title": "Selecciona tu rol",
+    "patient": "Paciente",
+    "therapist": "Terapeuta"
+  },
+  "register": {
+    "subHeaderText": {
+      "therapist": "Completa este formulario con tu información",
+      "patient": "Estás muy cerca de mejorar tu vida..."
+    },
+    "confirmationSent": "Se le ha enviado un mensaje de confirmación a su correo",
+    "continue": "Continuar",
+    "title": "¡Bienvenido/a!",
+    "creatingUser": "Creando usuario",
+    "errors": { "emailTaken": "Este correo ya ha sido registrado" },
+    "placeholders": {
+      "fullName": "Nombre completo",
+      "email": "Correo electrónico",
+      "birthDate": "Fecha de nacimiento",
+      "gender": "Sexo",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "documentType": "Tipo de documento",
+      "documentNumber": "Número de"
+    },
+    "documentOptions": { "idCard": "Cédula", "passport": "Pasaporte" },
+    "createAccount": "Crear cuenta"
+  },
+  "patientDashboard": {
+    "noConsumption": "Sin consumir",
+    "savingsTitle": "Ahorro económico",
+    "benefits": {
+      "title": "Beneficios de salud",
+      "cardiacReduction": "Reducción del ritmo cardíaco",
+      "betterSmell": "Mejor sentido del olfato"
+    }
+  },
+  "therapistDashboard": {
+    "noPatients": "Aún no tiene pacientes",
+    "vinculatePatients": "Vincular paciente",
+    "linkModal": {
+      "title": "Vincula un paciente",
+      "disclaimer": "Ingresa la dirección de correo electrónico de tu paciente para enviarle una solicitud de vinculación",
+      "emailPlaceholder": "Correo electrónico",
+      "sendButton": "Enviar solicitud"
+    }
+  },
+  "therapy": {
+    "chat": {
+      "typeMessage": "Escribe un mensaje",
+      "previewProfile": {
+        "labels": {
+          "email": "Correo electrónico",
+          "age": "Edad",
+          "gender": "Sexo",
+          "consumptionMethod": "Método de consumo",
+          "frequency": "Frecuencia"
+        },
+        "desvinculate": "Desvincular"
+      }
+    }
+  },
+  "diary": {
+    "entryDetailed": {
+      "onCreate": {
+        "symptoms": "¿Cuáles síntomas experimentas?",
+        "feelings": "¿Cómo te sientes?",
+        "description": "Describe qué tal ha sido tu día"
+      },
+      "onRead": {
+        "symptoms": "Síntomas experimentados",
+        "feelings": "Sentimientos experimentados",
+        "description": "Descripción de tu día"
+      },
+      "descriptionPlaceholder": "Siéntete libre de escribir lo que quieras...",
+      "share": "Compartir con tu terapeuta",
+      "sendButton": { "save": "Guardar", "back": "Atrás" }
+    }
+  },
+  "profile": {
+    "logOut": "cerrar sesión",
+    "relapse": "Tuve una recaida",
+    "consumption": "Consumo"
+  },
+  "methodSelection": {
+    "firstTime": {
+      "title": "Selecciona tus métodos de consumo"
+    },
+    "normal": {
+      "title": "Tus métodos de consumo"
+    },
+    "consumptionMethods": {
+      "cigarette": "Cigarrillo",
+      "vape": "Cigarrillo electrónico",
+      "hookah": "Hookah",
+      "cigar": "Cigarro"
+    },
+    "sendButton": { "continue": "Continuar", "save": "Guardar" }
+  },
+  "methodsQuestionnaires": {
+    "sendButton": {
+      "edit": "Guardar",
+      "add": "Agregar",
+      "continue": "Continuar"
+    },
+    "vape": {
+      "title": "Consumo de cigarrillo electrónico",
+      "subTitle": "Por favor, completa la siguiente información",
+      "labels": {
+        "daysLast": "¿Cuántos días, en promedio, te dura un pod/vape desechable?",
+        "podsAmount": "¿Cuántos pods suelen traer las cajas que compras? Si compras vapes desechables, coloca un 1",
+        "price": "¿Cuánto te cuesta usualmente comprar una caja de pods o un vape desechable?"
+      }
+    },
+    "cigar": {
+      "title": "Consumo de cigarro",
+      "labels": {
+        "cigarsPerDay": "¿Cuántos cigarros fumas, en promedio, por día?",
+        "cigarsPerWeek": "¿Por lo general, cuántos días fumas cigarro en una semana?",
+        "cigarsAmount": "¿Cuántos cigarros suelen traer las cajas que compras?",
+        "price": "¿Cuánto te cuesta usualmente comprar una caja de pods o un vape desechable?"
+      }
+    },
+    "hookah": {
+      "title": "Consumo de hookah",
+      "subTitle": "Por favor, completa la siguiente información",
+      "labels": {
+        "daysPerWeek": "¿Por lo general, cuántos días fumas hookah en una semana?",
+        "price": "¿Cuántos cigarros fumas, en promedio, por día?"
+      }
+    },
+    "cigarette": {
+      "title": "Consumo de cigarrillo",
+      "subTitle": "Por favor, completa la siguiente información",
+      "labels": {
+        "unitsPerDay": "¿Cuántos cigarrillos fumas, en promedio, por día?",
+        "daysPerWeek": "¿Por lo general, cuántos días fumas cigarrillo en una semana?",
+        "unitsPerBox": "¿De qué tamaño sueles comprar la caja de cigarrillos?",
+        "price": "¿Cuánto te cuesta usualmente comprar una caja de cigarrillos?"
+      }
+    }
+  }
+}

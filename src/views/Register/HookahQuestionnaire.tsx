@@ -13,6 +13,7 @@ import { Formik } from 'formik'
 import hookahService from '../../services/hookahService'
 import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
 import { number, object } from 'yup'
+import { useTranslation } from 'react-i18next'
 
 const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
   navigation,
@@ -22,18 +23,16 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
 }) => {
   const { user: patient, refetchUser } =
     useUserContext<PatientContextProps>() ?? {}
-  console.log(
-    '🚀 ~ file: HookahQuestionnaire.tsx:24 ~ patient',
-    patient?.patientConsumptionMethods?.hookahDetails
-  )
+
+  const { t } = useTranslation()
 
   return (
     <ScreenContainer>
       <VStack space={5} h="full">
         <Box alignSelf="flex-start" display="flex">
-          <ScreenHeader title="Consumo de hookah" />
+          <ScreenHeader title={t('methodsQuestionnaires.hookah.title')!} />
           <RegularText>
-            {'Por favor, completa la siguiente información'}
+            {t('methodsQuestionnaires.hookah.subTitle')!}
           </RegularText>
         </Box>
         <Formik
@@ -74,7 +73,7 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
             <>
               {console.log(values)}
               <RegularText>
-                {'¿Por lo general, cuántos días fumas hookah en una semana?'}
+                {t('methodsQuestionnaires.hookah.labels.daysPerWeek')!}
               </RegularText>
               <InputField
                 keyboardType="numeric"
@@ -82,7 +81,7 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
                 placeholder="Número"
               />
               <RegularText>
-                {'¿Cuánto te cuesta usualmente preparar una hookah?'}
+                {t('methodsQuestionnaires.hookah.labels.price')!}
               </RegularText>
               <InputField
                 keyboardType="numeric"
@@ -95,16 +94,14 @@ const HookahQuestionnaire: React.FC<RootScreenProps<'HookahQuestionnaire'>> = ({
                 justifyContent="space-evenly"
                 w="full"
               >
-                {/* {edit && (
-                  <SendButton
-                    text="Eliminar"
-                    onPress={() => handleDelete()}
-                    w="45%"
-                    bg="#ef756d"
-                  />
-                )} */}
                 <SendButton
-                  text={edit ? 'Guardar' : add ? 'Agregar' : 'Continuar'}
+                  text={
+                    edit
+                      ? t('methodsQuestionnaires.sendButton.edit')!
+                      : add
+                      ? t('methodsQuestionnaires.sendButton.add')!
+                      : t('methodsQuestionnaires.sendButton.continue')!
+                  }
                   onPress={() => handleSubmit()}
                   w="45%"
                 />

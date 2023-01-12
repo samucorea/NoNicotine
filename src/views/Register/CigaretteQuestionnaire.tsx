@@ -14,6 +14,7 @@ import { Formik } from 'formik'
 import { number, object } from 'yup'
 import cigarreteService from '../../services/cigarreteService'
 import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
+import { useTranslation } from 'react-i18next'
 
 const CigaretteQuestionnaire: React.FC<
   RootScreenProps<'CigaretteQuestionnaire'>
@@ -28,7 +29,7 @@ const CigaretteQuestionnaire: React.FC<
 
   const spacing = 3
 
-  // const handleDelete = () => {}
+  const { t } = useTranslation()
 
   return (
     <ScreenContainer>
@@ -36,11 +37,11 @@ const CigaretteQuestionnaire: React.FC<
         <VStack space={spacing}>
           <Box alignItems="flex-start">
             <ScreenHeader
-              title="Consumo de cigarrillo"
+              title={t('methodsQuestionnaires.cigarette.title')!}
               alignSelf={'flex-start'}
             />
             <RegularText color={theme.colors.subText.primary}>
-              {'Por favor, completa la siguiente información'}
+              {t('methodsQuestionnaires.cigarette.subTitle')!}
             </RegularText>
           </Box>
           <Formik
@@ -89,7 +90,9 @@ const CigaretteQuestionnaire: React.FC<
               <VStack space={spacing}>
                 <InputField
                   keyboardType="numeric"
-                  label="¿Cuántos cigarrillos fumas, en promedio, por día?"
+                  label={
+                    t('methodsQuestionnaires.cigarette.labels.unitsPerDay')!
+                  }
                   labelStyle={{
                     _text: {
                       fontSize: 'md',
@@ -114,7 +117,9 @@ const CigaretteQuestionnaire: React.FC<
                       pb: 2,
                     },
                   }}
-                  label="¿Por lo general, cuántos días fumas cigarrillo en una semana?"
+                  label={
+                    t('methodsQuestionnaires.cigarette.labels.daysPerWeek')!
+                  }
                   name="daysPerWeek"
                   placeholder="Número"
                   color={theme.colors.subText.primary}
@@ -122,7 +127,9 @@ const CigaretteQuestionnaire: React.FC<
                 />
 
                 <RadioInput
-                  label="¿De qué tamaño sueles comprar la caja de cigarrillos?"
+                  label={
+                    t('methodsQuestionnaires.cigarette.labels.unitsPerBox')!
+                  }
                   labelStyle={{
                     _text: {
                       fontSize: 'md',
@@ -145,7 +152,7 @@ const CigaretteQuestionnaire: React.FC<
 
                 <InputField
                   keyboardType="numeric"
-                  label="¿Cuánto te cuesta usualmente comprar una caja de cigarrillos?"
+                  label={t('methodsQuestionnaires.cigarette.labels.price')!}
                   labelStyle={{
                     _text: {
                       fontSize: 'md',
@@ -161,7 +168,13 @@ const CigaretteQuestionnaire: React.FC<
                 />
                 <HStack justifyContent="space-evenly" w="full">
                   <SendButton
-                    text={edit ? 'Guardar' : add ? 'Agregar' : 'Continuar'}
+                    text={
+                      edit
+                        ? t('methodsQuestionnaires.sendButton.edit')!
+                        : add
+                        ? t('methodsQuestionnaires.sendButton.add')!
+                        : t('methodsQuestionnaires.sendButton.continue')!
+                    }
                     onPress={() => handleSubmit()}
                     w="45%"
                   />
