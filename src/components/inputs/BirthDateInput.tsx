@@ -3,7 +3,6 @@ import {
   Text,
   Input,
   useColorModeValue,
-  VStack,
   HStack,
   FormControl,
   Pressable,

@@ -10,12 +10,10 @@ import {
 import { Modal, Dimensions, TouchableWithoutFeedback } from 'react-native'
 import { Formik } from 'formik'
 import theme from '../../../AppTheme'
-import React, { useState, FC } from 'react'
+import React, { FC } from 'react'
 import { InputField, SelectInputField } from '../../../components'
 import { object, string, array } from 'yup'
 import { SendButton } from '../../../components/SendButton'
-import habitService from '../../../services/habitService'
-import { boolean } from 'yup/lib/locale'
 import moment from 'moment'
 import patientService from '../../../services/patientService'
 
@@ -28,11 +26,11 @@ interface Props {
 }
 
 const AddHabit: FC<Props> = ({ title, onTouchOutside, show }) => {
-  const [showTimePicker, setShowTimePicker] = useState(false)
+  // const [showTimePicker, setShowTimePicker] = useState(false)
 
-  const showTime = () => {
-    setShowTimePicker(true)
-  }
+  // const showTime = () => {
+  //   setShowTimePicker(true)
+  // }
 
   const close = () => {}
 
@@ -219,17 +217,17 @@ const AddHabit: FC<Props> = ({ title, onTouchOutside, show }) => {
     )
   }
 
-  const renderItem = ({ item }: { item: any }) => {
-    return (
-      <View>
-        <Text>{item.name}</Text>
-      </View>
-    )
-  }
+  // const renderItem = ({ item }: { item: any }) => {
+  //   return (
+  //     <View>
+  //       <Text>{item.name}</Text>
+  //     </View>
+  //   )
+  // }
 
-  const renderSeparator = () => {
-    ;<View opacity={0.1} height={1} />
-  }
+  // const renderSeparator = () => {
+  //   ;<View opacity={0.1} height={1} />
+  // }
 
   return (
     <Modal

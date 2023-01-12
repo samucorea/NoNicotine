@@ -18,7 +18,7 @@ import ProfileIcon from '../../../../assets/profile.svg'
 
 // let messages: ChatMessage[] = []
 
-const Chat: FC<any> = (props) => {
+const Chat: FC = (props: any) => {
   const listRef = useRef<any>()
   const { user } = useUserContext()
   const { sendPrivateMessage, subscribe, conversations } = useChatHubContext()

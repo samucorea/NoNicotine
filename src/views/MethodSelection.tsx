@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { RootScreenProps } from '../routes/MainNavigator'
-import { Box, IconButton, VStack } from 'native-base'
+import { Box, VStack } from 'native-base'
 import { ScreenHeader } from '../components/ScreenHeader'
 import theme from '../AppTheme'
 import { RegularText } from '../components/RegularText'

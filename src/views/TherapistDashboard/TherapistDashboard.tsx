@@ -1,7 +1,6 @@
 import { Center, Fab, Heading, Image, Spinner, Text, VStack } from 'native-base'
 import React, { FC, useEffect, useState } from 'react'
 import { SendButton, VStackContainer } from '../../components'
-import { useLoadingContext } from '../../contexts/LoadingContext'
 import {
   TherapistContextProps,
   useUserContext,
@@ -10,7 +9,6 @@ import { useFocus, useModalToggle } from '../../hooks'
 import { Conversations, Patient, User } from '../../models'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
 import { chatService } from '../../services/chatService'
-import { linkService } from '../../services/linkService'
 import therapistService from '../../services/therapistService'
 import LinkModal from './Components/LinkModal'
 import PatientListing from './Components/PatientListing'

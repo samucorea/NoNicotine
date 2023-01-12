@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ConsumptionExpenses, Patient } from '../models'
 import { ConsumptionMethods } from '../models/ConsumptionMethods'
-import { CreateHabitDetails } from '../models/Habit'
+import { CreateHabitDetails, Habit } from '../models/Habit'
 import { RegisterPatient } from '../models/Patient'
 import { Sex } from '../sharedTypes'
 import apiRoute from '../utils/apiRoute'
@@ -69,6 +69,13 @@ export class PatientService extends BaseCrudService<Patient, RegisterPatient> {
     )
 
     return response
+  }
+
+  async getHabits() {
+    return await axios.get<Habit>(
+      `${this.fullRoute}/habits`,
+      BaseCrudService.config
+    )
   }
 }
 

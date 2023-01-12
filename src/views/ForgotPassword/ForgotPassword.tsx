@@ -1,19 +1,12 @@
 import React, { FC, useState } from 'react'
-import { StatusBar } from 'expo-status-bar'
-import { View, SafeAreaView } from 'react-native'
+
 import {
-  LongInputField,
-  ScreenHeader,
   SendButton,
-  RegularText,
-  WhiteX,
   HideKeyboardOnForms,
   ScreenContainer,
   InputField,
   SubmitMessage,
 } from '../../components'
-import StyleSheet from '../../styles/DarkBlueView'
-import { ForgotPasswordStyle } from '../../styles/ForgotPassword'
 import { Box, Text, VStack } from 'native-base'
 import theme from '../../AppTheme'
 import { Formik } from 'formik'

@@ -13,7 +13,7 @@ import { useLoadingContext } from '../../contexts/LoadingContext'
 import { useUserContext } from '../../contexts/UserContext'
 import { RootScreenProps } from '../../routes/MainNavigator'
 import BaseCrudService from '../../services/baseCrudService'
-import login from '../../services/loginService'
+// import login from '../../services/loginService'
 
 const DarkLogo = require('../../../assets/dark-logo.png')
 

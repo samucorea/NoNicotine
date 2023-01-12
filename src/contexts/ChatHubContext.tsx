@@ -38,7 +38,7 @@ interface Props {
   children: ReactNode
 }
 const ChatHubProvider: FC<Props> = ({ children }) => {
-  const { token, user } = useUserContext()
+  const { token } = useUserContext()
 
   const [connection, setConnection] = useState<HubConnection>()
   const [conversations, setConversations] = useState<Conversations>({})

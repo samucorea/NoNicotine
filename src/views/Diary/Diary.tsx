@@ -1,7 +1,7 @@
 import { AddIcon, Fab, Text } from 'native-base'
 import React, { FC, useState, useEffect } from 'react'
 import theme from '../../AppTheme'
-import { Loading, VStackContainer } from '../../components'
+import { VStackContainer } from '../../components'
 import { useFocus } from '../../hooks'
 import { DiaryEntry } from '../../models/DiaryEntry'
 import { DiaryScreenProps } from '../../routes/Diary/DiaryNavigator'

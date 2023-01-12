@@ -9,10 +9,18 @@ import Walk from '../../../assets/walking.svg'
 import Meditation from '../../../assets/meditation.svg'
 import Book from '../../../assets/book.svg'
 import { useFocus } from '../../hooks'
+import patientService from '../../services/patientService'
+// import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar'
 
 const Habits: React.FC<MenuScreenProps<'Habits'>> = ({ navigation }) => {
   const [show, setShow] = useState(false)
+  const [Habit, setHabit]: any = useState([])
   const isFocused = useFocus(navigation)
+
+  const GetHabitsList: any = async () => {
+    const HabitsList = await patientService.getHabits()
+    setHabit(HabitsList.data)
+  }
 
   const onShowPopup: any = () => {
     setShow(true)
@@ -20,6 +28,9 @@ const Habits: React.FC<MenuScreenProps<'Habits'>> = ({ navigation }) => {
 
   const onClosePopup: any = () => {
     setShow(false)
+    GetHabitsList()
+    console.log('testing')
+    console.log(Habit)
   }
 
   return (
@@ -30,7 +41,7 @@ const Habits: React.FC<MenuScreenProps<'Habits'>> = ({ navigation }) => {
         flexWrap="wrap"
         justifyContent={'space-between'}
       >
-        {HabitList.map((habit, index) => (
+        {/* {habitsList.map((habit, index) => (
           <Box key={index} alignSelf="center" marginX={3} marginY={1.5}>
             <SquaredIconButton
               key={index}
@@ -43,6 +54,39 @@ const Habits: React.FC<MenuScreenProps<'Habits'>> = ({ navigation }) => {
               labelStyle={{ color: theme.colors.primary.default }}
               subLabel={habit.subLabel}
               Icon={habit.icon}
+              onPress={() => {}}
+            />
+          </Box>
+        ))} */}
+        {Habit.map((habit: any, index: any) => (
+          <Box key={index} alignSelf="center" marginX={3} marginY={1.5}>
+            <SquaredIconButton
+              key={index}
+              mb={3}
+              borderColor={theme.colors.primary.default}
+              topRigthButton={
+                <Entypo name="dots-three-horizontal" size={24} color="black" />
+              }
+              label={habit.habit.name}
+              labelStyle={{ color: theme.colors.primary.default }}
+              subLabel={
+                <Text>
+                  {habit.sunday && 'D '}
+                  {habit.monday && ' L '}
+                  {habit.tuesday && ' M '}
+                  {habit.wednesday && ' M '}
+                  {habit.thursday && ' J '}
+                  {habit.friday && ' V '}
+                  {habit.saturday && ' S'}
+                </Text>
+              }
+              Icon={
+                habit.habit.name === 'Salir a caminar'
+                  ? Walk
+                  : habit.habit.name === 'Meditar'
+                  ? Meditation
+                  : Book
+              }
               onPress={() => {}}
             />
           </Box>
@@ -72,41 +116,5 @@ const Habits: React.FC<MenuScreenProps<'Habits'>> = ({ navigation }) => {
     </VStack>
   )
 }
-
-const HabitList = [
-  {
-    label: 'Salir a caminar',
-    subLabel: (
-      <>
-        <Text fontSize={'sm'}>lun, mie, jue</Text>
-        <Text fontSize={'sm'}>5:00 P.M.</Text>
-      </>
-    ),
-    icon: Walk,
-    navigateTo: '',
-  },
-  {
-    label: 'Meditar',
-    subLabel: (
-      <>
-        <Text fontSize={'sm'}>todos los dias</Text>
-        <Text fontSize={'sm'}>6:30 P.M.</Text>
-      </>
-    ),
-    icon: Meditation,
-    navigateTo: '',
-  },
-  {
-    label: 'Leer un libro',
-    subLabel: (
-      <>
-        <Text fontSize={'sm'}>sáb, dom</Text>
-        <Text fontSize={'sm'}>3:30 P.M.</Text>
-      </>
-    ),
-    icon: Book,
-    navigateTo: '',
-  },
-]
 
 export default Habits

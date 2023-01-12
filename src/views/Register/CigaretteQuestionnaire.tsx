@@ -28,7 +28,7 @@ const CigaretteQuestionnaire: React.FC<
 
   const spacing = 3
 
-  const handleDelete = () => {}
+  // const handleDelete = () => {}
 
   return (
     <ScreenContainer>

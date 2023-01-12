@@ -13,7 +13,7 @@ import { PatientContextProps, useUserContext } from '../contexts/UserContext'
 import Profile from '../../assets/profile.svg'
 import { Roles } from '../utils/enums/Roles'
 import { headerStyle } from '../utils/headerStyle'
-import ChatHubProvider from '../contexts/ChatHubContext'
+// import ChatHubProvider from '../contexts/ChatHubContext'
 
 const HomeIcon = require('../../assets/home.png')
 const DiaryIcon = require('../../assets/diary.png')
