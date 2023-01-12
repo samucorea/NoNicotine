@@ -13,6 +13,7 @@ import { Formik } from 'formik'
 import { number, object } from 'yup'
 import vapeService from '../../services/vapeService'
 import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
+import { useTranslation } from 'react-i18next'
 
 const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
   navigation,
@@ -23,16 +24,13 @@ const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
   const { user: patient, refetchUser } =
     useUserContext<PatientContextProps>() ?? {}
 
-  // const handleDelete = () => {}
-
+  const { t } = useTranslation()
   return (
     <ScreenContainer>
       <VStack space={5} h="full">
         <Box alignSelf="flex-start" display="flex">
-          <ScreenHeader title="Consumo de cigarrillo electrónico" />
-          <RegularText>
-            {'Por favor, completa la siguiente información'}
-          </RegularText>
+          <ScreenHeader title={t('methodsQuestionnaires.vape.title')!} />
+          <RegularText>{t('methodsQuestionnaires.vape.subTitle')!}</RegularText>
         </Box>
 
         <Formik
@@ -76,7 +74,7 @@ const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
           {({ handleSubmit, values }) => (
             <>
               <RegularText>
-                {'¿Cuántos días, en promedio, te dura un pod/vape desechable?'}
+                {t('methodsQuestionnaires.vape.labels.daysLast')!}
               </RegularText>
               <InputField
                 keyboardType="numeric"
@@ -84,9 +82,7 @@ const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
                 placeholder="Número"
               />
               <RegularText>
-                {
-                  '¿Cuántos pods suelen traer las cajas que compras? Si compras vapes desechables, coloca un 1'
-                }
+                {t('methodsQuestionnaires.vape.labels.podsAmount')!}
               </RegularText>
               <InputField
                 keyboardType="numeric"
@@ -94,9 +90,7 @@ const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
                 placeholder="Unidad(es)"
               />
               <RegularText>
-                {
-                  '¿Cuánto te cuesta usualmente comprar una caja de pods o un vape desechable?'
-                }
+                {t('methodsQuestionnaires.vape.labels.price')!}
               </RegularText>
               <InputField
                 keyboardType="numeric"
@@ -109,16 +103,14 @@ const VapeQuestionnaire: React.FC<RootScreenProps<'VapeQuestionnaire'>> = ({
                 justifyContent="space-evenly"
                 w="full"
               >
-                {/* {edit && (
-                  <SendButton
-                    text="Eliminar"
-                    onPress={() => handleDelete()}
-                    w="45%"
-                    bg="#ef756d"
-                  />
-                )} */}
                 <SendButton
-                  text={edit ? 'Guardar' : add ? 'Agregar' : 'Continuar'}
+                  text={
+                    edit
+                      ? t('methodsQuestionnaires.sendButton.edit')!
+                      : add
+                      ? t('methodsQuestionnaires.sendButton.add')!
+                      : t('methodsQuestionnaires.sendButton.continue')!
+                  }
                   onPress={() => handleSubmit()}
                   w="45%"
                 />

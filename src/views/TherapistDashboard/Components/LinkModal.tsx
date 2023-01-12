@@ -1,6 +1,7 @@
 import { Formik } from 'formik'
 import { Box, Modal, Text, VStack } from 'native-base'
 import React, { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import { object, string } from 'yup'
 import { InputField, ModalComponent, SendButton } from '../../../components'
 import {
@@ -13,16 +14,17 @@ import { ModalProps } from '../../../sharedTypes'
 const LinkModal: FC<ModalProps> = ({ show, toggleShow }) => {
   const { user } = useUserContext<TherapistContextProps>() ?? {}
 
+  const { t } = useTranslation()
+
   return (
     <ModalComponent
       show={show}
-      title="Vincula un paciente"
+      title={t('therapistDashboard.linkModal.title')!}
       toggleShow={toggleShow}
     >
       <VStack space={5}>
         <Text color="primary.default">
-          Ingresa la dirección de correo electrónico de tu paciente para
-          enviarle una solicitud de vinculación
+          {t('therapistDashboard.linkModal.disclaimer')!}
         </Text>
         <Formik
           initialValues={{ email: '' }}
@@ -44,11 +46,13 @@ const LinkModal: FC<ModalProps> = ({ show, toggleShow }) => {
               <InputField
                 name="email"
                 mb={5}
-                placeholder="Correo electrónico"
+                placeholder={
+                  t('therapistDashboard.linkModal.emailPlaceholder')!
+                }
               />
               <SendButton
                 onPress={() => handleSubmit()}
-                text="Enviar solicitud"
+                text={t('therapistDashboard.linkModal.sendButton')!}
               />
             </>
           )}

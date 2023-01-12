@@ -16,6 +16,7 @@ import moment from 'moment'
 import patientService from '../../services/patientService'
 import { Sex } from '../../sharedTypes'
 import { Roles } from '../../utils/enums/Roles'
+import { useTranslation } from 'react-i18next'
 
 const EditIcon = require('../../../assets/pencil.png')
 
@@ -25,6 +26,7 @@ const Profile: React.FC<RootScreenProps<'Profile'>> = ({
 }) => {
   const { user, logOut, setStoredUser } = useUserContext()
   const [editing, setEditing] = useState(false)
+  const { t } = useTranslation()
 
   const toggleEdit = () => {
     setEditing(!editing)
@@ -122,7 +124,7 @@ const Profile: React.FC<RootScreenProps<'Profile'>> = ({
                 />
               ) : (
                 <SendButton
-                  text="Cerrar sesión"
+                  text={t('profile.logOut')!}
                   bottom={5}
                   position={'absolute'}
                   onPress={logOut}
@@ -134,7 +136,7 @@ const Profile: React.FC<RootScreenProps<'Profile'>> = ({
       </VStack>
       {user?.role == Roles.patient && (
         <SendButton
-          text="Tuve una recaída"
+          text={t('profile.relapse')!}
           bg="#ef756d"
           mb={10}
           onPress={handleRelapse}

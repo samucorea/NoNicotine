@@ -12,6 +12,7 @@ import theme from '../../AppTheme'
 import { useField } from 'formik'
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
 import moment from 'moment'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   name: string
@@ -20,7 +21,7 @@ interface Props {
 
 export const BirthDateInput: FC<Props> = ({ name, isDisabled = false }) => {
   const [field, meta, helpers] = useField(name)
-
+  const { t } = useTranslation()
   const colors = useColorModeValue('#94a4ba', theme.colors.primary.light)
 
   const openDatePicker = () => {
@@ -47,7 +48,7 @@ export const BirthDateInput: FC<Props> = ({ name, isDisabled = false }) => {
           color={theme.colors.primary.default}
           fontSize="16px"
         >
-          Fecha de nacimiento
+          {t('register.placeholders.birthDate')!}
         </Text>
       </FormControl.Label>
 

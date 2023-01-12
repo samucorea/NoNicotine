@@ -1,11 +1,14 @@
 import { Box, Center, Text } from 'native-base'
 import React, { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   abstinenceDays: number
 }
 
 const AbstinenceRecord: FC<Props> = ({ abstinenceDays }) => {
+  const { t } = useTranslation()
+
   return (
     <Box height={'64'} width={'64'} rounded={'full'} bg="#d6e6fb" p={'9px'}>
       <Box flex={1} rounded={'full'} bg="#cadefa" p={'9px'}>
@@ -14,7 +17,7 @@ const AbstinenceRecord: FC<Props> = ({ abstinenceDays }) => {
             {abstinenceDays}d
           </Text>
           <Text color={'#fff'} fontSize={'xl'}>
-            sin consumir
+            {t('patientDashboard.noConsumption')!}
           </Text>
         </Center>
       </Box>

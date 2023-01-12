@@ -1,0 +1,165 @@
+{
+  "changeLanguage": "Spanish",
+  "menuNavigator": {
+    "home": "Home",
+    "habits": "Habits",
+    "therapy": "Therapy",
+    "diary": "Diary"
+  },
+  "validations": {
+    "required": "This field is required",
+    "default": "The current value is not valid",
+    "email": "This email is not valid"
+  },
+  "habits": { "headerTitle": "Healthy habits" },
+  "login": {
+    "email": "Email",
+    "password": "Password",
+    "forgot-password": "Did you forgot your password?",
+    "init-session": "Sign in",
+    "register": { "message": "¿Are you new here?", "button": "Register" },
+    "signingIn": "Signing in"
+  },
+  "selectRole": {
+    "title": "Select your role",
+    "patient": "Patient",
+    "therapist": "Therapist"
+  },
+  "register": {
+    "subHeaderText": {
+      "therapist": "Fill this form with your information",
+      "patient": "You are very close to improve your life..."
+    },
+    "confirmationSent": "A confirmation message has been sent to your email",
+    "continue": "Continue",
+    "title": "¡Welcome!",
+    "creatingUser": "Creating user",
+    "errors": { "emailTaken": "This email has been already registered" },
+    "placeholders": {
+      "fullName": "Full name",
+      "email": "Email",
+      "birthDate": "Birth date",
+      "gender": "Gender",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "documentType": "Identification type",
+      "documentNumber": ""
+    },
+    "documentOptions": { "idCard": "Id", "passport": "Passport" },
+    "createAccount": "Create account"
+  },
+  "patientDashboard": {
+    "noConsumption": "Without smoking",
+    "savingsTitle": "Money saved",
+    "benefits": {
+      "title": "Health benefits",
+      "cardiacReduction": "Heart rate reduction",
+      "betterSmell": "Smell improvements"
+    }
+  },
+  "therapistDashboard": {
+    "noPatients": "You currently have no patients",
+    "vinculatePatients": "Vinculate patient",
+    "linkModal": {
+      "title": "Vinculate patient",
+      "disclaimer": "Enter your patient's email address to send them a linking request",
+      "emailPlaceholder": "Email",
+      "sendButton": "Send request"
+    }
+  },
+  "therapy": {
+    "chat": {
+      "typeMessage": "Write a message",
+      "previewProfile": {
+        "labels": {
+          "email": "Email",
+          "age": "Age",
+          "gender": "Gender",
+          "consumptionMethod": "Consumption method",
+          "frequency": "Frequency"
+        },
+        "desvinculate": "Unlink"
+      }
+    }
+  },
+  "diary": {
+    "entryDetailed": {
+      "onCreate": {
+        "symptoms": "¿Which symptoms are you experiencing?",
+        "feelings": "¿How are you feeling?",
+        "description": "Describe how was your day"
+      },
+      "onRead": {
+        "symptoms": "Experienced symptoms",
+        "feelings": "Experienced feelings",
+        "description": "Description of your day"
+      },
+      "descriptionPlaceholder": "Feel free to say what you want...",
+      "share": "Share with your therapist",
+      "sendButton": { "save": "Save", "back": "Go back" }
+    }
+  },
+  "profile": {
+    "logOut": "Log out",
+    "relapse": "I've had a relapse",
+    "consumption": "Consumption"
+  },
+  "methodSelection": {
+    "firstTime": {
+      "title": "Select your consumption methods"
+    },
+    "normal": {
+      "title": "Your consumption methods"
+    },
+    "consumptionMethods": {
+      "cigarette": "Cigarette",
+      "vape": "Vape",
+      "hookah": "Hookah",
+      "cigar": "Cigar"
+    },
+    "sendButton": { "continue": "Continue", "save": "Save" }
+  },
+  "methodsQuestionnaires": {
+    "sendButton": {
+      "edit": "Save",
+      "add": "Add",
+      "continue": "Continue"
+    },
+    "vape": {
+      "title": "Vape consumption",
+      "subTitle": "Please complete the following information",
+      "labels": {
+        "daysLast": "¿How many days, on average, does a disposable pod/vape last you?",
+        "podsAmount": "¿How many pods do the boxes you buy usually bring? If you buy disposable vapes, put a 1",
+        "price": "¿How much does it usually cost you to buy a box of pods or a disposable vape?"
+      }
+    },
+    "cigar": {
+      "title": "Cigar consumption",
+      "labels": {
+        "cigarsPerDay": "¿How many cigarettes do you smoke, on average, per day?",
+        "cigarsPerWeek": "¿In general, how many days do you smoke cigarettes in a week?",
+        "cigarsAmount": "¿How many cigars do the boxes you buy usually bring?",
+        "price": "¿How much does it usually cost you to buy a box of pods or a disposable vape?"
+      }
+    },
+    "hookah": {
+      "title": "Hookah consumption",
+      "subTitle": "Please complete the following information",
+      "labels": {
+        "daysPerWeek": "¿Usually, how many days do you smoke hookah in a week?",
+        "price": "¿How many cigarettes do you smoke, on average, per day?"
+      }
+    },
+    "cigarette": {
+      "title": "Cigarette consumption",
+      "subTitle": "Please complete the following information",
+      "labels": {
+        "unitsPerDay": "¿How many cigarettes do you smoke, on average, per day?",
+        "daysPerWeek": "¿In general, how many days do you smoke cigarettes in a week?",
+        "unitsPerBox": "¿What size do you usually buy the cigarette box?",
+        "price": "¿How much does it usually cost you to buy a box of cigarettes?"
+      }
+    }
+  }
+}

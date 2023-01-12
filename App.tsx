@@ -9,6 +9,9 @@ import UserContextProvider from './src/contexts/UserContext'
 import { setLocale } from 'yup'
 import LoadingContextProvider from './src/contexts/LoadingContext'
 import { LogBox } from 'react-native'
+import './src/settings/i18n/i18n'
+import { useTranslation } from 'react-i18next'
+import SettingsContextProvider from './src/contexts/SettingsContext'
 moment.locale('es')
 
 // SplashScreen.preventAutoHideAsync()
@@ -16,13 +19,15 @@ moment.locale('es')
 export default function App() {
   LogBox.ignoreAllLogs()
 
+  const { t } = useTranslation()
+
   setLocale({
     mixed: {
-      default: 'El valor introducido no es válido',
-      required: 'Este campo es obligatorio',
+      default: t('validations.default')!,
+      required: t('validations.required')!,
     },
     string: {
-      email: 'Este correo no es válido',
+      email: t('validations.email')!,
     },
   })
 
@@ -30,9 +35,11 @@ export default function App() {
     <NativeBaseProvider theme={theme}>
       <NavigationContainer>
         <UserContextProvider>
-          <LoadingContextProvider>
-            <MainNavigator />
-          </LoadingContextProvider>
+          <SettingsContextProvider>
+            <LoadingContextProvider>
+              <MainNavigator />
+            </LoadingContextProvider>
+          </SettingsContextProvider>
         </UserContextProvider>
       </NavigationContainer>
     </NativeBaseProvider>
