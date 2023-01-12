@@ -20,19 +20,31 @@ export default class BaseCrudService<T extends BaseEntity, RegisterT = T> {
     })
   }
 
+  static async GetConfig() {
+    const token = await AsyncStorage.getItem('token')
+
+    return { headers: { Authorization: `Bearer ${token}` } }
+  }
+
   async getAll() {
-    return await axios.get<T[]>(`${this.fullRoute}`, BaseCrudService.config)
+    return await axios.get<T[]>(
+      `${this.fullRoute}`,
+      await BaseCrudService.GetConfig()
+    )
   }
 
   async getById(id: number) {
-    return await axios.get<T>(`${this.fullRoute}/${id}`, BaseCrudService.config)
+    return await axios.get<T>(
+      `${this.fullRoute}/${id}`,
+      await BaseCrudService.GetConfig()
+    )
   }
 
   async create(data: RegisterT | FormData) {
     return await axios.post<RegisterT>(
       `${this.fullRoute}`,
       data,
-      BaseCrudService.config
+      await BaseCrudService.GetConfig()
     )
   }
 
@@ -47,6 +59,6 @@ export default class BaseCrudService<T extends BaseEntity, RegisterT = T> {
       route += '/' + id.toString()
     }
 
-    return await axios.put(route, data, BaseCrudService.config)
+    return await axios.put(route, data, await BaseCrudService.GetConfig())
   }
 }

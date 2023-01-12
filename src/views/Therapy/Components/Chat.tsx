@@ -108,7 +108,7 @@ const Chat: FC = (props: any) => {
     <VStackContainer scroll={false} pt={5}>
       <FlatList
         ref={listRef}
-        data={messages}
+        data={messages ?? []}
         paddingRight={5}
         paddingLeft={5}
         renderItem={({ item }) => <Message messageText={item} />}

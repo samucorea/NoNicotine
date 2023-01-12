@@ -8,10 +8,12 @@ import 'moment/locale/es'
 import UserContextProvider from './src/contexts/UserContext'
 import { setLocale } from 'yup'
 import LoadingContextProvider from './src/contexts/LoadingContext'
+import { LogBox } from 'react-native'
 moment.locale('es')
 
 // SplashScreen.preventAutoHideAsync()
 
+LogBox.ignoreAllLogs()
 export default function App() {
   setLocale({
     mixed: {

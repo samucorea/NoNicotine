@@ -46,7 +46,7 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
               try {
                 await userContext?.logIn(values)
 
-                BaseCrudService.UpdateConfig()
+                await BaseCrudService.UpdateConfig()
               } catch (error: any) {
                 console.log(
                   '🚀 ~ file: Login.tsx ~ line 59 ~ onSubmit={ ~ error',
@@ -64,11 +64,13 @@ const Login: FC<RootScreenProps<'Login'>> = ({ navigation }) => {
                     setErrorMessage(errors[errorMessage])
                     break
                   default:
+                    console.log('hey')
                     console.error(errorMessage)
                     break
                 }
+              } finally {
+                loadingContext?.setLoading(false)
               }
-              loadingContext?.setLoading(false)
             }}
           >
             {({ handleSubmit }) => (

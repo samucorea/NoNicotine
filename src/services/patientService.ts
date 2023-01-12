@@ -15,7 +15,7 @@ export class PatientService extends BaseCrudService<Patient, RegisterPatient> {
   async getCurrentPatient(bearer: string) {
     return await axios.get<Patient>(`${this.fullRoute}`, {
       headers: {
-        Authorization: `Bearer ${bearer} `,
+        Authorization: `Bearer ${bearer}`,
       },
     })
   }
@@ -25,14 +25,14 @@ export class PatientService extends BaseCrudService<Patient, RegisterPatient> {
 
     return await axios.get<ConsumptionExpenses>(
       `${this.fullRoute}/consumptionExpenses`,
-      BaseCrudService.config
+      await BaseCrudService.GetConfig()
     )
   }
 
   async getConsumptionMethods(consumptionMethodsId: string) {
     return await axios.get<ConsumptionMethods>(
       `${apiRoute}/patientConsumptionMethods/${consumptionMethodsId}`,
-      BaseCrudService.config
+      await BaseCrudService.GetConfig()
     )
   }
 
@@ -55,7 +55,7 @@ export class PatientService extends BaseCrudService<Patient, RegisterPatient> {
     const response = await axios.put<Patient>(
       `${this.fullRoute}/indicateRelapse`,
       { userId, restartDate: new Date() },
-      BaseCrudService.config
+      await BaseCrudService.GetConfig()
     )
 
     return response
@@ -65,7 +65,7 @@ export class PatientService extends BaseCrudService<Patient, RegisterPatient> {
     const response = await axios.post<CreateHabitDetails>(
       `${this.fullRoute}/habits`,
       habit,
-      BaseCrudService.config
+      await BaseCrudService.GetConfig()
     )
 
     return response
