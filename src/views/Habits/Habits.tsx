@@ -1,5 +1,5 @@
 import theme from '../../AppTheme'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { SquaredIconButton } from '../../components'
 import { Fab, Box, Text, VStack } from 'native-base'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
@@ -10,11 +10,14 @@ import Meditation from '../../../assets/meditation.svg'
 import Book from '../../../assets/book.svg'
 import { useFocus } from '../../hooks'
 import patientService from '../../services/patientService'
-// import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar'
+import UpdateHabit from './partials/UpdateHabit' // import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar'
 
 const Habits: React.FC<MenuScreenProps<'Habits'>> = ({ navigation }) => {
   const [show, setShow] = useState(false)
+  const [showUpdate, setShowUpdate] = useState(false)
   const [Habit, setHabit]: any = useState([])
+  const [updatingHabit, setUpdatingHabit]: any = useState(0)
+
   const isFocused = useFocus(navigation)
 
   const GetHabitsList: any = async () => {
@@ -22,16 +25,38 @@ const Habits: React.FC<MenuScreenProps<'Habits'>> = ({ navigation }) => {
     setHabit(HabitsList.data)
   }
 
+  useEffect(() => {
+    GetHabitsList()
+  }, [Habit])
+
   const onShowPopup: any = () => {
     setShow(true)
   }
 
   const onClosePopup: any = () => {
     setShow(false)
-    GetHabitsList()
-    console.log('testing')
-    console.log(Habit)
+    // console.log('testing')
+    // console.log(Habit)
   }
+
+  const onShowPopupUpdate: any = (index: any) => {
+    setShowUpdate(true)
+    setUpdatingHabit(index)
+    console.log(updatingHabit)
+  }
+
+  const onClosePopupUpdate: any = () => {
+    setShowUpdate(false)
+  }
+
+  // const onPressUpdate: any = (index: any) => {
+  //   console.log(showUpdate)
+  //   const HabitValue = Habit[index]
+  //   console.log(HabitValue)
+  //   return (
+
+  //   )
+  // }
 
   return (
     <VStack flex={1} height={'100%'} paddingX={16} paddingY={2}>
@@ -65,7 +90,14 @@ const Habits: React.FC<MenuScreenProps<'Habits'>> = ({ navigation }) => {
               mb={3}
               borderColor={theme.colors.primary.default}
               topRigthButton={
-                <Entypo name="dots-three-horizontal" size={24} color="black" />
+                <Entypo
+                  name="dots-three-horizontal"
+                  size={24}
+                  color="black"
+                  onPress={() => {
+                    onShowPopupUpdate(index)
+                  }}
+                />
               }
               label={habit.habit.name}
               labelStyle={{ color: theme.colors.primary.default }}
@@ -112,6 +144,13 @@ const Habits: React.FC<MenuScreenProps<'Habits'>> = ({ navigation }) => {
         title="Añadir Habito"
         onTouchOutside={onClosePopup}
         show={show}
+      />
+
+      <UpdateHabit
+        title="Actualizar Habito"
+        onTouchOutside={onClosePopupUpdate}
+        show={showUpdate}
+        userHabit={Habit[0]}
       />
     </VStack>
   )

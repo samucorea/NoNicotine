@@ -17,3 +17,16 @@ export interface CreateHabitDetails {
   sunday: boolean
   hour: string
 }
+
+export interface UpdateHabitDetails {
+  patientHabitId: string
+  userId: string
+  hour: string
+  monday: boolean
+  tuesday: boolean
+  wednesday: boolean
+  thursday: boolean
+  friday: boolean
+  saturday: boolean
+  sunday: boolean
+}
