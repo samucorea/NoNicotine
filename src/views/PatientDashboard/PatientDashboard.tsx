@@ -8,6 +8,10 @@ import theme from '../../AppTheme'
 import { PatientContextProps, useUserContext } from '../../contexts/UserContext'
 import { ConsumptionExpenses } from '../../models'
 import { PatientConsumptionMethods } from '../../models/Patient'
+import {
+  DiaryScreenProps,
+  DiaryStackScreens,
+} from '../../routes/Diary/DiaryNavigator'
 import { RootStackScreens } from '../../routes/MainNavigator'
 import { MenuScreenProps } from '../../routes/MenuNavigator'
 import patientService from '../../services/patientService'
@@ -25,6 +29,11 @@ type Props = CompositeScreenProps<
   StackScreenProps<RootStackScreens>
 >
 
+type Composite = CompositeScreenProps<
+  Props,
+  StackScreenProps<DiaryStackScreens>
+>
+
 const methodExpenses = {
   cigar: 'cigarTotal',
   cigarette: 'cigaretteTotal',
@@ -32,7 +41,7 @@ const methodExpenses = {
   hookah: 'hookaTotal',
 }
 
-const PatientDashboard: FC<Props> = ({ navigation }) => {
+const PatientDashboard: FC<Composite> = ({ navigation }) => {
   const [isFocused, setIsFocused] = useState(false)
   const [loading, setLoading] = useState(true)
   const [consumptionExpenses, setConsumptionExpenses] =
@@ -162,6 +171,9 @@ const PatientDashboard: FC<Props> = ({ navigation }) => {
       </VStack>
       {isFocused && (
         <Fab
+          onPress={() =>
+            navigation.navigate('EntryDetailed', { entry: undefined })
+          }
           bg={theme.colors.primary.default}
           icon={
             <Image

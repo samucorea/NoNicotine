@@ -20,9 +20,9 @@ const Entry: FC<Props> = ({ entry }) => {
 
   return (
     <StackButton
-      title={moment(entry.createdAt).format(
-        'ddd, DD [de] MMMM [de] yyyy h:mm A'
-      )}
+      title={moment(entry.createdAt)
+        .subtract(4, 'hours')
+        .format('ddd, DD [de] MMMM [de] yyyy h:mm A')}
       onPress={() =>
         navigation.navigate('EntryDetailed', {
           entry,

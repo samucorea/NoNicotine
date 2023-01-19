@@ -109,7 +109,13 @@ const Therapy: FC<Props> = ({ navigation }) => {
     // if (false) {
     return (
       <ScreenContainer>
-        <VStack alignItems="center" justifyContent="center" flex={1} space={4}>
+        <VStack
+          alignItems="center"
+          justifyContent="center"
+          flex={1}
+          space={4}
+          alignSelf="center"
+        >
           <SadFace />
           <Text
             fontSize="2xl"

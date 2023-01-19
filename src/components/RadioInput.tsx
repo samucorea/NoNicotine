@@ -43,7 +43,7 @@ export const RadioInput: FC<Props> = ({
       <FormControl.Label {...labelStyle}>{label}</FormControl.Label>
 
       <Radio.Group
-        value={field.value}
+        value={field.value.toString()}
         onChange={field.onChange(name)}
         name="RadioInputGroup"
         alignSelf="flex-start"

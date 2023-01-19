@@ -142,7 +142,7 @@
         "cigarsPerDay": "¿Cuántos cigarros fumas, en promedio, por día?",
         "cigarsPerWeek": "¿Por lo general, cuántos días fumas cigarro en una semana?",
         "cigarsAmount": "¿Cuántos cigarros suelen traer las cajas que compras?",
-        "price": "¿Cuánto te cuesta usualmente comprar una caja de pods o un vape desechable?"
+        "price": "¿Cuánto te cuesta usualmente comprar una caja de cigarros?"
       }
     },
     "hookah": {
@@ -150,7 +150,7 @@
       "subTitle": "Por favor, completa la siguiente información",
       "labels": {
         "daysPerWeek": "¿Por lo general, cuántos días fumas hookah en una semana?",
-        "price": "¿Cuántos cigarros fumas, en promedio, por día?"
+        "price": "¿Cuánto te cuesta usualmente preparar una hookah?"
       }
     },
     "cigarette": {

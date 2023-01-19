@@ -140,7 +140,7 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
                     options={[
                       {
                         key: t('register.documentOptions.idCard')!,
-                        value: 'Cedula',
+                        value: 'Cédula',
                       },
                       {
                         key: t('register.documentOptions.passport')!,

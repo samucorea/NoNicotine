@@ -25,6 +25,7 @@ const ForgotPassword: FC<RootScreenProps<'ForgotPassword'>> = ({
           alignItems={'center'}
           justifyContent={'center'}
           bg="transparent"
+          alignSelf={'center'}
           space={12}
           flex={1}
         >

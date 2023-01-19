@@ -31,6 +31,8 @@ const CigaretteQuestionnaire: React.FC<
 
   const { t } = useTranslation()
 
+  console.log(patient?.patientConsumptionMethods?.cigaretteDetails?.unitsPerBox)
+
   return (
     <ScreenContainer>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -65,6 +67,10 @@ const CigaretteQuestionnaire: React.FC<
             }}
             validationSchema={validationSchema}
             onSubmit={async (data) => {
+              console.log(
+                '🚀 ~ file: CigaretteQuestionnaire.tsx:70 ~ onSubmit={ ~ data',
+                data
+              )
               try {
                 const service = edit
                   ? async (data: any) => await cigarreteService.update(data)
