@@ -138,8 +138,14 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
                   <SelectInputField
                     name={'identificationType'}
                     options={[
-                      t('register.documentOptions.idCard')!,
-                      t('register.documentOptions.passport')!,
+                      {
+                        key: t('register.documentOptions.idCard')!,
+                        value: 'Cedula',
+                      },
+                      {
+                        key: t('register.documentOptions.passport')!,
+                        value: 'Pasaporte',
+                      },
                     ]}
                     placeholder={t('register.placeholders.documentType')!}
                   />
@@ -148,7 +154,10 @@ const Register: React.FC<RootScreenProps<'Register'>> = ({
                       name={'identification'}
                       placeholder={`${t(
                         'register.placeholders.documentNumber'
-                      )} ${values.identificationType}`}
+                      )} ${t(
+                        'register.placeholders.' +
+                          values.identificationType.toLowerCase()
+                      )}`}
                     />
                   )}
 

@@ -9,12 +9,13 @@ import {
 } from 'native-base'
 import theme from '../../AppTheme'
 import { useField } from 'formik'
+import { KeyValue } from '../../sharedTypes'
 
 export interface SelectInputFieldProps {
   label?: string
   labelStyle?: IFormControlLabelProps
   name: string
-  options: string[]
+  options: string[] | KeyValue[]
 }
 
 export const SelectInputField = ({
@@ -51,9 +52,23 @@ export const SelectInputField = ({
         onValueChange={field.onChange(name)}
         {...props}
       >
-        {options.map((option, index) => (
-          <Select.Item key={index} label={option} value={option} />
-        ))}
+        {options.map((option, index) => {
+          let label = option
+          let value = option
+
+          if (typeof option !== 'string') {
+            label = option.key
+            value = option.value as string
+          }
+
+          return (
+            <Select.Item
+              key={index}
+              label={label as string}
+              value={value as string}
+            />
+          )
+        })}
       </Select>
 
       <FormControl.ErrorMessage>{meta?.error}</FormControl.ErrorMessage>
