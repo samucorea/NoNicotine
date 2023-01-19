@@ -178,17 +178,15 @@ const MethodSelection: React.FC<RootScreenProps<'MethodSelection'>> = ({
             )
           })}
         </Box>
-        <SendButton
-          text={
-            firstTime
-              ? t('methodSelection.sendButton.continue')!
-              : t('methodSelection.sendButton.save')!
-          }
-          fontSize={'lg'}
-          onPress={handleSend}
-          position="absolute"
-          bottom={20}
-        />
+        {firstTime && (
+          <SendButton
+            text={t('methodSelection.sendButton.continue')!}
+            fontSize={'lg'}
+            onPress={handleSend}
+            position="absolute"
+            bottom={20}
+          />
+        )}
       </VStack>
     </ScreenContainer>
   )

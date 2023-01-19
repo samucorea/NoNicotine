@@ -65,25 +65,32 @@ const CigaretteQuestionnaire: React.FC<
             }}
             validationSchema={validationSchema}
             onSubmit={async (data) => {
-              const service = edit
-                ? async (data: any) => await cigarreteService.update(data)
-                : async (data: any) => await cigarreteService.create(data)
+              try {
+                const service = edit
+                  ? async (data: any) => await cigarreteService.update(data)
+                  : async (data: any) => await cigarreteService.create(data)
 
-              await service({
-                ...data,
-                patientConsumptionMethodsId:
-                  patient!.patientConsumptionMethodsId!,
-              })
-
-              if (nextQuestionnaires.length > 0) {
-                return navigation.navigate(nextQuestionnaires.pop() as any, {
-                  nextQuestionnaires,
+                await service({
+                  ...data,
+                  patientConsumptionMethodsId:
+                    patient!.patientConsumptionMethodsId!,
                 })
+
+                if (nextQuestionnaires.length > 0) {
+                  return navigation.navigate(nextQuestionnaires.pop() as any, {
+                    nextQuestionnaires,
+                  })
+                }
+
+                await refetchUser()
+
+                navigation.navigate('MethodSelection', { firstTime: false })
+              } catch (error) {
+                console.log(
+                  '🚀 ~ file: CigaretteQuestionnaire.tsx:89 ~ onSubmit={ ~ error',
+                  error.response.data
+                )
               }
-
-              await refetchUser()
-
-              navigation.navigate('MethodSelection', { firstTime: false })
             }}
           >
             {({ handleSubmit, values }) => (

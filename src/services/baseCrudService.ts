@@ -49,10 +49,6 @@ export default class BaseCrudService<T extends BaseEntity, RegisterT = T> {
   }
 
   async update(data: T | FormData, id?: number) {
-    console.log(
-      '🚀 ~ file: baseCrudService.ts:40 ~ BaseCrudService<T ~ update ~ data',
-      data
-    )
     let route = this.fullRoute
 
     if (id) {

@@ -43,7 +43,9 @@
       "password": "Contraseña",
       "confirmPassword": "Confirmar contraseña",
       "documentType": "Tipo de documento",
-      "documentNumber": "Número de"
+      "documentNumber": "Número de",
+      "pasaporte": "Pasaporte",
+      "cedula": "Cedula"
     },
     "documentOptions": { "idCard": "Cédula", "passport": "Pasaporte" },
     "createAccount": "Crear cuenta"
